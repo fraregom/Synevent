@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Synevent</string>
+    <string name="password">Password</string>
+    <string name="user">User</string>
+    <string name="enter">Login</string>
 </resources>
