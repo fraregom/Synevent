@@ -145,7 +145,6 @@ public class LoginFragment extends Fragment {
 
         Intent intent = new Intent(getActivity(), MenuActivity.class);
         startActivity(intent);
-
     }
 
     private void handleError(Throwable error) {

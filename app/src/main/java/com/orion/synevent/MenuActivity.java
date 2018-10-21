@@ -1,5 +1,7 @@
 package com.orion.synevent;
 
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
@@ -14,6 +16,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.orion.synevent.apiservice.NetworkUtil;
+import com.orion.synevent.fragments.HomeFragment;
+import com.orion.synevent.fragments.LoginFragment;
 import com.orion.synevent.models.Response;
 import com.orion.synevent.models.User;
 import com.orion.synevent.utils.Constants;
@@ -27,6 +31,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
+import static android.app.PendingIntent.getActivity;
+
 public class MenuActivity extends AppCompatActivity{
 
     public static final String TAG = MenuActivity.class.getSimpleName();
@@ -35,6 +41,7 @@ public class MenuActivity extends AppCompatActivity{
     private TextView mTvEmail;
     private TextView mTvDate;
     private Button mBtLogout;
+    private Button mBtHome;
 
     private ProgressBar mProgressbar;
 
@@ -43,6 +50,9 @@ public class MenuActivity extends AppCompatActivity{
     private String mEmail;
 
     private CompositeSubscription mSubscriptions;
+
+
+    private HomeFragment menuFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +72,18 @@ public class MenuActivity extends AppCompatActivity{
         mBtLogout = (Button) findViewById(R.id.btn_logout);
         mProgressbar = (ProgressBar) findViewById(R.id.progress);
         mBtLogout.setOnClickListener(view -> logout());
+        mBtHome = findViewById(R.id.btn_mainView);
+        mBtHome.setOnClickListener(view -> homeSchedule());
     }
+
+    private void homeSchedule() {
+
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        /*HomeFragment fragment = new HomeFragment();
+        getFragmentManager().beginTransaction().replace(R.id.activity_menu,fragment,HomeFragment.TAG).commit();*/
+    }
+
 
     private void initSharedPreferences() {
 
