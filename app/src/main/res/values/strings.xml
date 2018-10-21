@@ -8,6 +8,7 @@
     <string name="registerbutton">¡Registrarse!</string>
     <string name="already"> ¿Ya estás registrado? ¡Ingresa!</string>
     <string name="logout"> Cerrar sesión </string>
+    <string name="home">Ir a tus actividades</string>
     <color name="white">#ffffff</color>
     <color name="purple">#8E24AA</color>
 </resources>
