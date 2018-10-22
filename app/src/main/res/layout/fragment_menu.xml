@@ -1,11 +1,12 @@
 <LinearLayout
     xmlns:agendaCalendar="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MenuActivity">
+    >
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/activity_toolbar"
@@ -25,14 +26,46 @@
         agendaCalendar:calendarPastDayTextColor="@color/colorDarkGrey"
         agendaCalendar:fabColor="@color/colorAccent" >
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/menu_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_addevent"
-            agendaCalendar:backgroundTint="@color/colorPrimaryDark" />
+            android:layout_margin="5dp"
+            app:fab_labelStyle="@style/Etiquetas"
+            fab:fab_addButtonColorNormal="@color/colorPrimary"
+            fab:fab_addButtonSize="normal"
+            fab:fab_labelsPosition="left">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/new_schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/colorAccent"
+                fab:fab_addButtonColorNormal="@color/colorPrimary"
+                fab:fab_icon="@drawable/clock"
+                fab:fab_size="mini"
+                fab:fab_title="Schedule"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/new_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/colorAccent"
+                fab:fab_icon="@drawable/calendar_clock"
+                fab:fab_size="mini"
+                fab:fab_title="Event"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/make_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/colorAccent"
+                fab:fab_icon="@drawable/team"
+                fab:fab_size="mini"
+                fab:fab_title="Group" />
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
     </com.github.tibolte.agendacalendarview.AgendaCalendarView>
 
 

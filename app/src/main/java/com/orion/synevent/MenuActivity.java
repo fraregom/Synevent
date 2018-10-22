@@ -1,8 +1,8 @@
 package com.orion.synevent;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -14,11 +14,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
+
+
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.tibolte.agendacalendarview.AgendaCalendarView;
 import com.github.tibolte.agendacalendarview.CalendarPickerController;
 import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.models.DayItem;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+
+
+
+
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -84,7 +92,7 @@ public class MenuActivity extends AppCompatActivity implements CalendarPickerCon
         mAgendaCalendarView.init(eventList, minDate, maxDate, Locale.getDefault(), this);
 
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionsMenu fab = findViewById(R.id.menu_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,6 +101,14 @@ public class MenuActivity extends AppCompatActivity implements CalendarPickerCon
             }
         });
 
+        FloatingActionButton btn_new_event = (FloatingActionButton) findViewById(R.id.new_event);
+        btn_new_event.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), CreateEventActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initSharedPreferences() {

@@ -27,6 +27,13 @@
         <activity
             android:name=".MenuActivity"
             android:theme="@style/AppTheme.MainScreen"/>
+        <activity android:name=".CreateEventActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.ALTERNATIVE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
