@@ -105,7 +105,6 @@ public class LoginFragment extends Fragment {
         if (err == 0) {
 
             loginProcess(email,password);
-            mProgressBar.getIndeterminateDrawable().setColorFilter(0x5C007A, android.graphics.PorterDuff.Mode.MULTIPLY);
             mProgressBar.setVisibility(View.VISIBLE);
 
         } else {

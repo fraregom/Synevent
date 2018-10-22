@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MenuActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/activity_toolbar"
@@ -23,7 +23,19 @@
         agendaCalendar:calendarDayTextColor="@color/colorPrimary"
         agendaCalendar:calendarHeaderColor="@color/colorPrimaryDark"
         agendaCalendar:calendarPastDayTextColor="@color/colorDarkGrey"
-        agendaCalendar:fabColor="@color/colorAccent" />
+        agendaCalendar:fabColor="@color/colorAccent" >
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_addevent"
+            agendaCalendar:backgroundTint="@color/colorPrimaryDark" />
+    </com.github.tibolte.agendacalendarview.AgendaCalendarView>
+
+
 
 </LinearLayout>
 

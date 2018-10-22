@@ -1,8 +1,8 @@
 package com.orion.synevent;
 
-import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -51,7 +51,6 @@ public class MenuActivity extends AppCompatActivity implements CalendarPickerCon
     private String mEmail;
     private AgendaCalendarView mAgendaCalendarView;
     private Toolbar mToolbar;
-    private Dialog mDialog;
 
     private CompositeSubscription mSubscriptions;
 
@@ -65,8 +64,6 @@ public class MenuActivity extends AppCompatActivity implements CalendarPickerCon
 
         mToolbar  = findViewById(R.id.activity_toolbar);
         setSupportActionBar(mToolbar);
-
-        mDialog = new Dialog(this);
 
 
 
@@ -85,6 +82,16 @@ public class MenuActivity extends AppCompatActivity implements CalendarPickerCon
         mAgendaCalendarView = findViewById(R.id.agenda_calendar_view);
 
         mAgendaCalendarView.init(eventList, minDate, maxDate, Locale.getDefault(), this);
+
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
     }
 
@@ -164,7 +171,6 @@ public class MenuActivity extends AppCompatActivity implements CalendarPickerCon
     @Override
     public void onEventSelected(CalendarEvent event) {
         Log.d(TAG, String.format("Selected event: %s", event));
-
     }
 
     @Override
@@ -200,6 +206,10 @@ public class MenuActivity extends AppCompatActivity implements CalendarPickerCon
         eventList.add(event2);
 
     }
+
+
+
+
 
 
     private void showSnackBarMessage(String message) {
