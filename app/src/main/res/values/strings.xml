@@ -20,5 +20,7 @@
     <string name="groups">Groups</string>
     <string name="schedule">Schedule</string>
     <string name="events">Events</string>
+    <string name="navigation_drawer_open">Open </string>
+    <string name="navigation_drawer_close">Close </string>
 
 </resources>

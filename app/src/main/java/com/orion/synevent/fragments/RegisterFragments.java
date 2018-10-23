@@ -2,6 +2,7 @@ package com.orion.synevent.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.google.android.material.snackbar.Snackbar;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.orion.synevent.MenuActivity;
 import com.orion.synevent.R;
 import com.orion.synevent.models.Response;
 import com.orion.synevent.models.User;
@@ -44,6 +46,7 @@ public class RegisterFragments extends Fragment {
     private TextInputLayout mTiEmail;
     private TextInputLayout mTiPassword;
     private ProgressBar mProgressbar;
+    private LoginFragment mLoginFragment;
 
     private CompositeSubscription mSubscriptions;
 
@@ -131,7 +134,17 @@ public class RegisterFragments extends Fragment {
     private void handleResponse(Response response) {
 
         mProgressbar.setVisibility(View.GONE);
-        showSnackBarMessage(response.getMsg());
+        showSnackBarMessage("Please, Sign In!");
+        loadFragment();
+    }
+
+    private void loadFragment(){
+
+        if (mLoginFragment == null) {
+
+            mLoginFragment = new LoginFragment();
+        }
+        getFragmentManager().beginTransaction().replace(R.id.fragmentFrame,mLoginFragment,LoginFragment.TAG).commit();
     }
 
     private void handleError(Throwable error) {

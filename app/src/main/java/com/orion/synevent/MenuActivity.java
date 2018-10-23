@@ -3,17 +3,16 @@ package com.orion.synevent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.widget.ProgressBar;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.support.v7.widget.Toolbar;
 
+import androidx.appcompat.widget.Toolbar;
 
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -23,10 +22,6 @@ import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.models.DayItem;
 import com.getbase.floatingactionbutton.FloatingActionButton;
-
-
-
-
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -59,6 +54,7 @@ public class MenuActivity extends AppCompatActivity implements CalendarPickerCon
     private String mEmail;
     private AgendaCalendarView mAgendaCalendarView;
     private Toolbar mToolbar;
+
 
     private CompositeSubscription mSubscriptions;
 
