@@ -5,16 +5,14 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
-
-
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.tibolte.agendacalendarview.AgendaCalendarView;
@@ -23,10 +21,6 @@ import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.models.DayItem;
 import com.getbase.floatingactionbutton.FloatingActionButton;
-
-
-
-
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,7 +47,7 @@ import rx.subscriptions.CompositeSubscription;
 public class MenuActivity extends AppCompatActivity implements CalendarPickerController {
 
     public static final String TAG = MenuActivity.class.getSimpleName();
-    
+
     private SharedPreferences mSharedPreferences;
     private String mToken;
     private String mEmail;
@@ -110,6 +104,7 @@ public class MenuActivity extends AppCompatActivity implements CalendarPickerCon
                 startActivity(intent);
             }
         });
+
     }
 
     private void initSharedPreferences() {

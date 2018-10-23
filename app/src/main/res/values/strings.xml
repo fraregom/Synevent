@@ -17,5 +17,8 @@
     <string name="all_dayevent">All-day</string>
     <string name="startevent">Start</string>
     <string name="endevent">End</string>
+    <string name="groups">Groups</string>
+    <string name="schedule">Schedule</string>
+    <string name="events">Events</string>
 
 </resources>
