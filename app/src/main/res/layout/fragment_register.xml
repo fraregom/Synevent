@@ -27,7 +27,7 @@
                 tools:ignore="ContentDescription"
                 />
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,9 +41,9 @@
                     android:hint="@string/name"
                     android:inputType="text" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,9 +57,9 @@
                     android:hint="@string/email"
                     android:inputType="textEmailAddress" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
                     android:hint="@string/password"
                     android:inputType="textPassword" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btn_register"
