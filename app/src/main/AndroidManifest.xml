@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.orion.synevent">
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -11,7 +10,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask">
@@ -25,7 +25,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MenuActivity" />
+            android:name=".MenuActivity"
+            android:theme="@style/AppTheme.MainScreen"/>
+        <activity android:name=".CreateEventActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.ALTERNATIVE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
