@@ -28,6 +28,7 @@ import com.orion.synevent.models.User;
 import com.orion.synevent.utils.Constants;
 
 import java.io.IOException;
+import java.util.Map;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
@@ -58,8 +59,12 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login,container,false);
         mSubscriptions = new CompositeSubscription();
         initViews(view);
-        initSharedPreferences();
-        return view;
+        if(initSharedPreferences())
+        {
+            return view;
+        }else{
+            return view;
+        }
     }
 
     private void initViews(View v) {
@@ -76,9 +81,18 @@ public class LoginFragment extends Fragment {
         mTvRegister.setOnClickListener(view -> goToRegister());
     }
 
-    private void initSharedPreferences() {
-
+    private Boolean initSharedPreferences() {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        if(mSharedPreferences.getAll().isEmpty())
+        {
+            return false;
+        }else{
+            Map<String, ?> shareds = mSharedPreferences.getAll();
+            User user = new User(shareds.get("email").toString(),shareds.get("password").toString() );
+            loginProcess(user.getEmail(),shareds.get("password").toString());
+            return true;
+        }
     }
 
     private void login() {
@@ -122,6 +136,7 @@ public class LoginFragment extends Fragment {
 
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(Constants.EMAIL,email);
+        editor.putString(Constants.PASSWORD,password);
         editor.apply();
 
         User user = new User(email, password);
