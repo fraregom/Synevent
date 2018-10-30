@@ -1,5 +1,6 @@
 package com.orion.synevent;
 
+import android.app.Activity;
 import android.content.Intent;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
-
+        this.finish();
     }
 
     private void handleError(Throwable error) {

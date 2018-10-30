@@ -1,9 +1,12 @@
 package com.orion.synevent;
 
+import android.app.assist.AssistStructure;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.ProgressBar;
+
+import com.github.tibolte.agendacalendarview.CalendarManager;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.core.content.ContextCompat;
@@ -11,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -57,6 +61,7 @@ public class MenuActivity extends AppCompatActivity implements CalendarPickerCon
 
 
     private CompositeSubscription mSubscriptions;
+    private TextView mDayNamesHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,18 +89,7 @@ public class MenuActivity extends AppCompatActivity implements CalendarPickerCon
         mockList(eventList);
 
         mAgendaCalendarView = findViewById(R.id.agenda_calendar_view);
-
         mAgendaCalendarView.init(eventList, minDate, maxDate, Locale.getDefault(), this);
-
-
-        FloatingActionsMenu fab = findViewById(R.id.menu_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         FloatingActionButton btn_new_event = (FloatingActionButton) findViewById(R.id.new_event);
         btn_new_event.setOnClickListener(new View.OnClickListener(){
@@ -113,7 +107,6 @@ public class MenuActivity extends AppCompatActivity implements CalendarPickerCon
         mToken = mSharedPreferences.getString(Constants.TOKEN,"");
         mEmail = mSharedPreferences.getString(Constants.EMAIL,"");
     }
-
 
 
     private String getDate(long timeStamp) {

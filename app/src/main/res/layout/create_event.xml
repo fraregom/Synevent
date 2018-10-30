@@ -17,7 +17,8 @@
             android:layout_marginRight="40dp"
             android:text="@string/cancel"
             android:textColor="@color/colorPrimary"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent"
+            android:onClick="cancelEvent"/>
         <Button
             android:id="@+id/btn_create_event"
             android:layout_width="match_parent"
@@ -26,7 +27,8 @@
             android:layout_marginLeft="40dp"
             android:textColor="@color/colorPrimary"
             android:text="@string/create"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent"
+            android:onClick="saveEvent"/>
     </LinearLayout>
 
     <LinearLayout

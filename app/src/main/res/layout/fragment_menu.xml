@@ -17,9 +17,6 @@
         android:background="@color/colorPrimaryDark" />
 
 
-
-
-
     <com.github.tibolte.agendacalendarview.AgendaCalendarView
         android:id="@+id/agenda_calendar_view"
         android:layout_width="match_parent"
@@ -47,8 +44,8 @@
                 android:id="@+id/new_schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/colorAccent"
                 fab:fab_addButtonColorNormal="@color/colorPrimary"
+                fab:fab_colorNormal="@color/colorAccent"
                 fab:fab_icon="@drawable/clock"
                 fab:fab_size="mini"
                 fab:fab_title="Schedule"/>
@@ -60,7 +57,7 @@
                 fab:fab_colorNormal="@color/colorAccent"
                 fab:fab_icon="@drawable/calendar_clock"
                 fab:fab_size="mini"
-                fab:fab_title="Event"/>
+                fab:fab_title="Event" />
 
             <com.getbase.floatingactionbutton.FloatingActionButton
                 android:id="@+id/make_group"
