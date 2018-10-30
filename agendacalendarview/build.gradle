@@ -1,0 +1,33 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.gitlab.joielechong'
+version = '1.1.6'
+def versioncode = 116
+
+android {
+  compileSdkVersion 27
+  buildToolsVersion '28.0.3'
+
+  defaultConfig {
+    minSdkVersion 14
+    targetSdkVersion 27
+    versionCode versioncode
+    versionName version
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+
+dependencies {
+  //  compile fileTree(dir: 'libs', include: ['*.jar'])
+  api project(path: ':stickylistheaders')
+  api 'com.android.support:appcompat-v7:27.1.1'
+  api 'com.android.support:recyclerview-v7:27.1.1'
+  api 'com.android.support:design:27.1.1'
+  implementation 'org.jetbrains:annotations-java5:15.0'
+}

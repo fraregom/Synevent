@@ -1,0 +1,13 @@
+<resources>
+    <!-- Agenda -->
+    <string name="today">Hari Ini</string>
+    <string name="tomorrow">Besok</string>
+    <string name="agenda_event_day_duration">d</string>
+    <string name="agenda_event_all_day">Sepanjang hari</string>
+    <string name="agenda_event_no_events">Tidak ada peristiwa</string>
+
+    <!-- Weather -->
+    <string name="morning">Pagi</string>
+    <string name="afternoon">Sore</string>
+    <string name="evening">Malam</string>
+</resources>

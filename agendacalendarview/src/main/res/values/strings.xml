@@ -1,0 +1,20 @@
+<resources>
+  <!-- Calendar -->
+  <string name="month_half_name_format" translatable="false">MMM</string>
+  <string name="month_name_format" translatable="false">MMMM</string>
+  <string name="day_name_format" translatable="false">EEEEE</string>
+
+  <!-- Agenda -->
+  <string name="today">Today</string>
+  <string name="tomorrow">Tomorrow</string>
+  <string name="agenda_event_hour_format">kk:mm</string>
+  <string name="agenda_event_all_day">All DAY</string>
+  <string name="agenda_event_day_duration">d</string>
+  <string name="agenda_event_no_events">No events</string>
+
+  <!-- Weather (day parts) -->
+  <string name="morning">Morning</string>
+  <string name="afternoon">Afternoon</string>
+  <string name="evening">Evening</string>
+
+</resources>

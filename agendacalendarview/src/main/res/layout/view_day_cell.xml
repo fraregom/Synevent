@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="0dip"
+    android:layout_height="@dimen/day_cell_height"
+    android:layout_weight="1"
+    android:gravity="center"
+    >
+
+  <!-- Please remember to check the corresponding WeeksAdapter class when changing the       -->
+  <!-- sequence of the views. WeeksAdapter is using view position with getChildAt as a means -->
+  <!-- to reduce the time finding the views-->
+  <TextView
+      android:id="@+id/view_day_month_label"
+      android:layout_centerHorizontal="true"
+      android:textAlignment="center"
+      android:visibility="gone"
+      style="@style/CalendarCellText"
+      />
+
+  <View
+      android:id="@+id/view_day_circle_selected"
+      android:layout_width="@dimen/circle_selected_size"
+      android:layout_height="@dimen/circle_selected_size"
+      android:layout_below="@+id/view_day_month_label"
+      android:layout_centerInParent="true"
+      android:background="@drawable/event_color_circle"
+      android:visibility="gone"
+      />
+
+  <TextView
+      android:id="@+id/view_day_day_label"
+      android:layout_below="@+id/view_day_month_label"
+      android:layout_centerInParent="true"
+      android:textAlignment="center"
+      style="@style/CalendarCellText"
+      />
+
+  <com.rilixtech.agendacalendarview.widgets.EventIndicatorView
+      android:id="@+id/view_day_event_indicator_eiv"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/view_day_day_label"
+      android:layout_centerHorizontal="true"
+      app:circleRadius="3dp"
+      app:indicatorAmount="3"
+      />
+
+</RelativeLayout>

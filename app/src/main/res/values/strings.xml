@@ -1,13 +1,4 @@
 <resources>
-    <string name="app_name">Synevent</string>
-    <string name="password">Contraseña</string>
-    <string name="email">Email</string>
-    <string name="name"> Nombre </string>
-    <string name="enter">¡Ingresar!</string>
-    <string name="register"> ¿No estás registrado? ¡Hazlo ahora! </string>
-    <string name="registerbutton">¡Registrarse!</string>
-    <string name="already"> ¿Ya estás registrado? ¡Ingresa!</string>
-    <string name="logout"> Cerrar sesión </string>
-    <color name="white">#ffffff</color>
-    <color name="purple">#8E24AA</color>
+    <string name="app_name">AgendaCalendarView Sample</string>
+    <string name="action_settings">Settings</string>
 </resources>

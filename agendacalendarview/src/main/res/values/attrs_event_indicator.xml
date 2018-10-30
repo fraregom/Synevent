@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <declare-styleable name="EventIndicatorView">
+    <attr format="dimension" name="plusWidth"/>
+    <attr format="dimension" name="circleRadius"/>
+    <attr format="dimension" name="indicatorMargin"/>
+    <attr format="integer" name="indicatorAmount"/>
+    <attr format="color" name="firstCircleColor"/>
+    <attr format="color" name="secondCircleColor"/>
+    <attr format="color" name="plusColor"/>
+  </declare-styleable>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <!-- All views is founded by getChildAt method in the code, hence we don't use id -->
+  <com.rilixtech.agendacalendarview.calendar.CalendarView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      />
+
+  <com.rilixtech.agendacalendarview.agenda.AgendaView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+
+  <com.rilixtech.agendacalendarview.widgets.FloatingActionButton
+      style="@style/fab"
+      />
+
+</merge>

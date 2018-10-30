@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <declare-styleable name="AgendaCalendarView">
+    <attr format="color" name="acv_agendaCurrentDayTextColor"/>
+    <attr format="color" name="acv_calendarHeaderColor"/>
+    <attr format="color" name="acv_calendarColor"/>
+    <attr format="color" name="acv_calendarDayTextColor"/>
+    <attr format="color" name="acv_calendarPastDayTextColor"/>
+    <attr format="color" name="acv_calendarCurrentDayTextColor"/>
+    <attr format="color" name="acv_fabColor"/>
+    <attr format="color" name="acv_weekendColor"/>
+  </declare-styleable>
+</resources>
