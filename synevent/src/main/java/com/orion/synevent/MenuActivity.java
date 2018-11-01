@@ -122,15 +122,6 @@ public class MenuActivity extends AppCompatActivity implements
         initSharedPreferences();
         loadProfile();
 
-        /*
-        FloatingActionsMenu fab = findViewById(R.id.menu_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         FloatingActionButton btn_new_event = (FloatingActionButton) findViewById(R.id.new_event);
         btn_new_event.setOnClickListener(new View.OnClickListener(){
@@ -139,7 +130,7 @@ public class MenuActivity extends AppCompatActivity implements
                 Intent intent = new Intent(v.getContext(), CreateEventActivity.class);
                 startActivity(intent);
             }
-        })*/
+        });
     }
 
 

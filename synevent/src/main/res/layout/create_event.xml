@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_event"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dp"
+            android:src="@drawable/event_distribution" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_alignBottom="@+id/image_event"
+            android:drawableStart="@android:drawable/ic_menu_upload_you_tube"
+            />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,6 +38,7 @@
             android:layout_marginRight="40dp"
             android:text="@string/cancel"
             android:textColor="@color/colorPrimary"
+            android:onClick="cancelEvent"
             android:background="@android:color/transparent"/>
         <Button
             android:id="@+id/btn_create_event"
@@ -26,8 +48,10 @@
             android:layout_marginLeft="40dp"
             android:textColor="@color/colorPrimary"
             android:text="@string/create"
+            android:onClick="saveEvent"
             android:background="@android:color/transparent"/>
     </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,27 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/all_dayevent"
-                    android:textColor="@android:color/black"
-                    android:textSize="20dp"/>
-
-                <Switch
-                    android:layout_width="391dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:layout_marginRight="15dp"/>
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -242,7 +246,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:hint="Add notes to your schedule"
+            android:hint="Add notes to your event"
             android:gravity="top"/>
     </LinearLayout>
 </LinearLayout>
+</ScrollView>
