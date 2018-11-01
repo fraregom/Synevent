@@ -1,18 +1,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+<<<<<<< HEAD
     tools:context="com.rilixtech.sample.MainActivity">
 
+=======
+    tools:context="com.orion.synevent.MenuActivity">
+>>>>>>> 0573396ea1de0db3614dc9bc4e4b34b4ddfc1221
   <item
-      android:id="@+id/action_settings"
+      android:id="@+id/action_refresh"
       android:orderInCategory="100"
-      android:title="settings"
+      android:title="@string/refresh"
       app:showAsAction="never"/>
 
-  <item
+  <!--<item
       android:id="@+id/action_add"
       android:icon="@android:drawable/ic_input_add"
       android:orderInCategory="99"
       android:title="add"
-      app:showAsAction="always"/>
+      app:showAsAction="always"/> -->
 </menu>
