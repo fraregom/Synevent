@@ -128,6 +128,16 @@ public class MenuActivity extends AppCompatActivity implements
                 startActivity(intent);
             }
         });
+
+        FloatingActionButton btn_new_schedule = (FloatingActionButton) findViewById(R.id.new_schedule);
+        btn_new_schedule.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), CreateScheduleActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
