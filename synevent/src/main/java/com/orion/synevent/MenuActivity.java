@@ -83,17 +83,13 @@ public class MenuActivity extends AppCompatActivity implements
         mAgendaCalendarView = findViewById(R.id.agenda_calendar_view);
         mTvDate = findViewById(R.id.main_date_tv);
 
-        /*mDrawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mToogle = new ActionBarDrawerToggle(this, mDrawerlayout, R.string.open, R.string.close);
-        mDrawerlayout.addDrawerListener(mToogle);
-        mToogle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
+
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Schedule XI");
+        mToolbar.setTitle("Schedule XI");
+        mToolbar.setTitleTextColor(Color.WHITE);
 
         DrawerUtil.getDrawer(this,mToolbar);
-        //getSupportActionBar().setTitle("Agenda");
-        //mToolbar.setTitle("Agenda");
-
         // minimum and maximum date of our calendar
         // 2 month behind, one year ahead, example: March 2015 <-> May 2015 <-> May 2016
         Calendar minDate = Calendar.getInstance();

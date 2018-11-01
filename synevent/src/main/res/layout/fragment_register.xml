@@ -66,7 +66,7 @@
                 android:layout_below="@+id/ti_email"
                 android:layout_marginTop="@dimen/child_margin_top"
                 app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/colorPrimaryDark">
+                app:passwordToggleTint="@color/accent">
 
                 <EditText
                     android:id="@+id/et_password"
@@ -84,7 +84,7 @@
                 android:layout_below="@+id/ti_password"
                 android:layout_marginTop="@dimen/button_margin"
                 android:text="@string/registerbutton"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/accent"
                 android:textColor="@color/white"/>
 
             <TextView

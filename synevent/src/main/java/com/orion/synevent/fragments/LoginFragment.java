@@ -107,13 +107,13 @@ public class LoginFragment extends Fragment {
         if (!validateEmail(email)) {
 
             err++;
-            mTiEmail.setError("El Email debe ser valido!");
+            mTiEmail.setError("Couldn't find your Synevent Account");
         }
 
         if (!validateFields(password)) {
 
             err++;
-            mTiPassword.setError("Revise su contraseña!");
+            mTiPassword.setError("Check your password!");
         }
 
         if (err == 0) {
@@ -123,7 +123,7 @@ public class LoginFragment extends Fragment {
 
         } else {
 
-            showSnackBarMessage("Ingrese datos validos!");
+            showSnackBarMessage("Check your info!");
         }
     }
 
@@ -155,8 +155,8 @@ public class LoginFragment extends Fragment {
         editor.putString(Constants.TOKEN,response.getToken());
         editor.apply();
 
-        mEtEmail.setText(null);
-        mEtPassword.setText(null);
+        //mEtEmail.setText(null);
+        //mEtPassword.setText(null);
 
         Intent intent = new Intent(getActivity(), MenuActivity.class);
         startActivity(intent);
@@ -181,7 +181,7 @@ public class LoginFragment extends Fragment {
                 e.printStackTrace();
             }
         } else {
-            showSnackBarMessage("Error en la red!");
+            showSnackBarMessage("Error in the network!");
         }
     }
 

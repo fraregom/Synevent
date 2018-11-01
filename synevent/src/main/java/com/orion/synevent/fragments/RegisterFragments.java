@@ -89,19 +89,19 @@ public class RegisterFragments extends Fragment {
         if (!validateFields(name)) {
 
             err++;
-            mTiName.setError("Debe ingresar un nombre!");
+            mTiName.setError("Insert a name!");
         }
 
         if (!validateEmail(email)) {
 
             err++;
-            mTiEmail.setError("El email debe ser valido!");
+            mTiEmail.setError("The email must be valid!");
         }
 
         if (!validateFields(password)) {
 
             err++;
-            mTiPassword.setError("Debe ingresar una contraseña!");
+            mTiPassword.setError("The password must be valid!");
         }
 
         if (err == 0) {
@@ -112,7 +112,7 @@ public class RegisterFragments extends Fragment {
 
         } else {
 
-            showSnackBarMessage("Ingrese datos validos!");
+            showSnackBarMessage("Check your info!");
         }
     }
 
@@ -166,7 +166,7 @@ public class RegisterFragments extends Fragment {
             }
         } else {
 
-            showSnackBarMessage("Error en la red!");
+            showSnackBarMessage("Error in the network!");
         }
     }
 
