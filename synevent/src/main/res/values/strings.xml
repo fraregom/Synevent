@@ -22,5 +22,7 @@
     <string name="events">Events</string>
     <string name="navigation_drawer_open">Open </string>
     <string name="navigation_drawer_close">Close </string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 
 </resources>
