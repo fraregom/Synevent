@@ -1,12 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-<<<<<<< HEAD
-    tools:context="com.rilixtech.sample.MainActivity">
-
-=======
     tools:context="com.orion.synevent.MenuActivity">
->>>>>>> 0573396ea1de0db3614dc9bc4e4b34b4ddfc1221
+
   <item
       android:id="@+id/action_refresh"
       android:orderInCategory="100"

@@ -29,6 +29,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import com.orion.synevent.utils.DrawableCalendarEvent;
+import com.orion.synevent.utils.DrawerUtil;
 import com.rilixtech.agendacalendarview.AgendaCalendarView;
 import com.rilixtech.agendacalendarview.models.BaseCalendarEvent;
 import com.rilixtech.agendacalendarview.models.CalendarEvent;
@@ -77,20 +78,13 @@ public class MenuActivity extends AppCompatActivity implements
         mAgendaCalendarView = findViewById(R.id.agenda_calendar_view);
         mTvDate = findViewById(R.id.main_date_tv);
 
-<<<<<<< HEAD
 
-        setSupportActionBar(mToolbar);
-        //getSupportActionBar().setTitle("Agenda");
-        //mToolbar.setTitle("Agenda");
-=======
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Schedule XI");
         mToolbar.setTitle("Schedule XI");
         mToolbar.setTitleTextColor(Color.WHITE);
 
         DrawerUtil.getDrawer(this,mToolbar);
-
->>>>>>> 0573396ea1de0db3614dc9bc4e4b34b4ddfc1221
 
         // minimum and maximum date of our calendar
         // 2 month behind, one year ahead, example: March 2015 <-> May 2015 <-> May 2016
