@@ -24,5 +24,6 @@
     <string name="navigation_drawer_close">Close </string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="refresh">Refresh</string>
 
 </resources>

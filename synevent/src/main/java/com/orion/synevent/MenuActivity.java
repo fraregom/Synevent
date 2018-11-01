@@ -1,6 +1,7 @@
 package com.orion.synevent;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,8 +28,6 @@ import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.orion.synevent.utils.DrawableCalendarEvent;
 import com.orion.synevent.utils.DrawerUtil;
 import com.rilixtech.agendacalendarview.AgendaCalendarView;
@@ -83,16 +82,13 @@ public class MenuActivity extends AppCompatActivity implements
         mAgendaCalendarView = findViewById(R.id.agenda_calendar_view);
         mTvDate = findViewById(R.id.main_date_tv);
 
-        /*mDrawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mToogle = new ActionBarDrawerToggle(this, mDrawerlayout, R.string.open, R.string.close);
-        mDrawerlayout.addDrawerListener(mToogle);
-        mToogle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Schedule XI");
+        mToolbar.setTitle("Schedule XI");
+        mToolbar.setTitleTextColor(Color.WHITE);
 
         DrawerUtil.getDrawer(this,mToolbar);
-        //getSupportActionBar().setTitle("Agenda");
-        //mToolbar.setTitle("Agenda");
+
 
         // minimum and maximum date of our calendar
         // 2 month behind, one year ahead, example: March 2015 <-> May 2015 <-> May 2016
@@ -159,10 +155,10 @@ public class MenuActivity extends AppCompatActivity implements
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add:
-                Toast.makeText(this, "Add clicked", Toast.LENGTH_SHORT).show();
-                addNewEvent();
-                return true;
+            //case R.id.action_add:
+                ///Toast.makeText(this, "Add clicked", Toast.LENGTH_SHORT).show();
+                //addNewEvent();
+                //return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

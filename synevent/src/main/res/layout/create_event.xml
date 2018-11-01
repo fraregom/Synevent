@@ -17,7 +17,7 @@
             android:layout_height="230dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="0dp"
-            android:src="@drawable/event_distribution" />
+            android:src="@drawable/ic_event" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
