@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +30,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 public class CreateEventActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,
-        com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
+        DatePickerDialog.OnDateSetListener {
 
     public Map<Integer, String> mapp_months = new HashMap<Integer, String>();
+
 
     private TextView txt_date_init;
     private TextView txt_date_fin;
@@ -41,6 +45,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     protected void onCreate(Bundle savedInstanceState) {
         btn_save = findViewById(R.id.btn_create_event);
         btn_cancel = findViewById(R.id.btn_cancel_event_create);
+
 
         mapp_months = new HashMap<Integer, String>();
         mapp_months.put(1, "Enero");
@@ -146,6 +151,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         });
         timepickerdialog.show(getFragmentManager(), "Timepickerdialog"); //show time picker dialog
     }
+
     private String whatNameDay(int dayOfMonth , int monthOfYear, int year){
 
         SimpleDateFormat sdf = new SimpleDateFormat("EE",Locale.getDefault());
@@ -184,4 +190,5 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
 
         this.finalize();
     }
+
 }

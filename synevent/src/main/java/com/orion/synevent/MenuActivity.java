@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 import android.widget.ProgressBar;
 import com.google.android.material.snackbar.Snackbar;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,10 +27,7 @@ import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.orion.synevent.utils.DrawableCalendarEvent;
-import com.orion.synevent.utils.DrawerUtil;
 import com.rilixtech.agendacalendarview.AgendaCalendarView;
 import com.rilixtech.agendacalendarview.models.BaseCalendarEvent;
 import com.rilixtech.agendacalendarview.models.CalendarEvent;
@@ -49,7 +46,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-//import androidx.drawerlayout.widget.DrawerLayout;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -68,9 +64,6 @@ public class MenuActivity extends AppCompatActivity implements
     private String mToken;
     private String mEmail;
 
-    //private DrawerLayout mDrawerlayout;
-    //private ActionBarDrawerToggle mToogle;
-
     private CompositeSubscription mSubscriptions;
 
     @Override
@@ -83,14 +76,8 @@ public class MenuActivity extends AppCompatActivity implements
         mAgendaCalendarView = findViewById(R.id.agenda_calendar_view);
         mTvDate = findViewById(R.id.main_date_tv);
 
-        /*mDrawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mToogle = new ActionBarDrawerToggle(this, mDrawerlayout, R.string.open, R.string.close);
-        mDrawerlayout.addDrawerListener(mToogle);
-        mToogle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
-        setSupportActionBar(mToolbar);
 
-        DrawerUtil.getDrawer(this,mToolbar);
+        setSupportActionBar(mToolbar);
         //getSupportActionBar().setTitle("Agenda");
         //mToolbar.setTitle("Agenda");
 
@@ -131,6 +118,16 @@ public class MenuActivity extends AppCompatActivity implements
                 startActivity(intent);
             }
         });
+
+        FloatingActionButton btn_new_schedule = (FloatingActionButton) findViewById(R.id.new_schedule);
+        btn_new_schedule.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), CreateScheduleActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
