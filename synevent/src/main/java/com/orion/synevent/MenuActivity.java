@@ -1,6 +1,7 @@
 package com.orion.synevent;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
