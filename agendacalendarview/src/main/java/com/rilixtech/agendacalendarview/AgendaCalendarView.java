@@ -111,7 +111,7 @@ public class AgendaCalendarView extends FrameLayout
     //int defBackgroundColor = defAgendaCurrentDayTextColor;
     int defFabColor = getResources().getColor(R.color.theme_accent);
     int defHeaderColor = getResources().getColor(R.color.theme_light_primary);
-    int defDayTextColor = getResources().getColor(R.color.theme_text_icons);
+    int defDayTextColor = getResources().getColor(R.color.calendar_text_default);
     int defCalCurrentDayColor = getResources().getColor(R.color.calendar_text_current_day);
     int defPastDayTextColor = getResources().getColor(R.color.theme_light_primary);
 

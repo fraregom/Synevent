@@ -166,10 +166,10 @@ public class MenuActivity extends AppCompatActivity implements
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add:
+            /*case R.id.action_add:
                 Toast.makeText(this, "Add clicked", Toast.LENGTH_SHORT).show();
                 addNewEvent();
-                return true;
+                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -236,7 +236,7 @@ public class MenuActivity extends AppCompatActivity implements
                 .description("description")
                 .location("USM")
                 .id(0)
-                .color(ContextCompat.getColor(this, R.color.theme_event_pending))
+                .color(ContextCompat.getColor(this, R.color.yellow))
                 .startTime(startTime1)
                 .endTime(endTime1)
                 //.drawableId(R.drawable.ic_launcher)
@@ -262,10 +262,10 @@ public class MenuActivity extends AppCompatActivity implements
                 .description("i")
                 .location("USM")
                 .id(1)
-                .color(ContextCompat.getColor(this, R.color.theme_event_confirmed))
+                .color(ContextCompat.getColor(this, R.color.blue))
                 .startTime(startTime5)
                 .endTime(endTime5)
-                .calendarDayColor(ContextCompat.getColor(this, R.color.orange))
+                //.calendarDayColor(ContextCompat.getColor(this, R.color.orange))
                 .allDay(false);
 
         eventList.add(event5);
