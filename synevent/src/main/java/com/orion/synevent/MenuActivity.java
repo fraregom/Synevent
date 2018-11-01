@@ -1,7 +1,6 @@
 package com.orion.synevent;
 
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -77,20 +76,10 @@ public class MenuActivity extends AppCompatActivity implements
         mAgendaCalendarView = findViewById(R.id.agenda_calendar_view);
         mTvDate = findViewById(R.id.main_date_tv);
 
-<<<<<<< HEAD
 
         setSupportActionBar(mToolbar);
         //getSupportActionBar().setTitle("Agenda");
         //mToolbar.setTitle("Agenda");
-=======
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Schedule XI");
-        mToolbar.setTitle("Schedule XI");
-        mToolbar.setTitleTextColor(Color.WHITE);
-
-        DrawerUtil.getDrawer(this,mToolbar);
-
->>>>>>> 0573396ea1de0db3614dc9bc4e4b34b4ddfc1221
 
         // minimum and maximum date of our calendar
         // 2 month behind, one year ahead, example: March 2015 <-> May 2015 <-> May 2016
@@ -167,10 +156,10 @@ public class MenuActivity extends AppCompatActivity implements
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            //case R.id.action_add:
-                ///Toast.makeText(this, "Add clicked", Toast.LENGTH_SHORT).show();
-                //addNewEvent();
-                //return true;
+            case R.id.action_add:
+                Toast.makeText(this, "Add clicked", Toast.LENGTH_SHORT).show();
+                addNewEvent();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
