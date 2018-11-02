@@ -28,6 +28,7 @@
             android:name=".MenuActivity" />
         <activity android:name=".CreateEventActivity"/>
         <activity android:name=".CreateScheduleActivity"/>
+        <activity android:name=".ListEventActivity"/>
     </application>
 
 </manifest>

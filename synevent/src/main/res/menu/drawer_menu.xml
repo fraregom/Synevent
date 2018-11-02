@@ -6,6 +6,11 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/home_calendar"
+            android:icon="@drawable/calendar_clock"
+            android:title="My calendar"/>
+
+        <item
             android:id="@+id/events"
             android:icon="@drawable/ic_event"
             android:title="@string/events" />
@@ -18,7 +23,8 @@
         <item
             android:id="@+id/group"
             android:icon="@drawable/ic_group"
-            android:title="@string/groups" />
+            android:title="@string/groups"
+            />
 
 
     </group>

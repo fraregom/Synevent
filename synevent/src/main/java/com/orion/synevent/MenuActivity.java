@@ -1,5 +1,6 @@
 package com.orion.synevent;
 
+import android.content.ClipData;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
@@ -61,6 +62,7 @@ public class MenuActivity extends AppCompatActivity implements
 
     public static final String TAG = MenuActivity.class.getSimpleName();
 
+    private MenuItem mitem;
     private Toolbar mToolbar;
     private AgendaCalendarView mAgendaCalendarView;
     private TextView mTvDate;

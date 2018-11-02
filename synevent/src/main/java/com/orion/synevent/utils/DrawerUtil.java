@@ -17,6 +17,7 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialize.color.Material;
+import com.orion.synevent.ListEventActivity;
 import com.orion.synevent.MenuActivity;
 import com.orion.synevent.R;
 
@@ -28,12 +29,14 @@ public class DrawerUtil {
     public static void getDrawer(final Activity activity, Toolbar toolbar) {
         //if you want to update the items at a later time it is recommended to keep it in a variable
 
-        PrimaryDrawerItem drawerItemManageEvents = new PrimaryDrawerItem().withIdentifier(1)
+        PrimaryDrawerItem drawerItemManageCalendar = new PrimaryDrawerItem().withIdentifier(1)
+                .withName("My Calendar").withIcon(R.drawable.calendar_clock);
+        PrimaryDrawerItem drawerItemManageEvents = new PrimaryDrawerItem().withIdentifier(2)
                 .withName("Events").withIcon(R.drawable.ic_event);
         PrimaryDrawerItem drawerItemManageGroups = new PrimaryDrawerItem()
-                .withIdentifier(2).withName("Group").withIcon(R.drawable.ic_group);
+                .withIdentifier(3).withName("Group").withIcon(R.drawable.ic_group);
         PrimaryDrawerItem drawerItemManageSchedule = new PrimaryDrawerItem()
-                .withIdentifier(3).withName("Schedule").withIcon(R.drawable.ic_schedule);
+                .withIdentifier(4).withName("Schedule").withIcon(R.drawable.ic_schedule);
 
 
         SecondaryDrawerItem drawerItemSettings = new SecondaryDrawerItem().withIdentifier(4)
@@ -70,6 +73,7 @@ public class DrawerUtil {
                 .withCloseOnClick(true)
                 .withSelectedItem(-1)
                 .addDrawerItems(
+                        drawerItemManageCalendar,
                         drawerItemManageEvents,
                         drawerItemManageGroups,
                         drawerItemManageSchedule,
@@ -80,10 +84,18 @@ public class DrawerUtil {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if (drawerItem.getIdentifier() == 2 && !(activity instanceof MenuActivity)) {
+                        if ( drawerItem.getIdentifier() == 2 ) {
                             // load tournament screen
-                            Intent intent = new Intent(activity, MenuActivity.class);
+                            Intent intent = new Intent(activity, ListEventActivity.class);
                             view.getContext().startActivity(intent);
+                            activity.finish();
+                        }else if(drawerItem.getIdentifier() == 1){
+                            if (!activity.getLocalClassName().equals("MenuActivity"))
+                            {
+                                Intent intent = new Intent(activity, MenuActivity.class);
+                                view.getContext().startActivity(intent);
+                                activity.finish();
+                            }
                         }
                         return true;
                     }

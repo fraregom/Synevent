@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -123,4 +124,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void show(MenuItem item) {
+        Intent intencion = new Intent(this, ListEventActivity.class);
+        startActivity(intencion);
+    }
 }
