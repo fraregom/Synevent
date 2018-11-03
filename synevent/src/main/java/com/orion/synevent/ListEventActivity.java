@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -15,6 +16,9 @@ import android.widget.TabHost;
 import com.orion.synevent.utils.DrawerUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +27,7 @@ import androidx.appcompat.widget.Toolbar;
 public class ListEventActivity extends AppCompatActivity implements TabHost.TabContentFactory{
 
     private Toolbar mToolbar;
-    private ListView mListActive;
+    private ListView lv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,14 +35,6 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
         setContentView(R.layout.my_events);
         mToolbar = findViewById(R.id.activity_toolbar_list);
 
-/*
-        ArrayAdapter<String> lista = new ArrayAdapter<>();
-        lista.add("Chile");
-        ListAdapter adapter = new SimpleAdapter(
-                ListEventActivity.this,lista ,
-                R.layout.create_event, new String[]{"text"}, new int[]{R.id.text});
-
-        lv.setAdapter(adapter);*/
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Mis eventos");
@@ -53,6 +49,26 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
 
         tabHost.addTab(getTabSpec1(tabHost));
         tabHost.addTab(getTabSpec2(tabHost));
+
+
+
+        lv = findViewById(R.id.mlistactive);
+
+        ArrayList<HashMap<String,String>> list = new ArrayList<>();
+
+        HashMap<String,String> ayu = new HashMap<>();
+        ayu.put("text1", "Ayudantía Sistemas Operativos");
+        ayu.put("number_of_users_in_event", "78 participantes");
+        ayu.put("end_event","finaliza el 98");
+        list.add(ayu);
+
+        ListAdapter adapter;
+
+        adapter = new SimpleAdapter(this,list,R.layout.item_event_frame,
+                new String[]{"text1","number_of_users_in_event","end_event"},
+                new int[]{R.id.text1,R.id.number_of_users_in_event,R.id.end_event});
+
+        lv.setAdapter(adapter);
 
     }
 
@@ -72,15 +88,11 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
     public View createTabContent(String tag) {
         // Full ArrayAdapters to list the events
 
-        /*ArrayList<String> lista = new ArrayList<>();
-        lista.add("Chile");
-        mListActive = findViewById(R.id.mlistactive);
-        mListActive.setAdapter(new ArrayAdapter<String>(ListEventActivity.this,R.layout.actives_events, lista));
-        */
         if(tag == "Second Tab")
         {
             return  LayoutInflater.from(this).inflate(R.layout.finished_events,null);
         }
+
         return LayoutInflater.from(this).inflate(R.layout.actives_events, null);
     }
 }
