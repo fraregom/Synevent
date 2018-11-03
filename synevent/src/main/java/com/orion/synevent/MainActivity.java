@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else {
-            showSnackBarMessage("Error en la red!");
+            showSnackBarMessage("An unknown error has occurred!");
         }
     }
 

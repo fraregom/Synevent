@@ -166,7 +166,7 @@ public class RegisterFragments extends Fragment {
             }
         } else {
 
-            showSnackBarMessage("Error in the network!");
+            showSnackBarMessage("An unknown error has occurred!");
         }
     }
 

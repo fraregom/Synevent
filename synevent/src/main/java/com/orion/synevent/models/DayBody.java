@@ -9,6 +9,7 @@ public class DayBody {
     private String blockTag;
     private String beginsAt;
     private String endsAt;
+    private Object period;
     private String createdAt;
     private String updatedAt;
     private Integer scheduleId;
@@ -67,6 +68,14 @@ public class DayBody {
 
     public void setEndsAt(String endsAt) {
         this.endsAt = endsAt;
+    }
+
+    public Object getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(Object period) {
+        this.period = period;
     }
 
     public String getCreatedAt() {

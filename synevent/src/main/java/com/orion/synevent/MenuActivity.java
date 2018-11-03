@@ -1,16 +1,12 @@
 package com.orion.synevent;
 
-import android.content.ClipData;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.widget.ProgressBar;
+
 import com.google.android.material.snackbar.Snackbar;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +14,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.widget.Toolbar;
-import android.widget.Button;
+
 import android.widget.TextView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,10 +23,9 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.orion.synevent.models.CalendarRaw;
+import com.orion.synevent.models.DayBody;
 import com.orion.synevent.utils.DrawableCalendarEvent;
 import com.orion.synevent.utils.DrawerUtil;
 import com.rilixtech.agendacalendarview.AgendaCalendarView;
@@ -45,10 +40,13 @@ import com.orion.synevent.models.Response;
 import com.orion.synevent.models.User;
 import com.orion.synevent.utils.Constants;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 
 //import androidx.drawerlayout.widget.DrawerLayout;
@@ -86,6 +84,7 @@ public class MenuActivity extends AppCompatActivity implements
         mAgendaCalendarView = findViewById(R.id.agenda_calendar_view);
         mTvDate = findViewById(R.id.main_date_tv);
 
+        initSharedPreferences();
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Schedule XI");
@@ -104,6 +103,7 @@ public class MenuActivity extends AppCompatActivity implements
 
         List<CalendarEvent> eventList = new ArrayList<>();
         mockList(eventList);
+        LoadCalendar();
 
         List<Integer> weekends = new ArrayList<>();
         weekends.add(Calendar.SUNDAY);
@@ -118,36 +118,18 @@ public class MenuActivity extends AppCompatActivity implements
                 //.setFirstDayOfWeek(Calendar.MONDAY)
                 .build();
 
-        initSharedPreferences();
-        loadProfile();
-
-
-        FloatingActionButton btn_new_event = (FloatingActionButton) findViewById(R.id.new_event);
-        btn_new_event.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), CreateEventActivity.class);
-                startActivity(intent);
-            }
+        FloatingActionButton btn_new_event = findViewById(R.id.new_event);
+        btn_new_event.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), CreateEventActivity.class);
+            startActivity(intent);
         });
 
-        FloatingActionButton btn_new_schedule = (FloatingActionButton) findViewById(R.id.new_schedule);
-        btn_new_schedule.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), CreateScheduleActivity.class);
-                startActivity(intent);
-            }
+        FloatingActionButton btn_new_schedule = findViewById(R.id.new_schedule);
+        btn_new_schedule.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), CreateScheduleActivity.class);
+            startActivity(intent);
         });
 
-    }
-
-
-    private void initSharedPreferences() {
-
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mToken = mSharedPreferences.getString(Constants.TOKEN,"");
-        mEmail = mSharedPreferences.getString(Constants.EMAIL,"");
     }
 
     /*private void logout() {
@@ -181,26 +163,24 @@ public class MenuActivity extends AppCompatActivity implements
         PopupMenu popupMenu = new PopupMenu(this, view);
         popupMenu.getMenuInflater().inflate(R.menu.menu_calendar, popupMenu.getMenu());
 
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.action_delete) {
-                    int position = mAgendaCalendarView.deleteEvent(event);
-                    Toast.makeText(MenuActivity.this, "position = " + position, Toast.LENGTH_SHORT).show();
-                }
-                return true;
+        popupMenu.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_delete) {
+                int position = mAgendaCalendarView.deleteEvent(event);
+                Toast.makeText(MenuActivity.this, "position = " + position, Toast.LENGTH_SHORT).show();
             }
+            return true;
         });
         popupMenu.show();
     }
 
-    private void addNewEvent() {
+    private void addNewEvent(String Title, String Description, String Location) {
 
         Calendar startTime1 = Calendar.getInstance();
         Calendar endTime1 = Calendar.getInstance();
         BaseCalendarEvent event4 = BaseCalendarEvent.prepareWith()
-                .title("NEW ITEM")
-                .description("NEW ITEM")
-                .location("NEW ITEM")
+                .title(Title)
+                .description(Description)
+                .location(Location)
                 .color(ContextCompat.getColor(this, R.color.theme_event_confirmed))
                 .startTime(startTime1)
                 .endTime(endTime1)
@@ -273,8 +253,11 @@ public class MenuActivity extends AppCompatActivity implements
         eventList.add(event5);
     }
 
+    private void initSharedPreferences() {
 
-    private void loadProfile() {
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mToken = mSharedPreferences.getString(Constants.TOKEN,"");
+        mEmail = mSharedPreferences.getString(Constants.EMAIL,"");
 
         mSubscriptions.add(NetworkUtil.getRetrofit(mToken).getInfo()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -289,12 +272,26 @@ public class MenuActivity extends AppCompatActivity implements
         User user = response.getUser();
         Log.i(TAG, response.getMsg());
 
-        /*mTvName.setText(user.getUserName());
-        mTvEmail.setText(user.getEmail());
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(Constants.USERNAME, user.getUserName());
+        editor.apply();
 
-        long timestamp = Long.parseLong(user.getIat().toString()) * 1000L;
-        mTvDate.setText(getDate(timestamp ));*/
     }
+
+    private void LoadCalendar(){
+        mSubscriptions.add(NetworkUtil.getRetrofit(mToken).getCalendar("3")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleCalendar,this::handleError));
+    }
+
+    public void handleCalendar(List<DayBody> activities){
+
+        for(int i = 0; i < activities.size(); i++){
+            addNewEvent(activities.get(i).getName(), "", activities.get(i).getPlace());
+        }
+    }
+
 
     private void handleError(Throwable error) {
 
@@ -315,7 +312,7 @@ public class MenuActivity extends AppCompatActivity implements
             }
         } else {
 
-            showSnackBarMessage("Error en la red!");
+            showSnackBarMessage("An unknown error has occurred!");
         }
     }
 

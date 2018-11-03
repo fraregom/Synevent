@@ -181,7 +181,7 @@ public class LoginFragment extends Fragment {
                 e.printStackTrace();
             }
         } else {
-            showSnackBarMessage("Error in the network!");
+            showSnackBarMessage("An unknown error has occurred!");
         }
     }
 

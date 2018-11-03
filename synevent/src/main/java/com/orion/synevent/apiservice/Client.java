@@ -1,9 +1,12 @@
 package com.orion.synevent.apiservice;
 
-import com.orion.synevent.models.CalendarBody;
+import com.orion.synevent.models.CalendarRaw;
+import com.orion.synevent.models.DayBody;
 import com.orion.synevent.models.Response;
 import com.orion.synevent.models.Schedule;
 import com.orion.synevent.models.User;
+
+import java.util.List;
 
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -22,8 +25,8 @@ public interface Client {
     @GET("protected")
     Observable<Response> getInfo();
 
-    @GET ("schedule/{id_schedule}/activities")
-    Observable<CalendarBody> getCalendar(@Path("id_schedule") String id_schedule);
+    @GET ("schedule/{id_schedule}/activities/raw")
+    Observable<List<DayBody>> getCalendar(@Path("id_schedule") String id_schedule);
 
     @GET ("schedules")
     Observable<Schedule> getSchedule();
