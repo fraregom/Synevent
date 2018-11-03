@@ -24,9 +24,10 @@ import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
-import com.orion.synevent.models.CalendarRaw;
-import com.orion.synevent.models.DayBody;
+import com.orion.synevent.models.Activities;
+import com.orion.synevent.models.Schedule;
 import com.orion.synevent.utils.DrawableCalendarEvent;
+import com.orion.synevent.utils.DrawableEventRenderer;
 import com.orion.synevent.utils.DrawerUtil;
 import com.rilixtech.agendacalendarview.AgendaCalendarView;
 import com.rilixtech.agendacalendarview.models.BaseCalendarEvent;
@@ -40,16 +41,16 @@ import com.orion.synevent.models.Response;
 import com.orion.synevent.models.User;
 import com.orion.synevent.utils.Constants;
 
-import org.json.JSONObject;
-
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
 
-//import androidx.drawerlayout.widget.DrawerLayout;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -69,10 +70,8 @@ public class MenuActivity extends AppCompatActivity implements
     private String mToken;
     private String mEmail;
 
-    //private DrawerLayout mDrawerlayout;
-    //private ActionBarDrawerToggle mToogle;
-
     private CompositeSubscription mSubscriptions;
+    List<CalendarEvent> eventList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,15 +79,15 @@ public class MenuActivity extends AppCompatActivity implements
         setContentView(R.layout.fragment_menu);
         mSubscriptions = new CompositeSubscription();
 
+        initSharedPreferences();
+
         mToolbar = findViewById(R.id.activity_toolbar);
         mAgendaCalendarView = findViewById(R.id.agenda_calendar_view);
         mTvDate = findViewById(R.id.main_date_tv);
 
-        initSharedPreferences();
-
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Schedule XI");
-        mToolbar.setTitle("Schedule XI");
+        getSupportActionBar().setTitle(mSharedPreferences.getString(Constants.NAME_SCHEDULE,"Synevent APP"));
+        mToolbar.setTitle(mSharedPreferences.getString(Constants.NAME_SCHEDULE,"Synevent APP"));
         mToolbar.setTitleTextColor(Color.WHITE);
 
         DrawerUtil.getDrawer(this,mToolbar);
@@ -97,11 +96,10 @@ public class MenuActivity extends AppCompatActivity implements
         Calendar minDate = Calendar.getInstance();
         Calendar maxDate = Calendar.getInstance();
 
-        minDate.add(Calendar.MONTH, 0);
-        minDate.set(Calendar.DAY_OF_MONTH, 1);
-        maxDate.add(Calendar.YEAR, 0);
+        minDate.add(Calendar.MONTH, -2);
+        //minDate.set(Calendar.DAY_OF_MONTH, 1);
+        maxDate.add(Calendar.MONTH, 2);
 
-        List<CalendarEvent> eventList = new ArrayList<>();
         mockList(eventList);
         LoadCalendar();
 
@@ -173,21 +171,6 @@ public class MenuActivity extends AppCompatActivity implements
         popupMenu.show();
     }
 
-    private void addNewEvent(String Title, String Description, String Location) {
-
-        Calendar startTime1 = Calendar.getInstance();
-        Calendar endTime1 = Calendar.getInstance();
-        BaseCalendarEvent event4 = BaseCalendarEvent.prepareWith()
-                .title(Title)
-                .description(Description)
-                .location(Location)
-                .color(ContextCompat.getColor(this, R.color.theme_event_confirmed))
-                .startTime(startTime1)
-                .endTime(endTime1)
-                .allDay(false);
-        mAgendaCalendarView.addEvent(event4);
-    }
-
     @Override public void onDaySelected(IDayItem dayItem) {
         Log.d(TAG, String.format("Selected day: %s", dayItem));
         Toast.makeText(this, "dayItem = " + dayItem, Toast.LENGTH_SHORT).show();
@@ -213,8 +196,10 @@ public class MenuActivity extends AppCompatActivity implements
     private void mockList(List<CalendarEvent> eventList) {
         Calendar startTime1 = Calendar.getInstance();
         Calendar endTime1 = Calendar.getInstance();
-        endTime1.add(Calendar.MONTH, 1);
-        BaseCalendarEvent event1 = BaseCalendarEvent.prepareWith().title("Synevent works!")
+        startTime1.add(Calendar.MONTH, -2);
+        endTime1.add(Calendar.MONTH, 2);
+        BaseCalendarEvent event = BaseCalendarEvent.prepareWith()
+                .title("Synevent works!")
                 .description("description")
                 .location("USM")
                 .id(0)
@@ -222,35 +207,9 @@ public class MenuActivity extends AppCompatActivity implements
                 .startTime(startTime1)
                 .endTime(endTime1)
                 //.drawableId(R.drawable.ic_launcher)
-                .allDay(true);
-
-        eventList.add(event1);
-
-        Calendar startTime2 = Calendar.getInstance();
-        startTime2.add(Calendar.DAY_OF_YEAR, 1);
-        Calendar endTime2 = Calendar.getInstance();
-        endTime2.add(Calendar.DAY_OF_YEAR, 3);
-
-        Calendar startTime5 = Calendar.getInstance();
-        Calendar endTime5 = Calendar.getInstance();
-        startTime5.set(Calendar.HOUR_OF_DAY, 18);
-        startTime5.set(Calendar.MINUTE, 0);
-        endTime5.set(Calendar.HOUR_OF_DAY, 19);
-        endTime5.set(Calendar.MINUTE, 0);
-
-        DrawableCalendarEvent event5 = DrawableCalendarEvent.prepareWith()
-                .drawableId(R.drawable.location);
-        event5.title("Meeting!")
-                .description("i")
-                .location("USM")
-                .id(1)
-                .color(ContextCompat.getColor(this, R.color.blue))
-                .startTime(startTime5)
-                .endTime(endTime5)
-                //.calendarDayColor(ContextCompat.getColor(this, R.color.orange))
                 .allDay(false);
 
-        eventList.add(event5);
+        eventList.add(event);
     }
 
     private void initSharedPreferences() {
@@ -259,36 +218,82 @@ public class MenuActivity extends AppCompatActivity implements
         mToken = mSharedPreferences.getString(Constants.TOKEN,"");
         mEmail = mSharedPreferences.getString(Constants.EMAIL,"");
 
+        if(!mSharedPreferences.contains(Constants.ID_SCHEDULE)) GetSchedule();
+        
         mSubscriptions.add(NetworkUtil.getRetrofit(mToken).getInfo()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::handleResponse,this::handleError));
-
-        Log.i(TAG, "loadProfile success");
     }
 
     private void handleResponse(Response response) {
-
         User user = response.getUser();
-        Log.i(TAG, response.getMsg());
-
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(Constants.USERNAME, user.getUserName());
-        editor.apply();
+        editor.commit();
+    }
 
+    private void GetSchedule(){
+        mSubscriptions.add(NetworkUtil.getRetrofit(mToken).getSchedule()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleSchedule,this::handleError));
+    }
+
+    public void handleSchedule(List<Schedule> body){
+
+        for(int i = 0; i <= body.size(); i++){
+            if(body.get(i).getSelected()){
+                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                editor.putString(Constants.ID_SCHEDULE, body.get(i).getId().toString());
+                editor.putString(Constants.NAME_SCHEDULE, body.get(i).getName());
+                editor.commit();
+                break;
+            }
+        }
     }
 
     private void LoadCalendar(){
-        mSubscriptions.add(NetworkUtil.getRetrofit(mToken).getCalendar("3")
+        mSubscriptions.add(NetworkUtil.getRetrofit(mToken)
+                .getCalendar(mSharedPreferences.getString(Constants.ID_SCHEDULE,"1"))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::handleCalendar,this::handleError));
     }
 
-    public void handleCalendar(List<DayBody> activities){
+    public void handleCalendar(List<Activities> body){
+        for(int i = 0; i < body.size(); i++){
+            Calendar startTime1 = Calendar.getInstance();
+            Calendar endTime1 = Calendar.getInstance();
+            final DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+            final Calendar c = Calendar.getInstance();
+            try {
+                c.setTime(format.parse(body.get(i).getBeginsAt()));
+                startTime1.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY));
+                startTime1.set(Calendar.MINUTE, c.get(Calendar.MINUTE));
+                startTime1.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH));
+                startTime1.set(Calendar.MONTH, c.get(Calendar.MONTH));
+                startTime1.set(Calendar.YEAR, c.get(Calendar.YEAR));
 
-        for(int i = 0; i < activities.size(); i++){
-            addNewEvent(activities.get(i).getName(), "", activities.get(i).getPlace());
+                c.setTime(format.parse(body.get(i).getEndsAt()));
+                endTime1.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY));
+                endTime1.set(Calendar.MINUTE, c.get(Calendar.MINUTE));
+                endTime1.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH));
+                endTime1.set(Calendar.MONTH, c.get(Calendar.MONTH));
+                endTime1.set(Calendar.YEAR, c.get(Calendar.YEAR));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            BaseCalendarEvent event4 = BaseCalendarEvent.prepareWith()
+                    .title(body.get(i).getName())
+                    .description("")
+                    .location(body.get(i).getPlace())
+                    .id(body.get(i).getId())
+                    .color(ContextCompat.getColor(this, R.color.theme_event_confirmed))
+                    .startTime(startTime1)
+                    .endTime(endTime1)
+                    .allDay(false);
+            mAgendaCalendarView.addEvent(event4);
         }
     }
 
@@ -296,7 +301,6 @@ public class MenuActivity extends AppCompatActivity implements
     private void handleError(Throwable error) {
 
         Log.e(TAG , String.valueOf(error));
-
         if (error instanceof HttpException) {
 
             Gson gson = new GsonBuilder().create();

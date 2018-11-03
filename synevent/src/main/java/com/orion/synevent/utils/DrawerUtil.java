@@ -44,9 +44,9 @@ public class DrawerUtil {
                 .withIdentifier(4).withName("Schedule").withIcon(R.drawable.ic_schedule);
 
 
-        SecondaryDrawerItem drawerItemSettings = new SecondaryDrawerItem().withIdentifier(4)
+        SecondaryDrawerItem drawerItemSettings = new SecondaryDrawerItem().withIdentifier(5)
                 .withName("Settings").withIcon(GoogleMaterial.Icon.gmd_settings);
-        SecondaryDrawerItem drawerItemAbout = new SecondaryDrawerItem().withIdentifier(5)
+        SecondaryDrawerItem drawerItemAbout = new SecondaryDrawerItem().withIdentifier(6)
                 .withName("About").withIcon(GoogleMaterial.Icon.gmd_info);
 
 

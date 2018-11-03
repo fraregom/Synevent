@@ -1,7 +1,6 @@
 package com.orion.synevent.apiservice;
 
-import com.orion.synevent.models.CalendarRaw;
-import com.orion.synevent.models.DayBody;
+import com.orion.synevent.models.Activities;
 import com.orion.synevent.models.Response;
 import com.orion.synevent.models.Schedule;
 import com.orion.synevent.models.User;
@@ -26,8 +25,8 @@ public interface Client {
     Observable<Response> getInfo();
 
     @GET ("schedule/{id_schedule}/activities/raw")
-    Observable<List<DayBody>> getCalendar(@Path("id_schedule") String id_schedule);
+    Observable<List<Activities>> getCalendar(@Path("id_schedule") String id_schedule);
 
     @GET ("schedules")
-    Observable<Schedule> getSchedule();
+    Observable<List<Schedule>> getSchedule();
 }
