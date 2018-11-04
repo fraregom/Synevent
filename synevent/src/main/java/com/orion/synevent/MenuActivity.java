@@ -5,8 +5,7 @@ import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.content.Intent;
 
-import com.google.android.material.snackbar.Snackbar;
-
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,8 +25,6 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import com.orion.synevent.models.Activities;
 import com.orion.synevent.models.Schedule;
-import com.orion.synevent.utils.DrawableCalendarEvent;
-import com.orion.synevent.utils.DrawableEventRenderer;
 import com.orion.synevent.utils.DrawerUtil;
 import com.rilixtech.agendacalendarview.AgendaCalendarView;
 import com.rilixtech.agendacalendarview.models.BaseCalendarEvent;
@@ -47,7 +44,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,7 +57,6 @@ public class MenuActivity extends AppCompatActivity implements
 
     public static final String TAG = MenuActivity.class.getSimpleName();
 
-    private MenuItem mitem;
     private Toolbar mToolbar;
     private AgendaCalendarView mAgendaCalendarView;
     private TextView mTvDate;
@@ -75,19 +70,19 @@ public class MenuActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mSubscriptions = new CompositeSubscription();
+        initSharedPreferences();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_menu);
-        mSubscriptions = new CompositeSubscription();
-
-        initSharedPreferences();
 
         mToolbar = findViewById(R.id.activity_toolbar);
         mAgendaCalendarView = findViewById(R.id.agenda_calendar_view);
         mTvDate = findViewById(R.id.main_date_tv);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle(mSharedPreferences.getString(Constants.NAME_SCHEDULE,"Synevent APP"));
-        mToolbar.setTitle(mSharedPreferences.getString(Constants.NAME_SCHEDULE,"Synevent APP"));
+        getSupportActionBar().setTitle(mSharedPreferences.getString(Constants.NAME_SCHEDULE,"Synevent"));
+        mToolbar.setTitle(mSharedPreferences.getString(Constants.NAME_SCHEDULE,"Synevent"));
         mToolbar.setTitleTextColor(Color.WHITE);
 
         DrawerUtil.getDrawer(this,mToolbar);
@@ -148,10 +143,12 @@ public class MenuActivity extends AppCompatActivity implements
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            /*case R.id.action_add:
-                Toast.makeText(this, "Add clicked", Toast.LENGTH_SHORT).show();
-                addNewEvent();
-                return true;*/
+            case R.id.action_refresh:
+                // Refresh main activity upon close of dialog box
+                Intent refresh = new Intent(this, MenuActivity.class);
+                startActivity(refresh);
+                this.finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -241,24 +238,29 @@ public class MenuActivity extends AppCompatActivity implements
     }
 
     public void handleSchedule(List<Schedule> body){
-
-        for(int i = 0; i <= body.size(); i++){
-            if(body.get(i).getSelected()){
-                SharedPreferences.Editor editor = mSharedPreferences.edit();
-                editor.putString(Constants.ID_SCHEDULE, body.get(i).getId().toString());
-                editor.putString(Constants.NAME_SCHEDULE, body.get(i).getName());
-                editor.commit();
-                break;
+        if(!body.isEmpty()) {
+            for (int i = 0; i <= body.size(); i++) {
+                if (body.get(i).getSelected()) {
+                    SharedPreferences.Editor editor = mSharedPreferences.edit();
+                    editor.putString(Constants.ID_SCHEDULE, body.get(i).getId().toString());
+                    editor.putString(Constants.NAME_SCHEDULE, body.get(i).getName());
+                    editor.commit();
+                    break;
+                }
             }
         }
     }
 
     private void LoadCalendar(){
-        mSubscriptions.add(NetworkUtil.getRetrofit(mToken)
-                .getCalendar(mSharedPreferences.getString(Constants.ID_SCHEDULE,"1"))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(this::handleCalendar,this::handleError));
+        if(mSharedPreferences.contains(Constants.ID_SCHEDULE)) {
+            mSubscriptions.add(NetworkUtil.getRetrofit(mToken)
+                    .getCalendar(mSharedPreferences.getString(Constants.ID_SCHEDULE, "1"))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(this::handleCalendar, this::handleError));
+        }else{
+            showToastMessage("No events found, please create one!");
+        }
     }
 
     public void handleCalendar(List<Activities> body){
@@ -309,21 +311,19 @@ public class MenuActivity extends AppCompatActivity implements
 
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody,Response.class);
-                showSnackBarMessage(response.getMsg());
+                showToastMessage(response.getMsg());
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
 
-            showSnackBarMessage("An unknown error has occurred!");
+            showToastMessage("An unknown error has occurred!");
         }
     }
 
-    private void showSnackBarMessage(String message) {
-
-        Snackbar.make(findViewById(R.id.fragmentFrame),message,Snackbar.LENGTH_SHORT).show();
-
+    private void showToastMessage(String message) {
+        Toast.makeText(getBaseContext(),message, Toast.LENGTH_LONG).show();
     }
 
     @Override
