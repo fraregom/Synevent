@@ -218,9 +218,9 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
             info.put("location", location);
             info.put("notes", notes);
             if(finished_by_time.isChecked()){
-                info.put("finished","time");
+                info.put("finished_by","time");
             }else if(finished_by_author.isChecked()){
-                info.put("finished","author");
+                info.put("finished_by","author");
             }else{
                 return null;
             }
