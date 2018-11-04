@@ -29,6 +29,15 @@
         <activity android:name=".CreateEventActivity"/>
         <activity android:name=".CreateScheduleActivity"/>
         <activity android:name=".ListEventActivity"/>
+        
+        <provider
+            android:authorities="com.orion.synevent.provider"
+            android:name=".Providers.SynEventProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:syncable="true">
+
+        </provider>
     </application>
 
 </manifest>
