@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 
 public class SyneventDbHelper extends SQLiteOpenHelper{
-    public static final int DATABASE_VERSION = 0;
+    public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Synevent.db";
 
     private static SyneventDbHelper sInstance;
