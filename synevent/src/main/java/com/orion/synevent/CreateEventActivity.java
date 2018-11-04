@@ -167,14 +167,14 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         return dayOfTheWeek;
     }
 
-    public void cancelEvent(View view) throws Throwable {
+    public void cancelEvent(View view){
 
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
-        this.finalize();
+        finish();
     }
 
-    public void saveEvent(View view) throws Throwable {
+    public void saveEvent(View view){
         Toast.makeText(this,"Bien", Toast.LENGTH_LONG).show();
 
         // get values of form
@@ -182,6 +182,6 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
 
-        this.finalize();
+        finish();
     }
 }
