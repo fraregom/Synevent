@@ -38,7 +38,6 @@
             android:layout_marginRight="40dp"
             android:text="@string/cancel"
             android:textColor="@color/colorPrimary"
-            android:onClick="cancelEvent"
             android:background="@android:color/transparent"/>
         <Button
             android:id="@+id/btn_create_event"
@@ -48,7 +47,6 @@
             android:layout_marginLeft="40dp"
             android:textColor="@color/colorPrimary"
             android:text="@string/create"
-            android:onClick="saveEvent"
             android:background="@android:color/transparent"/>
     </LinearLayout>
     </RelativeLayout>
@@ -168,6 +166,7 @@
             android:background="@drawable/location"
             android:backgroundTint="@android:color/black" />
         <EditText
+            android:id="@+id/event_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -241,6 +240,7 @@
                 android:textSize="20dp"/>
         </LinearLayout>
         <EditText
+            android:id="@+id/notes_event"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"

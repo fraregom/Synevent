@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,14 +39,18 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     private Boolean pressed_btn_first = false;
     private Button btn_save;
     private Button btn_cancel;
+    private EditText et_title_event;
+    private EditText et_location_event;
+    private CheckBox finished_by_author;
+    private CheckBox finished_by_time;
+    private EditText et_notes;
+    private ImageView iv_event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        btn_save = findViewById(R.id.btn_create_event);
-        btn_cancel = findViewById(R.id.btn_cancel_event_create);
 
         mapp_months = new HashMap<Integer, String>();
-        mapp_months.put(1, "Enero");
+        mapp_months.put(1, "Ene.");
         mapp_months.put(2, "Feb.");
         mapp_months.put(3, "Mar.");
         mapp_months.put(4, "Abr.");
@@ -59,6 +66,15 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.create_event);
+        iv_event = findViewById(R.id.image_event);
+        btn_cancel = findViewById(R.id.btn_cancel_event_create);
+        btn_save = findViewById(R.id.btn_create_event);
+        et_title_event = findViewById(R.id.et_name_task);
+        et_location_event = findViewById(R.id.event_location);
+        finished_by_author = findViewById(R.id.cb_by_author);
+        finished_by_time = findViewById(R.id.cb_by_time);
+        et_notes = findViewById(R.id.notes_event);
+
         txt_date_init = findViewById(R.id.txt_date);
         txt_date_init.setOnClickListener(v -> {
             setPressed_btn_first(true);
@@ -72,6 +88,10 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                     showDatePicker();
 
                 });
+        btn_cancel.setOnClickListener(v -> cancelEvent(v));
+
+
+        btn_save.setOnClickListener(v -> saveEvent(v));
     }
 
     private void showDatePicker(){
@@ -178,10 +198,46 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         Toast.makeText(this,"Bien", Toast.LENGTH_LONG).show();
 
         // get values of form
+        HashMap<String,String> form = obtainDataEvent();
 
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
 
         finish();
+    }
+
+    public HashMap<String,String> obtainDataEvent() {
+        HashMap<String,String> info = new HashMap<>();
+
+        String title = et_title_event.getText().toString();
+        String location = et_location_event.getText().toString();
+        String notes = et_notes.getText().toString();
+
+        if(validate(title,location,notes)){
+            info.put("title",title);
+            info.put("location", location);
+            info.put("notes", notes);
+            if(finished_by_time.isChecked()){
+                info.put("finished","time");
+            }else if(finished_by_author.isChecked()){
+                info.put("finished","author");
+            }else{
+                return null;
+            }
+            return info;
+        }else{
+            return null;
+        }
+    }
+
+    private Boolean validate(String title, String location, String notes){
+        if(title == ""){
+            return false;
+        }else{
+            if(finished_by_author.isChecked() && finished_by_time.isChecked()){
+                return false;
+            }
+            return true;
+        }
     }
 }
