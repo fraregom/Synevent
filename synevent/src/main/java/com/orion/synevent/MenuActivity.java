@@ -265,7 +265,7 @@ public class MenuActivity extends AppCompatActivity implements
         for(int i = 0; i < body.size(); i++){
             Calendar startTime1 = Calendar.getInstance();
             Calendar endTime1 = Calendar.getInstance();
-            final DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+            /*final DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
             final Calendar c = Calendar.getInstance();
             try {
                 c.setTime(format.parse(body.get(i).getBeginsAt()));
@@ -283,12 +283,12 @@ public class MenuActivity extends AppCompatActivity implements
                 endTime1.set(Calendar.YEAR, c.get(Calendar.YEAR));
             } catch (ParseException e) {
                 e.printStackTrace();
-            }
+            }*/
             BaseCalendarEvent event4 = BaseCalendarEvent.prepareWith()
                     .title(body.get(i).getName())
                     .description("")
                     .location(body.get(i).getPlace())
-                    .id(body.get(i).getId())
+                    //.id(body.get(i).getId())
                     .color(ContextCompat.getColor(this, R.color.theme_event_confirmed))
                     .startTime(startTime1)
                     .endTime(endTime1)
