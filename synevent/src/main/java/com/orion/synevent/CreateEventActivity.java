@@ -72,6 +72,8 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         btn_save = findViewById(R.id.btn_create_event);
         et_title_event = findViewById(R.id.et_name_task);
         et_location_event = findViewById(R.id.event_location);
+        finished_by_author = findViewById(R.id.cb_by_author);
+        finished_by_time = findViewById(R.id.cb_by_time);
 
         txt_date_init = findViewById(R.id.txt_date);
         txt_date_init.setOnClickListener(v -> {
@@ -211,10 +213,14 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
 
         String title = et_title_event.getText().toString();
         String location = et_location_event.getText().toString();
+        String date_init = txt_date_init.getText().toString();
+        String date_fin = txt_date_fin.getText().toString();
 
         if(validate(title,location)){
             info.put("title",title);
             info.put("location", location);
+            info.put("init",date_init);
+            info.put("fin",date_fin);
 
             if(finished_by_time.isChecked()){
                 info.put("finished_by","time");

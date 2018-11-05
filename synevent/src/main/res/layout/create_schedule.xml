@@ -34,7 +34,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Schedule"
+        android:text="@string/new_activity"
         android:textSize="23dp"
         android:gravity="center"
         android:textStyle="bold"
