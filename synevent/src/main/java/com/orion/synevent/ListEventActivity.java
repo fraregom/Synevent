@@ -37,8 +37,8 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
 
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Mis eventos");
-        mToolbar.setTitle("Mis Eventos");
+        getSupportActionBar().setTitle("My Events");
+        mToolbar.setTitle("My Events");
         mToolbar.setTitleMargin(200,2,15,2);
         mToolbar.setTitleTextColor(Color.WHITE);
 
@@ -74,13 +74,13 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
 
     private TabHost.TabSpec getTabSpec1(TabHost tabHost) {
         return tabHost.newTabSpec("First Tab")
-                .setIndicator("Activos")
+                .setIndicator("Active")
                 .setContent(this);
     }
 
     private TabHost.TabSpec getTabSpec2(TabHost tabHost) {
         return tabHost.newTabSpec("Second Tab")
-                .setIndicator("Terminados")
+                .setIndicator("Finished")
                 .setContent(this);
     }
 

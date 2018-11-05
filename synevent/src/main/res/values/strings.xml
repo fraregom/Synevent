@@ -27,5 +27,6 @@
     <string name="refresh">Refresh</string>
     <string name="new_invitation">New Invitation</string>
     <string name="save">Save</string>
+    <string name="new_event">New Event</string>
 
 </resources>

@@ -43,7 +43,6 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     private EditText et_location_event;
     private CheckBox finished_by_author;
     private CheckBox finished_by_time;
-    private EditText et_notes;
     private ImageView iv_event;
 
     @Override
@@ -71,9 +70,6 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         btn_save = findViewById(R.id.btn_create_event);
         et_title_event = findViewById(R.id.et_name_task);
         et_location_event = findViewById(R.id.event_location);
-        finished_by_author = findViewById(R.id.cb_by_author);
-        finished_by_time = findViewById(R.id.cb_by_time);
-        et_notes = findViewById(R.id.notes_event);
 
         txt_date_init = findViewById(R.id.txt_date);
         txt_date_init.setOnClickListener(v -> {
@@ -195,7 +191,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     }
 
     public void saveEvent(View view){
-        Toast.makeText(this,"Bien", Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Saved!", Toast.LENGTH_LONG).show();
 
         // get values of form
         HashMap<String,String> form = obtainDataEvent();
@@ -211,12 +207,11 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
 
         String title = et_title_event.getText().toString();
         String location = et_location_event.getText().toString();
-        String notes = et_notes.getText().toString();
 
-        if(validate(title,location,notes)){
+        if(validate(title,location)){
             info.put("title",title);
             info.put("location", location);
-            info.put("notes", notes);
+
             if(finished_by_time.isChecked()){
                 info.put("finished_by","time");
             }else if(finished_by_author.isChecked()){
@@ -230,7 +225,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         }
     }
 
-    private Boolean validate(String title, String location, String notes){
+    private Boolean validate(String title, String location){
         if(title == ""){
             return false;
         }else{
