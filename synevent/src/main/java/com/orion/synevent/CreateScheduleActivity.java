@@ -28,7 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class CreateScheduleActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TimePickerDialog.OnTimeSetListener {
 
     private Spinner spinner;
-    private static final String[] paths = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" , "Domingo"};
+    private static final String[] paths = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" , "Sunday"};
     private Button mCreateSchedule;
     private Button mCancelSchedule;
     private TextView tv_time_picker;

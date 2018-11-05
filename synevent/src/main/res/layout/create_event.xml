@@ -18,18 +18,13 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="0dp"
                 android:src="@drawable/event"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:layout_alignBottom="@+id/image_event"
-                android:drawableStart="@android:drawable/ic_menu_upload_you_tube"
-                />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="5dp">
+
                 <Button
                     android:id="@+id/btn_cancel_event_create"
                     android:layout_width="match_parent"
@@ -44,11 +39,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_marginLeft="40dp"
-                    android:textColor="@color/colorPrimary"
-                    android:text="@string/create"
-                    android:background="@android:color/transparent"/>
+                    android:layout_marginStart="40dp"
+                    android:text="@string/save"
+                    android:onClick="saveEvent"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:textSize="15sp"/>
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/image_event"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginBottom="0dp"
+                android:gravity="center"
+                android:text="@string/new_event"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="23dp"
+                android:textStyle="bold" />
+
         </RelativeLayout>
 
         <LinearLayout
@@ -58,12 +69,12 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="36dp"
+                android:layout_height="30dp"
                 android:layout_weight="9"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="center"
                 android:background="@drawable/text_input"
-                android:backgroundTint="@android:color/black" />
+                android:backgroundTint="@color/colorPrimaryDark" />
             <EditText
                 android:id="@+id/et_name_task"
                 android:layout_width="match_parent"
@@ -86,12 +97,12 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="36dp"
+                android:layout_height="30dp"
                 android:layout_weight="6"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/clock"
-                android:backgroundTint="@android:color/black" />
+                android:backgroundTint="@color/colorPrimaryDark" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -110,17 +121,17 @@
                         android:layout_weight="3"
                         android:layout_marginLeft="10dp"
                         android:text="@string/startevent"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="20dp"/>
                     <TextView
                         android:id="@+id/txt_date"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textAlignment="textEnd"
                         android:layout_marginRight="15dp"
-                        android:text="Vie., 18 oct. 08:00"
+                        android:text="Fri., 18 oct. 08:00"
                         android:textSize="20dp">
                     </TextView>
                 </LinearLayout>
@@ -134,7 +145,7 @@
                         android:layout_weight="3"
                         android:layout_marginStart="10dp"
                         android:text="@string/endevent"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="20dp"/>
                     <TextView
                         android:id="@+id/txt_time"
@@ -142,9 +153,9 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_marginRight="15dp"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textAlignment="textEnd"
-                        android:text="Vie., 18 oct. 09:00"
+                        android:text="Fri., 18 oct. 09:00"
                         android:textSize="20dp"
                         />
 
@@ -159,12 +170,12 @@
             android:orientation="horizontal">
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="36dp"
+                android:layout_height="30dp"
                 android:layout_weight="6"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/location"
-                android:backgroundTint="@android:color/black" />
+                android:backgroundTint="@color/colorPrimaryDark" />
             <EditText
                 android:id="@+id/event_location"
                 android:layout_width="match_parent"
@@ -181,12 +192,12 @@
             android:layout_marginTop="20dp">
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="36dp"
+                android:layout_height="30dp"
                 android:layout_weight="3"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/checkmark"
-                android:backgroundTint="@android:color/black" />
+                android:backgroundTint="@color/colorPrimaryDark" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -194,7 +205,7 @@
                 android:layout_marginRight="5dp"
                 android:text="@string/finished_by"
                 android:layout_marginLeft="10dp"
-                android:textColor="#000"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="18dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
