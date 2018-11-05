@@ -84,25 +84,22 @@ public class CreateScheduleActivity extends AppCompatActivity implements Adapter
         HashMap<String,String> info = new HashMap<>();
         tv_title_schedule = findViewById(R.id.et_title_new_schedule);
         et_location = findViewById(R.id.schedule_location);
-        et_notes = findViewById(R.id.schedule_notes);
 
         String title = tv_title_schedule.getText().toString();
         String time = tv_time_picker.getText().toString();
         String location = et_location.getText().toString();
-        String notes = et_notes.getText().toString();
-        if(validate(title,time,location,notes)){
+        if(validate(title,time,location)){
             info.put("title",title);
             info.put("day",Day);
             info.put("time",time);
             info.put("location",location);
-            info.put("notes",notes);
         }else{
             Toast.makeText(this,"Ponga titulo y fecha, campos requeridos", Toast.LENGTH_LONG).show();
         }
         return info;
     }
 
-    private Boolean validate(String title, String time, String location, String notes){
+    private Boolean validate(String title, String time, String location){
         if(title == "" || time == ""){
             return false;
         }else{

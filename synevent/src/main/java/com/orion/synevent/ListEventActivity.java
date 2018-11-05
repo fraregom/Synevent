@@ -6,14 +6,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.orion.synevent.utils.DrawerUtil;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,10 +45,10 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("My Events");
         mToolbar.setTitle("My Events");
-        mToolbar.setTitleMargin(200,2,15,2);
+        mToolbar.setTitleMargin(200, 2, 15, 2);
         mToolbar.setTitleTextColor(Color.WHITE);
 
-        DrawerUtil.getDrawer(this,mToolbar);
+        DrawerUtil.getDrawer(this, mToolbar);
 
         TabHost tabHost = (TabHost) findViewById(R.id.tabhost);
         tabHost.setup();
@@ -51,25 +57,52 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
         tabHost.addTab(getTabSpec2(tabHost));
 
 
-
         lv = findViewById(R.id.mlistactive);
 
-        ArrayList<HashMap<String,String>> list = new ArrayList<>();
+        ArrayList<HashMap<String, String>> list = new ArrayList<>();
 
-        HashMap<String,String> ayu = new HashMap<>();
+        HashMap<String, String> ayu = new HashMap<>();
         ayu.put("text1", "Ayudantía Sistemas Operativos");
         ayu.put("number_of_users_in_event", "78 participantes");
-        ayu.put("end_event","finaliza el 98");
+        ayu.put("end_event", "finaliza el 98");
         list.add(ayu);
+
+
+        HashMap<String, String> ayu2 = new HashMap<>();
+        ayu2.put("text1", "Ayudantía Sistemas Distribuidos");
+        ayu2.put("number_of_users_in_event", "18 participantes");
+        ayu2.put("end_event", "finaliza el 18");
+        list.add(ayu2);
 
         ListAdapter adapter;
 
-        adapter = new SimpleAdapter(this,list,R.layout.item_event_frame,
-                new String[]{"text1","number_of_users_in_event","end_event"},
-                new int[]{R.id.text1,R.id.number_of_users_in_event,R.id.end_event});
+        adapter = new SimpleAdapter(this, list, R.layout.item_event_frame,
+                new String[]{"text1", "number_of_users_in_event", "end_event"},
+                new int[]{R.id.text1, R.id.number_of_users_in_event, R.id.end_event});
 
         lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                    long arg3) {
+                ListView lv = (ListView) arg0;
+                LinearLayout tv = (LinearLayout) lv.getChildAt(arg2);
+                //tv.getChildCount();
+                TextView tv_name_event = (TextView)tv.getChildAt(1);
+                String name_eve = tv_name_event.getText().toString();
+                LinearLayout ll_status= (LinearLayout) tv.getChildAt(2);
+                TextView tv_number_participants = (TextView) ll_status.getChildAt(0);
+                String number_participants = tv_number_participants.getText().toString();
+                TextView tv_finish = (TextView) ll_status.getChildAt(1);
+                String finish = tv_finish.getText().toString();
 
+                Intent myIntent = new Intent(ListEventActivity.this, StatusEventActivity.class);
+                myIntent.putExtra("name_event",name_eve);
+                myIntent.putExtra("number_participants",number_participants);
+                myIntent.putExtra("finish",finish);
+                startActivity(myIntent);
+                finish();
+            } });
     }
 
     private TabHost.TabSpec getTabSpec1(TabHost tabHost) {
