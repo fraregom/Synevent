@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CreateScheduleActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TimePickerDialog.OnTimeSetListener {
 
+    public static final String TAG = CreateScheduleActivity.class.getSimpleName();
     private Spinner spinner;
     private static final String[] paths = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" , "Sunday"};
     private Button mCreateSchedule;
@@ -85,7 +86,6 @@ public class CreateScheduleActivity extends AppCompatActivity implements Adapter
         tv_title_schedule = findViewById(R.id.et_title_new_schedule);
         et_location = findViewById(R.id.schedule_location);
 
-
         String title = tv_title_schedule.getText().toString();
         String time = tv_time_picker.getText().toString();
         String location = et_location.getText().toString();
@@ -97,13 +97,13 @@ public class CreateScheduleActivity extends AppCompatActivity implements Adapter
             info.put("location",location);
 
         }else{
-            Toast.makeText(this,"Ponga titulo y fecha, campos requeridos", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Check your info!", Toast.LENGTH_LONG).show();
         }
         return info;
     }
 
     private Boolean validate(String title, String time, String location){
-        if(title == "" || time == ""){
+        if(title.equals("") || time.equals("")){
             return false;
         }else{
             //comprobar time
@@ -123,9 +123,9 @@ public class CreateScheduleActivity extends AppCompatActivity implements Adapter
 
         if(first_time == false)
         {
-            timepickerdialog.setTitle("Hora Inicio");
+            timepickerdialog.setTitle("Start hour");
         }else {
-            timepickerdialog.setTitle("Hora Fin");
+            timepickerdialog.setTitle("End hour");
         }
         //Handling cancel event
         timepickerdialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -173,7 +173,6 @@ public class CreateScheduleActivity extends AppCompatActivity implements Adapter
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
         String text_old = tv_time_picker.getText().toString();
 
-
         if(!first_time){
             text_old = String.format("%02d:%02d", hourOfDay , minute );
             //text_old = hourOfDay + ":" + minute;
@@ -181,30 +180,36 @@ public class CreateScheduleActivity extends AppCompatActivity implements Adapter
             tv_time_picker.setText(text_old);
             first_time = true;
             showTimePicker();
-            Toast.makeText(CreateScheduleActivity.this,"Hora inicio bien",Toast.LENGTH_LONG).show();
+            Toast.makeText(CreateScheduleActivity.this,"Start hour saved",Toast.LENGTH_LONG).show();
         }else{
             String text = String.format("%02d:%02d", hourOfDay, minute );
             //String text = hourOfDay + ":" + minute;
             text_old += " - "+text;
             tv_time_picker.setText(text_old);
-            Toast.makeText(CreateScheduleActivity.this,"Hora Fin bien",Toast.LENGTH_LONG).show();
+            Toast.makeText(CreateScheduleActivity.this,"End hour saved",Toast.LENGTH_LONG).show();
             first_time = false;
         }
+    }
+
+    public void saveSche(View view){
+        Toast.makeText(this,"Saved!", Toast.LENGTH_LONG).show();
+
+        HashMap<String,String> info = obtainDataSchedule();
+        Log.i(TAG,info.get("title"));
+        Log.i(TAG,info.get("day"));
+        Log.i(TAG,info.get("time"));
+        Log.i(TAG,info.get("location"));
+
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+
+        finish();
     }
 
     public void cancelSche(View view){
 
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
-        finish();
-    }
-
-    public void saveSche(View view){
-        Toast.makeText(this,"Saved!", Toast.LENGTH_LONG).show();
-
-        Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);
-
         finish();
     }
 

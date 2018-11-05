@@ -1,39 +1,51 @@
 package com.orion.synevent;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.orion.synevent.apiservice.NetworkUtil;
+import com.orion.synevent.models.InvitationBody;
+import com.orion.synevent.models.Response;
+import com.orion.synevent.utils.Constants;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
+import retrofit2.adapter.rxjava.HttpException;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 
 public class CreateEventActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,
         com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
 
-    public static final String TAG = MenuActivity.class.getSimpleName();
+    public static final String TAG = CreateEventActivity.class.getSimpleName();
     public Map<Integer, String> mapp_months = new HashMap<Integer, String>();
 
     private TextView txt_date_init;
@@ -45,10 +57,16 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     private EditText et_location_event;
     private CheckBox finished_by_author;
     private CheckBox finished_by_time;
-    private ImageView iv_event;
+
+    private CompositeSubscription mSubscriptions;
+    private SharedPreferences mSharedPreferences;
+    private String mToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        initSharedPreferences();
+        mSubscriptions = new CompositeSubscription();
 
         mapp_months = new HashMap<Integer, String>();
         mapp_months.put(1, "Ene.");
@@ -67,7 +85,6 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.create_event);
-        iv_event = findViewById(R.id.image_event);
         btn_cancel = findViewById(R.id.btn_cancel_event_create);
         btn_save = findViewById(R.id.btn_create_event);
         et_title_event = findViewById(R.id.et_name_task);
@@ -93,6 +110,13 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
 
         btn_save.setOnClickListener(v -> saveEvent(v));
     }
+
+    private void initSharedPreferences() {
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mToken = mSharedPreferences.getString(Constants.TOKEN, "");
+    }
+
 
     private void showDatePicker(){
         Calendar now = Calendar.getInstance();
@@ -196,17 +220,49 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
 
     public void saveEvent(View view){
         Toast.makeText(this,"Saved!", Toast.LENGTH_LONG).show();
-
         // get values of form
         HashMap<String,String> form = obtainDataEvent();
+        InvitationBody invitation = new InvitationBody(form.get("title"), form.get("finished_by"), form.get(""));
+        Log.i(TAG, invitation.getName());
+        Log.i(TAG, invitation.getFinishBy());
+        Log.i(TAG, mToken);
 
-        Log.i(TAG,form.get("title"));
+        mSubscriptions.add(NetworkUtil.getRetrofit(mToken).newInvitation(invitation)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleInvitation,this::handleError));
+    }
 
+    public void handleInvitation(Response response){
+        //InvitationBody body = response.getNewInvitation();
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
 
         finish();
     }
+
+    private void handleError(Throwable error) {
+
+        Log.e(TAG , String.valueOf(error));
+        if (error instanceof HttpException) {
+
+            Gson gson = new GsonBuilder().create();
+
+            try {
+
+                String errorBody = ((HttpException) error).response().errorBody().string();
+                Response response = gson.fromJson(errorBody,Response.class);
+                showToastMessage(response.getMsg());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+
+            showToastMessage("An unknown error has occurred!");
+        }
+    }
+
 
     public HashMap<String,String> obtainDataEvent() {
         HashMap<String,String> info = new HashMap<>();
@@ -236,7 +292,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     }
 
     private Boolean validate(String title, String location){
-        if(title == ""){
+        if(title.equals("")){
             return false;
         }else{
             if(finished_by_author.isChecked() && finished_by_time.isChecked()){
@@ -245,4 +301,15 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
             return true;
         }
     }
+
+    private void showToastMessage(String message) {
+        Toast.makeText(getBaseContext(),message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSubscriptions.unsubscribe();
+    }
+
 }

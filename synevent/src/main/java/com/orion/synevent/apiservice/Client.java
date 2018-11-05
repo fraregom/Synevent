@@ -1,6 +1,7 @@
 package com.orion.synevent.apiservice;
 
 import com.orion.synevent.models.Activities;
+import com.orion.synevent.models.InvitationBody;
 import com.orion.synevent.models.Response;
 import com.orion.synevent.models.Schedule;
 import com.orion.synevent.models.User;
@@ -29,4 +30,7 @@ public interface Client {
 
     @GET ("schedules")
     Observable<List<Schedule>> getSchedule();
+
+    @POST("invitation")
+    Observable<Response> newInvitation(@Body InvitationBody invitation);
 }

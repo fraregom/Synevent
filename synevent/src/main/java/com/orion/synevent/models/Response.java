@@ -4,6 +4,7 @@ public class Response {
     private String token;
     private String msg;
     private User user;
+    private InvitationBody newInvitation;
 
     public String getToken() {
         return token;
@@ -13,5 +14,15 @@ public class Response {
     }
     public User getUser() {
         return user;
+    }
+
+
+
+    public InvitationBody getNewInvitation() {
+        return newInvitation;
+    }
+
+    public void setNewInvitation(InvitationBody newInvitation) {
+        this.newInvitation = newInvitation;
     }
 }
