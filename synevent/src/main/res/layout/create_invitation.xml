@@ -14,7 +14,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="5dp">
 
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/btn_cancel_invitation_create"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -25,15 +25,15 @@
                 android:onClick="cancelEvent"
                 android:background="@android:color/transparent"/>
 
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/btn_create_invitation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                style="@style/Widget.MaterialComponents.Button"
                 android:layout_weight="1"
                 android:layout_marginStart="40dp"
                 android:text="@string/save"
                 android:onClick="saveEvent"
+                android:textColor="@color/white"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:textSize="15sp"/>
 
