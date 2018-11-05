@@ -29,6 +29,7 @@
         <activity android:name=".CreateScheduleActivity"/>
         <activity android:name=".CreateAgendaActivity"/>
         <activity android:name=".ListEventActivity"/>
+        <activity android:name=".StatusEventActivity"/>
     </application>
 
 </manifest>
