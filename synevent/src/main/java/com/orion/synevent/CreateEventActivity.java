@@ -33,7 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class CreateEventActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,
         com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
 
-    public static final String TAG = MenuActivity.class.getSimpleName();
+    public static final String TAG = CreateEventActivity.class.getSimpleName();
     public Map<Integer, String> mapp_months = new HashMap<Integer, String>();
 
     private TextView txt_date_init;

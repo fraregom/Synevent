@@ -56,15 +56,12 @@ public class MenuActivity extends AppCompatActivity implements
         AgendaCalendarView.AgendaCalendarViewListener {
 
     public static final String TAG = MenuActivity.class.getSimpleName();
-
     private Toolbar mToolbar;
     private AgendaCalendarView mAgendaCalendarView;
     private TextView mTvDate;
-
     private SharedPreferences mSharedPreferences;
     private String mToken;
     private String mEmail;
-
     private CompositeSubscription mSubscriptions;
     List<CalendarEvent> eventList = new ArrayList<>();
 
@@ -72,7 +69,6 @@ public class MenuActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         mSubscriptions = new CompositeSubscription();
         initSharedPreferences();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_menu);
 

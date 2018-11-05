@@ -34,49 +34,38 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
 
     private Toolbar mToolbar;
     private ListView lv;
+    private TabHost tabHost;
+    private ArrayList<HashMap<String, String>> list_events;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_events);
-        mToolbar = findViewById(R.id.activity_toolbar_list);
+        setTabhost();
+        initializeVars();
+        setToolbar();
+        setListEvents();
+    }
 
-
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("My Events");
-        mToolbar.setTitle("My Events");
-        mToolbar.setTitleMargin(200, 2, 15, 2);
-        mToolbar.setTitleTextColor(Color.WHITE);
-
-        DrawerUtil.getDrawer(this, mToolbar);
-
-        TabHost tabHost = (TabHost) findViewById(R.id.tabhost);
-        tabHost.setup();
-
-        tabHost.addTab(getTabSpec1(tabHost));
-        tabHost.addTab(getTabSpec2(tabHost));
-
-
-        lv = findViewById(R.id.mlistactive);
-
-        ArrayList<HashMap<String, String>> list = new ArrayList<>();
-
+    private void setListEvents() {
+        list_events = new ArrayList<>();
         HashMap<String, String> ayu = new HashMap<>();
         ayu.put("text1", "Ayudantía Sistemas Operativos");
         ayu.put("number_of_users_in_event", "78 participantes");
         ayu.put("end_event", "finaliza el 98");
-        list.add(ayu);
+        list_events.add(ayu);
 
 
         HashMap<String, String> ayu2 = new HashMap<>();
         ayu2.put("text1", "Ayudantía Sistemas Distribuidos");
         ayu2.put("number_of_users_in_event", "18 participantes");
         ayu2.put("end_event", "finaliza el 18");
-        list.add(ayu2);
+        list_events.add(ayu2);
 
         ListAdapter adapter;
 
-        adapter = new SimpleAdapter(this, list, R.layout.item_event_frame,
+        adapter = new SimpleAdapter(this, list_events, R.layout.item_event_frame,
                 new String[]{"text1", "number_of_users_in_event", "end_event"},
                 new int[]{R.id.text1, R.id.number_of_users_in_event, R.id.end_event});
 
@@ -105,6 +94,18 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
             } });
     }
 
+    private void setTabhost() {
+        tabHost = findViewById(R.id.tabhost);
+        tabHost.setup();
+        tabHost.addTab(getTabSpec1(tabHost));
+        tabHost.addTab(getTabSpec2(tabHost));
+    }
+
+    public void initializeVars() {
+        mToolbar = findViewById(R.id.activity_toolbar_list);
+        lv = findViewById(R.id.mlistactive);
+    }
+
     private TabHost.TabSpec getTabSpec1(TabHost tabHost) {
         return tabHost.newTabSpec("First Tab")
                 .setIndicator("Active")
@@ -127,5 +128,14 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
         }
 
         return LayoutInflater.from(this).inflate(R.layout.actives_events, null);
+    }
+
+    public void setToolbar(){
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("My Events");
+        mToolbar.setTitle("My Events");
+        mToolbar.setTitleMargin(200, 2, 15, 2);
+        mToolbar.setTitleTextColor(Color.WHITE);
+        DrawerUtil.getDrawer(this, mToolbar);
     }
 }
