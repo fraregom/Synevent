@@ -145,6 +145,7 @@
             android:background="@drawable/location"
             android:backgroundTint="@android:color/black" />
         <EditText
+            android:id="@+id/schedule_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -178,6 +179,7 @@
                 android:textSize="20dp"/>
         </LinearLayout>
         <EditText
+            android:id="@+id/schedule_notes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"

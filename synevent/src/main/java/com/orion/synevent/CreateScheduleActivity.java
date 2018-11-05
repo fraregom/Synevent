@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.SimpleTimeZone;
 
@@ -31,6 +33,11 @@ public class CreateScheduleActivity extends AppCompatActivity implements Adapter
     private Button mCancelSchedule;
     private TextView tv_time_picker;
     private Boolean first_time;
+
+    private TextView tv_title_schedule;
+    private String Day;
+    private EditText et_location;
+    private EditText et_notes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +67,7 @@ public class CreateScheduleActivity extends AppCompatActivity implements Adapter
         mCreateSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                HashMap<String,String> info = obtainDataSchedule(); //data perteneciente a crear schedule
                 Intent intent = new Intent(v.getContext(), MenuActivity.class);
                 startActivity(intent);
                 finish();
@@ -68,13 +76,39 @@ public class CreateScheduleActivity extends AppCompatActivity implements Adapter
 
         first_time = false;
         tv_time_picker = findViewById(R.id.tv_time_schedule);
-        tv_time_picker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePicker();
-            }
-        });
+        tv_time_picker.setOnClickListener(v -> showTimePicker());
 
+    }
+
+    public HashMap<String,String> obtainDataSchedule() {
+        HashMap<String,String> info = new HashMap<>();
+        tv_title_schedule = findViewById(R.id.et_title_new_schedule);
+        et_location = findViewById(R.id.schedule_location);
+        et_notes = findViewById(R.id.schedule_notes);
+
+        String title = tv_title_schedule.getText().toString();
+        String time = tv_time_picker.getText().toString();
+        String location = et_location.getText().toString();
+        String notes = et_notes.getText().toString();
+        if(validate(title,time,location,notes)){
+            info.put("title",title);
+            info.put("day",Day);
+            info.put("time",time);
+            info.put("location",location);
+            info.put("notes",notes);
+        }else{
+            Toast.makeText(this,"Ponga titulo y fecha, campos requeridos", Toast.LENGTH_LONG).show();
+        }
+        return info;
+    }
+
+    private Boolean validate(String title, String time, String location, String notes){
+        if(title == "" || time == ""){
+            return false;
+        }else{
+            //comprobar time
+            return true;
+        }
     }
 
     private void showTimePicker() {
@@ -107,15 +141,26 @@ public class CreateScheduleActivity extends AppCompatActivity implements Adapter
 
         switch (position) {
             case 0:
-                // Whatever you want to happen when the first item gets selected
+                Day = "Lun";
                 break;
             case 1:
-                // Whatever you want to happen when the second item gets selected
+                Day = "Mar";
                 break;
             case 2:
-                // Whatever you want to happen when the thrid item gets selected
+                Day = "Mie";
                 break;
-
+            case 3:
+                Day = "Jue";
+                break;
+            case 4:
+                Day = "Vie";
+                break;
+            case 5:
+                Day = "Sab";
+                break;
+            case 6:
+                Day = "Dom";
+                break;
         }
     }
 
