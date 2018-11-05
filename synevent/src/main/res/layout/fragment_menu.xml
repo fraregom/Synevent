@@ -60,14 +60,14 @@
                 fab:fab_labelsPosition="left">
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/new_invitation"
+                    android:id="@+id/new_schedule"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     fab:fab_addButtonColorNormal="@color/colorPrimary"
                     fab:fab_colorNormal="@color/colorAccent"
                     fab:fab_icon="@drawable/clock"
                     fab:fab_size="mini"
-                    fab:fab_title="Invitations"/>
+                    fab:fab_title="Activity"/>
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/new_event"
@@ -76,16 +76,7 @@
                     fab:fab_colorNormal="@color/colorAccent"
                     fab:fab_icon="@drawable/calendar_clock"
                     fab:fab_size="mini"
-                    fab:fab_title="Activities" />
-
-                <!-- <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/make_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    fab:fab_colorNormal="@color/colorAccent"
-                    fab:fab_icon="@drawable/team"
-                    fab:fab_size="mini"
-                    fab:fab_title="Group" /> -->
+                    fab:fab_title="Event" />
 
             </com.getbase.floatingactionbutton.FloatingActionsMenu>
         </com.rilixtech.agendacalendarview.AgendaCalendarView>
