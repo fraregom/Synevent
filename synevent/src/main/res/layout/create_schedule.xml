@@ -5,37 +5,48 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btn_cancel_schedule_create"
+        <ImageView
+            android:layout_marginTop="50dp"
+            android:id="@+id/image_event"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginEnd="40sp"
-            android:text="@string/cancel"
-            android:textColor="@color/colorPrimary"
-            android:onClick="cancelEvent"
-            android:background="@android:color/transparent"/>
+            android:layout_height="200dp"
+            android:src="@drawable/volcano"/>
 
-        <Button
-            android:id="@+id/btn_create_schedule"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="40dp"
-            android:text="@string/save"
-            android:onClick="saveEvent"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:textSize="15sp"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/btn_cancel_schedule_create"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginEnd="40sp"
+                android:text="@string/cancel"
+                android:textColor="@color/colorPrimary"
+                android:onClick="cancelEvent"
+                android:background="@android:color/transparent"/>
 
+            <Button
+                android:id="@+id/btn_create_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="40dp"
+                android:text="@string/save"
+                android:onClick="saveEvent"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+    </RelativeLayout>
     <TextView
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"

@@ -3,6 +3,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -32,6 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class CreateEventActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,
         com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
 
+    public static final String TAG = MenuActivity.class.getSimpleName();
     public Map<Integer, String> mapp_months = new HashMap<Integer, String>();
 
     private TextView txt_date_init;
@@ -195,6 +197,8 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
 
         // get values of form
         HashMap<String,String> form = obtainDataEvent();
+
+        Log.i(TAG,form.get("title"));
 
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
