@@ -142,10 +142,10 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
         }else if(tag == "Third Tab"){
             //LinearLayout ll = (LinearLayout)getLayoutInflater().inflate(R.layout.join_event, null, true);
             View aa = LayoutInflater.from(this).inflate(R.layout.join_event,null);
-            //setContentView(aa);
 
+            //setContentView(aa);
             //getJoinedEvents();
-            return  aa;
+            return aa;
         }else{
             return LayoutInflater.from(this).inflate(R.layout.actives_events, null);
         }
@@ -173,8 +173,8 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
                 new int[]{R.id.text1, R.id.number_of_users_in_event, R.id.end_event});
 
 
-        ListView lv2 = findViewById(R.id.lv_joined_events);
-        lv2.setAdapter(adapter);
+       // ListView lv2 = findViewById(R.id.lv_joined_events);
+        //lv2.setAdapter(adapter);
     }
 
     public void setToolbar(){
