@@ -102,7 +102,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH)
         );
-        datepickerdialog.setThemeDark(true); //set dark them for dialog?
+        datepickerdialog.setThemeDark(false); //set dark them for dialog?
         datepickerdialog.vibrate(true); //vibrate on choosing date?
         datepickerdialog.dismissOnPause(true); //dismiss dialog when onPause() called?
         datepickerdialog.showYearPickerFirst(false); //choose year first?
