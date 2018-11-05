@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.icu.text.TimeZoneFormat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,7 +38,6 @@ public class CreateScheduleActivity extends AppCompatActivity implements Adapter
     private TextView tv_title_schedule;
     private String Day;
     private EditText et_location;
-    private EditText et_notes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,14 +85,17 @@ public class CreateScheduleActivity extends AppCompatActivity implements Adapter
         tv_title_schedule = findViewById(R.id.et_title_new_schedule);
         et_location = findViewById(R.id.schedule_location);
 
+
         String title = tv_title_schedule.getText().toString();
         String time = tv_time_picker.getText().toString();
         String location = et_location.getText().toString();
+
         if(validate(title,time,location)){
             info.put("title",title);
             info.put("day",Day);
             info.put("time",time);
             info.put("location",location);
+
         }else{
             Toast.makeText(this,"Ponga titulo y fecha, campos requeridos", Toast.LENGTH_LONG).show();
         }
@@ -138,25 +141,25 @@ public class CreateScheduleActivity extends AppCompatActivity implements Adapter
 
         switch (position) {
             case 0:
-                Day = "Lun";
+                Day = "Mon";
                 break;
             case 1:
-                Day = "Mar";
+                Day = "Tue";
                 break;
             case 2:
-                Day = "Mie";
+                Day = "Wed";
                 break;
             case 3:
-                Day = "Jue";
+                Day = "Thu";
                 break;
             case 4:
-                Day = "Vie";
+                Day = "Fri";
                 break;
             case 5:
-                Day = "Sab";
+                Day = "Sat";
                 break;
             case 6:
-                Day = "Dom";
+                Day = "Sun";
                 break;
         }
     }
@@ -187,6 +190,22 @@ public class CreateScheduleActivity extends AppCompatActivity implements Adapter
             Toast.makeText(CreateScheduleActivity.this,"Hora Fin bien",Toast.LENGTH_LONG).show();
             first_time = false;
         }
+    }
+
+    public void cancelSche(View view){
+
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void saveSche(View view){
+        Toast.makeText(this,"Saved!", Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+
+        finish();
     }
 
 }

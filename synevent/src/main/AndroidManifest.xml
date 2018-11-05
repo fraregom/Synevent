@@ -27,7 +27,7 @@
         <activity android:name=".MenuActivity" />
         <activity android:name=".CreateEventActivity"/>
         <activity android:name=".CreateScheduleActivity"/>
-        <activity android:name=".CreateInvitationActivity"/>
+        <activity android:name=".CreateAgendaActivity"/>
         <activity android:name=".ListEventActivity"/>
         <activity android:name=".StatusEventActivity"/>
     </application>

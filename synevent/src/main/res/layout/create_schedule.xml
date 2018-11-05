@@ -29,6 +29,7 @@
                 android:layout_weight="1"
                 android:layout_marginRight="40dp"
                 android:text="@string/cancel"
+                android:onClick="cancelSche"
                 android:textColor="@color/colorPrimary"
                 android:background="@android:color/transparent"/>
             <Button
@@ -38,7 +39,7 @@
                 android:layout_weight="1"
                 android:layout_marginStart="40dp"
                 android:text="@string/save"
-                android:onClick="saveEvent"
+                android:onClick="saveSche"
                 android:textColor="@color/white"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:textSize="15sp"/>
@@ -79,6 +80,11 @@
             android:hint="@string/title_event"/>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -146,6 +152,10 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -168,5 +178,8 @@
             android:outlineSpotShadowColor="@color/colorPrimary"
             android:hint="Enter Location [Not required]"/>
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
 </LinearLayout>

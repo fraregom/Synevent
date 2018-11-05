@@ -19,6 +19,7 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialize.color.Material;
+import com.orion.synevent.CreateAgendaActivity;
 import com.orion.synevent.CreateScheduleActivity;
 import com.orion.synevent.ListEventActivity;
 import com.orion.synevent.MenuActivity;
@@ -36,19 +37,19 @@ public class DrawerUtil {
         //if you want to update the items at a later time it is recommended to keep it in a variable
 
         PrimaryDrawerItem drawerItemManageCalendar = new PrimaryDrawerItem().withIdentifier(1)
-                .withName("My Calendar").withIcon(R.drawable.calendar_clock);
+                .withName("Calendar").withIcon(GoogleMaterial.Icon.gmd_event);
         PrimaryDrawerItem drawerItemManageEvents = new PrimaryDrawerItem().withIdentifier(2)
-                .withName("Events").withIcon(R.drawable.ic_event);
+                .withName("Events").withIcon(GoogleMaterial.Icon.gmd_book);
         /*PrimaryDrawerItem drawerItemManageGroups = new PrimaryDrawerItem()
                 .withIdentifier(3).withName("Group").withIcon(R.drawable.ic_group);*/
         PrimaryDrawerItem drawerItemManageSchedule = new PrimaryDrawerItem()
-                .withIdentifier(3).withName("Schedule").withIcon(R.drawable.ic_schedule);
+                .withIdentifier(3).withName("My Agendas").withIcon(GoogleMaterial.Icon.gmd_view_agenda);
 
-
-        SecondaryDrawerItem drawerItemSettings = new SecondaryDrawerItem().withIdentifier(4)
-                .withName("Settings").withIcon(GoogleMaterial.Icon.gmd_settings);
-        SecondaryDrawerItem drawerItemAbout = new SecondaryDrawerItem().withIdentifier(5)
+        SecondaryDrawerItem drawerItemAbout = new SecondaryDrawerItem().withIdentifier(4)
                 .withName("About").withIcon(GoogleMaterial.Icon.gmd_info);
+        SecondaryDrawerItem drawerItemSettings = new SecondaryDrawerItem().withIdentifier(5)
+                .withName("Settings").withIcon(GoogleMaterial.Icon.gmd_settings);
+
 
 
         AccountHeader headerResult = new AccountHeaderBuilder()
@@ -87,8 +88,9 @@ public class DrawerUtil {
                         //drawerItemManageGroups,
                         drawerItemManageSchedule,
                         new DividerDrawerItem(),
-                        drawerItemAbout,
-                        drawerItemSettings
+                        drawerItemSettings,
+                        drawerItemAbout
+
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -100,8 +102,8 @@ public class DrawerUtil {
                                 activity.finish();
                             }
                         }else if ( drawerItem.getIdentifier() == 3 ) {
-                            if (!activity.getLocalClassName().equals("CreateScheduleActivity")) {
-                                Intent intent = new Intent(activity, CreateScheduleActivity.class);
+                            if (!activity.getLocalClassName().equals("CreateAgendaActivity")) {
+                                Intent intent = new Intent(activity, CreateAgendaActivity.class);
                                 view.getContext().startActivity(intent);
                                 activity.finish();
                             }
