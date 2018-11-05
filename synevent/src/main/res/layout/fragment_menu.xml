@@ -25,7 +25,7 @@
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:padding="2dp"
-        android:text="Ddddd"
+        android:text="Calendar"
         android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance.Medium"
         android:textColor="@android:color/white"
@@ -60,14 +60,14 @@
                 fab:fab_labelsPosition="left">
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/new_schedule"
+                    android:id="@+id/new_invitation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     fab:fab_addButtonColorNormal="@color/colorPrimary"
                     fab:fab_colorNormal="@color/colorAccent"
                     fab:fab_icon="@drawable/clock"
                     fab:fab_size="mini"
-                    fab:fab_title="Schedule"/>
+                    fab:fab_title="Invitations"/>
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/new_event"
@@ -76,16 +76,16 @@
                     fab:fab_colorNormal="@color/colorAccent"
                     fab:fab_icon="@drawable/calendar_clock"
                     fab:fab_size="mini"
-                    fab:fab_title="Event" />
+                    fab:fab_title="Activities" />
 
-                <com.getbase.floatingactionbutton.FloatingActionButton
+                <!-- <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/make_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     fab:fab_colorNormal="@color/colorAccent"
                     fab:fab_icon="@drawable/team"
                     fab:fab_size="mini"
-                    fab:fab_title="Group" />
+                    fab:fab_title="Group" /> -->
 
             </com.getbase.floatingactionbutton.FloatingActionsMenu>
         </com.rilixtech.agendacalendarview.AgendaCalendarView>

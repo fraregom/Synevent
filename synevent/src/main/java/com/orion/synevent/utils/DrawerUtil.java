@@ -19,6 +19,7 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialize.color.Material;
+import com.orion.synevent.CreateScheduleActivity;
 import com.orion.synevent.ListEventActivity;
 import com.orion.synevent.MenuActivity;
 import com.orion.synevent.R;
@@ -38,15 +39,15 @@ public class DrawerUtil {
                 .withName("My Calendar").withIcon(R.drawable.calendar_clock);
         PrimaryDrawerItem drawerItemManageEvents = new PrimaryDrawerItem().withIdentifier(2)
                 .withName("Events").withIcon(R.drawable.ic_event);
-        PrimaryDrawerItem drawerItemManageGroups = new PrimaryDrawerItem()
-                .withIdentifier(3).withName("Group").withIcon(R.drawable.ic_group);
+        /*PrimaryDrawerItem drawerItemManageGroups = new PrimaryDrawerItem()
+                .withIdentifier(3).withName("Group").withIcon(R.drawable.ic_group);*/
         PrimaryDrawerItem drawerItemManageSchedule = new PrimaryDrawerItem()
-                .withIdentifier(4).withName("Schedule").withIcon(R.drawable.ic_schedule);
+                .withIdentifier(3).withName("Schedule").withIcon(R.drawable.ic_schedule);
 
 
-        SecondaryDrawerItem drawerItemSettings = new SecondaryDrawerItem().withIdentifier(5)
+        SecondaryDrawerItem drawerItemSettings = new SecondaryDrawerItem().withIdentifier(4)
                 .withName("Settings").withIcon(GoogleMaterial.Icon.gmd_settings);
-        SecondaryDrawerItem drawerItemAbout = new SecondaryDrawerItem().withIdentifier(6)
+        SecondaryDrawerItem drawerItemAbout = new SecondaryDrawerItem().withIdentifier(5)
                 .withName("About").withIcon(GoogleMaterial.Icon.gmd_info);
 
 
@@ -83,7 +84,7 @@ public class DrawerUtil {
                 .addDrawerItems(
                         drawerItemManageCalendar,
                         drawerItemManageEvents,
-                        drawerItemManageGroups,
+                        //drawerItemManageGroups,
                         drawerItemManageSchedule,
                         new DividerDrawerItem(),
                         drawerItemAbout,
@@ -93,10 +94,17 @@ public class DrawerUtil {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if ( drawerItem.getIdentifier() == 2 ) {
-                            // load tournament screen
-                            Intent intent = new Intent(activity, ListEventActivity.class);
-                            view.getContext().startActivity(intent);
-                            activity.finish();
+                            if (!activity.getLocalClassName().equals("ListEventActivity")) {
+                                Intent intent = new Intent(activity, ListEventActivity.class);
+                                view.getContext().startActivity(intent);
+                                activity.finish();
+                            }
+                        }else if ( drawerItem.getIdentifier() == 3 ) {
+                            if (!activity.getLocalClassName().equals("CreateScheduleActivity")) {
+                                Intent intent = new Intent(activity, CreateScheduleActivity.class);
+                                view.getContext().startActivity(intent);
+                                activity.finish();
+                            }
                         }else if(drawerItem.getIdentifier() == 1){
                             if (!activity.getLocalClassName().equals("MenuActivity"))
                             {
