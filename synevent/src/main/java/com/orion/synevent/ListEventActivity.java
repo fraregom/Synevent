@@ -100,29 +100,43 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
             Invitations inv = invitations.get(i);
             UserInvitation user_inv = invitations.get(i).getUserInvitation();
             HashMap<String, String> ayu = new HashMap<>();
+
+            /*mSubscriptions.add(NetworkUtil.getRetrofit(mToken)
+            .getInvitations()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(this::handleParticipants, this::handleError));
+*/
+
             ayu.put("text1", inv.getName());
             ayu.put("number_of_users_in_event", "78 participantes");
 
             SimpleDateFormat dateFormatParse = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.ssss'Z'");
-            String targetDate = inv.getFinishAt().toString();
-            Date dateString;
-            String end_event = "";
-            Calendar calendar;
-            try {
-                dateString = dateFormatParse.parse(targetDate);
-                calendar = new GregorianCalendar();
-                calendar.setTime(dateString);
+            if(inv.getFinishAt() != null)
+            {
+                String targetDate = inv.getFinishAt().toString();
+                Date dateString;
+                String end_event = "";
+                Calendar calendar;
+                try {
+                    dateString = dateFormatParse.parse(targetDate);
+                    calendar = new GregorianCalendar();
+                    calendar.setTime(dateString);
 
-                end_event = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)) + "-" + String.valueOf(calendar.get(Calendar.MONTH)+1 )+ "-"+
+                    end_event = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)) + "-" + String.valueOf(calendar.get(Calendar.MONTH)+1 )+ "-"+
                             String.valueOf(calendar.get(Calendar.YEAR))+
                             " at "+ String.valueOf(calendar.get(Calendar.HOUR_OF_DAY) )+":"+String.valueOf(calendar.get(Calendar.MINUTE));
-            } catch (ParseException e) {
-                end_event = "Your events not founded";
-                e.printStackTrace();
-            }
+                } catch (ParseException e) {
+                    end_event = "Your events not founded";
+                    e.printStackTrace();
+                }
 
-            ayu.put("end_event", end_event);
-            list_events.add(ayu);
+                ayu.put("end_event", end_event);
+                list_events.add(ayu);
+            }else{
+                ayu.put("end_event", "Por Autor");
+                list_events.add(ayu);
+            }
         }
 
         ListAdapter adapter;
@@ -156,6 +170,10 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
                 finish();
             } });
 
+    }
+
+    private void handleParticipants(List<Invitations> invitations) {
+        Invitations invi = invitations.get(0);
     }
 
     private void setTabhost() {
