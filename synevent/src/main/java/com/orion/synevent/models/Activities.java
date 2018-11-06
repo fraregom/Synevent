@@ -14,6 +14,16 @@ public class Activities {
     private String updatedAt;
     private Integer scheduleId;
 
+    public Activities(String name, String place, String day, String blockTag, String beginsAt, String endsAt, String period) {
+        this.name = name;
+        this.place = place;
+        this.day = day;
+        this.blockTag = blockTag;
+        this.beginsAt = beginsAt;
+        this.endsAt = endsAt;
+        this.period = period;
+    }
+
     public Integer getId() {
         return id;
     }

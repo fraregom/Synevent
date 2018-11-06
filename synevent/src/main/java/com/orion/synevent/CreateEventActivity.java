@@ -69,18 +69,18 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         mSubscriptions = new CompositeSubscription();
 
         mapp_months = new HashMap<Integer, String>();
-        mapp_months.put(1, "Ene.");
+        mapp_months.put(1, "Jan.");
         mapp_months.put(2, "Feb.");
         mapp_months.put(3, "Mar.");
-        mapp_months.put(4, "Abr.");
+        mapp_months.put(4, "Apr.");
         mapp_months.put(5, "May.");
         mapp_months.put(6, "Jun.");
         mapp_months.put(7, "Jul.");
-        mapp_months.put(8, "Ago.");
+        mapp_months.put(8, "Aug.");
         mapp_months.put(9, "Sep.");
         mapp_months.put(10, "Oct.");
         mapp_months.put(11, "Nov.");
-        mapp_months.put(12, "Dic.");
+        mapp_months.put(12, "Dec.");
 
         super.onCreate(savedInstanceState);
 
@@ -126,7 +126,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH)
         );
-        datepickerdialog.setThemeDark(true); //set dark them for dialog?
+        datepickerdialog.setThemeDark(false); //set dark them for dialog?
         datepickerdialog.vibrate(true); //vibrate on choosing date?
         datepickerdialog.dismissOnPause(true); //dismiss dialog when onPause() called?
         datepickerdialog.showYearPickerFirst(false); //choose year first?
@@ -223,9 +223,6 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         // get values of form
         HashMap<String,String> form = obtainDataEvent();
         InvitationBody invitation = new InvitationBody(form.get("title"), form.get("finished_by"), form.get(""));
-        Log.i(TAG, invitation.getName());
-        Log.i(TAG, invitation.getFinishBy());
-        Log.i(TAG, mToken);
 
         mSubscriptions.add(NetworkUtil.getRetrofit(mToken).newInvitation(invitation)
                 .observeOn(AndroidSchedulers.mainThread())

@@ -33,4 +33,7 @@ public interface Client {
 
     @POST("invitation")
     Observable<Response> newInvitation(@Body InvitationBody invitation);
+
+    @POST("schedule/{id_schedule}/activity")
+    Observable<Activities> newActivity(@Path("id_schedule") String id_schedule, @Body Activities activity);
 }

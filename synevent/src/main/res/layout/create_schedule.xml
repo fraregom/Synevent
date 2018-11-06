@@ -1,185 +1,237 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/ll_create_schedule"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <LinearLayout
+        android:id="@+id/ll_create_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_marginTop="50dp"
-            android:id="@+id/image_event"
+            <ImageView
+                android:layout_marginTop="50dp"
+                android:id="@+id/image_event"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/hobbies"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+                <Button
+                    android:id="@+id/btn_cancel_schedule_create"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginRight="40dp"
+                    android:text="@string/cancel"
+                    android:textColor="@color/colorPrimary"
+                    android:background="@android:color/transparent"/>
+                <Button
+                    android:id="@+id/btn_create_schedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="40dp"
+                    android:text="@string/save"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+       </RelativeLayout>
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@drawable/hobbies"/>
+            android:layout_height="wrap_content"
+            android:text="@string/new_activity"
+            android:textSize="23dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_weight="9"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:background="@drawable/text_input"
+                android:backgroundTint="@color/colorPrimaryDark" />
+            <EditText
+                android:id="@+id/et_title_new_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:shadowColor="@color/colorPrimary"
+                android:hint="@string/title_event"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp">
-            <Button
-                android:id="@+id/btn_cancel_schedule_create"
+            android:layout_marginTop="20dp">
+
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginRight="40dp"
-                android:text="@string/cancel"
-                android:onClick="cancelSche"
-                android:textColor="@color/colorPrimary"
-                android:background="@android:color/transparent"/>
-            <Button
-                android:id="@+id/btn_create_schedule"
+                android:layout_height="30dp"
+                android:layout_weight="6"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/clock"
+                android:backgroundTint="@color/colorPrimaryDark" />
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginStart="40dp"
-                android:text="@string/save"
-                android:onClick="saveSche"
-                android:textColor="@color/white"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:textSize="15sp"/>
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/startevent"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="20dp"/>
+                    <TextView
+                        android:id="@+id/txt_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textAlignment="textEnd"
+                        android:layout_marginRight="15dp"
+                        android:text="Fri., 18 oct. 08:00"
+                        android:textSize="20dp">
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/endevent"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="20dp"/>
+                    <TextView
+                        android:id="@+id/txt_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginRight="15dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textAlignment="textEnd"
+                        android:text="Fri., 18 oct. 09:00"
+                        android:textSize="20dp"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-   </RelativeLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/new_activity"
-        android:textSize="23dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimaryDark"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageView
+        <View
+            android:layout_marginTop="5sp"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_weight="9"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center"
-            android:background="@drawable/text_input"
-            android:backgroundTint="@color/colorPrimaryDark" />
-        <EditText
-            android:id="@+id/et_title_new_schedule"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:shadowColor="@color/colorPrimary"
-            android:hint="@string/title_event"/>
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_weight="6"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/clock"
-            android:backgroundTint="@color/colorPrimaryDark" />
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_weight="6"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/location"
+                android:backgroundTint="@color/colorPrimaryDark" />
+            <EditText
+                android:id="@+id/schedule_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:outlineSpotShadowColor="@color/colorPrimary"
+                android:hint="Enter Location [Not required]"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_weight="6"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/ic_repeat"
+                 />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:layout_marginLeft="10dp"
-                    android:text="Day"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20dp"/>
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="match_parent"
-                    android:layout_weight="2"
-                    android:layout_height="match_parent"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:layout_marginStart="10dp"
-                    android:text="Time"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20dp"/>
-                <TextView
-                    android:id="@+id/tv_time_schedule"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginRight="15dp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textAlignment="textEnd"
-                    android:text="Start - End"
-                    android:textSize="20dp"
-                    />
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:layout_marginLeft="10dp"
+                        android:text="Repeat?"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="20dp"/>
+                    <Spinner
+                        android:id="@+id/spinner"
+                        android:layout_width="match_parent"
+                        android:layout_weight="2"
+                        android:layout_height="match_parent"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_weight="6"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/location"
-            android:backgroundTint="@color/colorPrimaryDark" />
-        <EditText
-            android:id="@+id/schedule_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="5dp"
-            android:outlineSpotShadowColor="@color/colorPrimary"
-            android:hint="Enter Location [Not required]"/>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
-</LinearLayout>
+</ScrollView>
