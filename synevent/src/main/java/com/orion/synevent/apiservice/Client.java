@@ -6,6 +6,7 @@ import com.orion.synevent.models.Invitations;
 import com.orion.synevent.models.Response;
 import com.orion.synevent.models.Schedule;
 import com.orion.synevent.models.User;
+import com.orion.synevent.models.UserInvitation;
 
 import java.util.List;
 
@@ -40,4 +41,8 @@ public interface Client {
 
     @GET ("invitations")
     Observable<List<Invitations>> invitations();
+
+    /*
+    @GET ("InvitationPartipants")
+    Observable<List<Invitations>> invitation();*/
 }
