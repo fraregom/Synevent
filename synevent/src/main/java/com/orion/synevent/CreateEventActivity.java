@@ -25,11 +25,9 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -48,9 +46,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     public static final String TAG = CreateEventActivity.class.getSimpleName();
     public Map<Integer, String> mapp_months = new HashMap<Integer, String>();
 
-    private TextView txt_date_init;
-    private TextView txt_date_fin;
-    private Boolean pressed_btn_first = false;
+    private TextView txt_date_finish;
     private Button btn_save;
     private Button btn_cancel;
     private EditText et_title_event;
@@ -61,6 +57,8 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     private CompositeSubscription mSubscriptions;
     private SharedPreferences mSharedPreferences;
     private String mToken;
+    private String dateFormatted = null;
+    String time = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,19 +90,11 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         finished_by_author = findViewById(R.id.cb_by_author);
         finished_by_time = findViewById(R.id.cb_by_time);
 
-        txt_date_init = findViewById(R.id.txt_date);
-        txt_date_init.setOnClickListener(v -> {
-            setPressed_btn_first(true);
+        txt_date_finish = findViewById(R.id.txt_date);
+        txt_date_finish.setOnClickListener(v -> {
             showDatePicker();
         });
 
-        txt_date_fin = (TextView) findViewById(R.id.txt_time);
-        txt_date_fin.setOnClickListener(
-                v -> {
-                    setPressed_btn_first(false);
-                    showDatePicker();
-
-                });
         btn_cancel.setOnClickListener(v -> cancelEvent(v));
 
 
@@ -135,27 +125,18 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         datepickerdialog.show(getFragmentManager(), "Datepickerdialog"); //show dialog
     }
 
-    public void setPressed_btn_first(Boolean flag)
-    {
-        this.pressed_btn_first = flag;
-    }
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
         String hourString = hourOfDay < 10 ? "0" + hourOfDay : "" + hourOfDay;
         String minuteString = minute < 10 ? "0" + minute : "" + minute;
-        String time =  hourString + ":" + minuteString;
-        if (pressed_btn_first)
-        {
-            String old = txt_date_init.getText().toString();
-            String mAlertDateTime = old + " " + time;
-            txt_date_init.setText(mAlertDateTime);
-            //pressed_btn_first = false;
-        }else{
-            String old = txt_date_fin.getText().toString();
-            String mAlertDateTime = old + " " + time;
-            txt_date_fin.setText(mAlertDateTime);
-        }
+        time =  hourString + ":" + minuteString;
+
+        String old = txt_date_finish.getText().toString();
+        String mAlertDateTime = old + " " + time;
+        txt_date_finish.setText(mAlertDateTime);
+
+
 
     }
 
@@ -167,12 +148,13 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         // obtain name month
         String month= mapp_months.get(++monthOfYear);
         String dateExact =  dayOfTheWeek+" "+(dayOfMonth) + " " + (month);
-        if (pressed_btn_first)
-        {
-            txt_date_init.setText(dateExact);
-        }else {
-            txt_date_fin.setText(dateExact);
-        }
+
+        String monthFix = monthOfYear < 10 ? "0" + monthOfYear : "" + monthOfYear;
+        String dayFix = dayOfMonth < 10 ? "0" + dayOfMonth : "" + dayOfMonth;
+
+        dateFormatted = String.valueOf(year) + "-" + monthFix +"-"+ dayFix + " " + time + ":00";
+
+        txt_date_finish.setText(dateExact);
 
         TimePickerDialog timepickerdialog = TimePickerDialog.newInstance(CreateEventActivity.this,
                 now2.get(Calendar.HOUR_OF_DAY), now2.get(Calendar.MINUTE), true);
@@ -222,7 +204,8 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         Toast.makeText(this,"Saved!", Toast.LENGTH_LONG).show();
         // get values of form
         HashMap<String,String> form = obtainDataEvent();
-        InvitationBody invitation = new InvitationBody(form.get("title"), form.get("finished_by"), form.get(""));
+
+        InvitationBody invitation = new InvitationBody(form.get("title"), form.get("finished_by"), dateFormatted);
 
         mSubscriptions.add(NetworkUtil.getRetrofit(mToken).newInvitation(invitation)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -266,14 +249,11 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
 
         String title = et_title_event.getText().toString();
         String location = et_location_event.getText().toString();
-        String date_init = txt_date_init.getText().toString();
-        String date_fin = txt_date_fin.getText().toString();
+        String date_finish = txt_date_finish.getText().toString();
 
         if(validate(title,location)){
             info.put("title",title);
             info.put("location", location);
-            info.put("init",date_init);
-            info.put("fin",date_fin);
 
             if(finished_by_time.isChecked()){
                 info.put("finished_by","time");
