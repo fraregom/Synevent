@@ -1,9 +1,12 @@
 package com.orion.synevent;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.nfc.Tag;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,26 +24,52 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.orion.synevent.apiservice.NetworkUtil;
+import com.orion.synevent.models.Invitations;
+import com.orion.synevent.models.Response;
+import com.orion.synevent.models.UserInvitation;
+import com.orion.synevent.utils.Constants;
 import com.orion.synevent.utils.DrawerUtil;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import retrofit2.adapter.rxjava.HttpException;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class ListEventActivity extends AppCompatActivity implements TabHost.TabContentFactory{
 
+    public static final String TAG = ListEventActivity.class.getSimpleName();
     private Toolbar mToolbar;
     private ListView lv;
     private TabHost tabHost;
     private ArrayList<HashMap<String, String>> list_events;
+    private String mToken;
+    private CompositeSubscription mSubscriptions;
 
 
     @Override
@@ -54,25 +83,54 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
     }
 
     private void setListEvents() {
+
+        mSubscriptions.add(NetworkUtil.getRetrofit(mToken)
+                .invitations()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleList, this::handleError));
+
+    }
+
+    private void handleList(List<Invitations> invitations) {
+        int number_invitations = invitations.size();
         list_events = new ArrayList<>();
-        HashMap<String, String> ayu = new HashMap<>();
-        ayu.put("text1", "Ayudantía Sistemas Operativos");
-        ayu.put("number_of_users_in_event", "78 participantes");
-        ayu.put("end_event", "finaliza el 98");
-        list_events.add(ayu);
 
+        for(int i = 0; i<number_invitations;i++){
+            Invitations inv = invitations.get(i);
+            UserInvitation user_inv = invitations.get(i).getUserInvitation();
+            HashMap<String, String> ayu = new HashMap<>();
+            ayu.put("text1", inv.getName());
+            ayu.put("number_of_users_in_event", "78 participantes");
 
-        HashMap<String, String> ayu2 = new HashMap<>();
-        ayu2.put("text1", "Ayudantía Sistemas Distribuidos");
-        ayu2.put("number_of_users_in_event", "18 participantes");
-        ayu2.put("end_event", "finaliza el 18");
-        list_events.add(ayu2);
+            SimpleDateFormat dateFormatParse = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.ssss'Z'");
+            String targetDate = inv.getFinishAt().toString();
+            Date dateString;
+            String end_event = "";
+            Calendar calendar;
+            try {
+                dateString = dateFormatParse.parse(targetDate);
+                calendar = new GregorianCalendar();
+                calendar.setTime(dateString);
+
+                end_event = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)) + "-" + String.valueOf(calendar.get(Calendar.MONTH)+1 )+ "-"+
+                            String.valueOf(calendar.get(Calendar.YEAR))+
+                            " at "+ String.valueOf(calendar.get(Calendar.HOUR_OF_DAY) )+":"+String.valueOf(calendar.get(Calendar.MINUTE));
+            } catch (ParseException e) {
+                end_event = "Your events not founded";
+                e.printStackTrace();
+            }
+
+            ayu.put("end_event", end_event);
+            list_events.add(ayu);
+        }
 
         ListAdapter adapter;
 
         adapter = new SimpleAdapter(this, list_events, R.layout.item_event_frame,
                 new String[]{"text1", "number_of_users_in_event", "end_event"},
                 new int[]{R.id.text1, R.id.number_of_users_in_event, R.id.end_event});
+
 
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,6 +155,7 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
                 startActivity(myIntent);
                 finish();
             } });
+
     }
 
     private void setTabhost() {
@@ -110,6 +169,10 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
     public void initializeVars() {
         mToolbar = findViewById(R.id.activity_toolbar_list);
         lv = findViewById(R.id.mlistactive);
+        mSubscriptions = new CompositeSubscription();
+        SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mToken = mSharedPreferences.getString(Constants.TOKEN,"");
+
     }
 
     private TabHost.TabSpec getTabSpec1(TabHost tabHost) {
@@ -151,31 +214,6 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
         }
     }
 
-    private void getJoinedEvents() {
-        ArrayList<HashMap<String,String>> list_events_joined = new ArrayList<>();
-        HashMap<String, String> ayu = new HashMap<>();
-        ayu.put("text1", "Ayudantía Sistemas Operativos");
-        ayu.put("number_of_users_in_event", "78 participantes");
-        ayu.put("end_event", "finaliza el 98");
-        list_events_joined.add(ayu);
-
-
-        HashMap<String, String> ayu2 = new HashMap<>();
-        ayu2.put("text1", "Ayudantía Sistemas Distribuidos");
-        ayu2.put("number_of_users_in_event", "18 participantes");
-        ayu2.put("end_event", "finaliza el 18");
-        list_events.add(ayu2);
-
-        ListAdapter adapter;
-
-        adapter = new SimpleAdapter(this, list_events, R.layout.item_event_frame,
-                new String[]{"text1", "number_of_users_in_event", "end_event"},
-                new int[]{R.id.text1, R.id.number_of_users_in_event, R.id.end_event});
-
-
-       // ListView lv2 = findViewById(R.id.lv_joined_events);
-        //lv2.setAdapter(adapter);
-    }
 
     public void setToolbar(){
         setSupportActionBar(mToolbar);
@@ -190,5 +228,31 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
         // connect to server to suscribe to event
         EditText et_code = findViewById(R.id.code_join_event);
         Toast.makeText(this,et_code.getText().toString(), Toast.LENGTH_LONG).show();
+    }
+
+    private void handleError(Throwable error) {
+
+        Log.e(TAG , String.valueOf(error));
+        if (error instanceof HttpException) {
+
+            Gson gson = new GsonBuilder().create();
+
+            try {
+
+                String errorBody = ((HttpException) error).response().errorBody().string();
+                Response response = gson.fromJson(errorBody,Response.class);
+                showToastMessage(response.getMsg());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+
+            showToastMessage("An unknown error has occurred!");
+        }
+    }
+
+    private void showToastMessage(String message) {
+        Toast.makeText(getBaseContext(),message, Toast.LENGTH_LONG).show();
     }
 }

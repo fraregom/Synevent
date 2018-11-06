@@ -1,6 +1,6 @@
 package com.orion.synevent.models;
 
-public class Activities {
+public class    Activities {
 
     private Integer id;
     private String day;
