@@ -68,8 +68,9 @@ public class CreateScheduleActivity extends AppCompatActivity implements DatePic
     private String dateEnd = null;
     private String dayStart = null;
     private String repeat = null;
-    private String timeStart = null;
-    private String timeEnd = null;
+    private String monthFix = null;
+    private String dayFix = null;
+    private String YearFix = null;
 
     private SharedPreferences mSharedPreferences;
     private CompositeSubscription mSubscriptions;
@@ -196,13 +197,13 @@ public class CreateScheduleActivity extends AppCompatActivity implements DatePic
             String old = txt_date_init.getText().toString();
             String mAlertDateTime = old + " " + time;
             txt_date_init.setText(mAlertDateTime);
-            timeStart = time + ":00";
+            dateStart = YearFix + "-" + monthFix +"-"+ dayFix + " " + time + ":00";
             //pressed_btn_first = false;
         }else{
             String old = txt_date_fin.getText().toString();
             String mAlertDateTime = old + " " + time;
             txt_date_fin.setText(mAlertDateTime);
-            timeEnd = time + ":00";
+            dateEnd = YearFix + "-" + monthFix +"-"+ dayFix + " " + time + ":00";
         }
 
     }
@@ -216,16 +217,15 @@ public class CreateScheduleActivity extends AppCompatActivity implements DatePic
         String month= mapp_months.get(++monthOfYear);
         String dateExact =  dayOfTheWeek+" "+(dayOfMonth) + " " + (month);
 
-        String monthFix = monthOfYear < 10 ? "0" + monthOfYear : "" + monthOfYear;
-        String dayFix = dayOfMonth < 10 ? "0" + dayOfMonth : "" + dayOfMonth;
+        monthFix = monthOfYear < 10 ? "0" + monthOfYear : "" + monthOfYear;
+        dayFix = dayOfMonth < 10 ? "0" + dayOfMonth : "" + dayOfMonth;
+        YearFix = String.valueOf(year);
 
         if (pressed_btn_first)
         {
-            dateStart = String.valueOf(year) + "-" + monthFix +"-"+ dayFix + " " + timeStart + ":00";
             dayStart = mapp_week.get(dayOfTheWeek);
             txt_date_init.setText(dateExact);
         }else {
-            dateEnd = String.valueOf(year) + "-" + monthFix +"-"+ dayFix + " " + timeEnd + ":00";
             txt_date_fin.setText(dateExact);
         }
 

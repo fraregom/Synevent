@@ -59,6 +59,9 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     private String mToken;
     private String dateFormatted = null;
     String time = null;
+    String monthFix = null;
+    String dayFix = null;
+    String yearFix = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,8 +139,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         String mAlertDateTime = old + " " + time;
         txt_date_finish.setText(mAlertDateTime);
 
-
-
+        dateFormatted = String.valueOf(yearFix) + "-" + monthFix +"-"+ dayFix + " " + time + ":00";
     }
 
     @Override
@@ -149,10 +151,9 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         String month= mapp_months.get(++monthOfYear);
         String dateExact =  dayOfTheWeek+" "+(dayOfMonth) + " " + (month);
 
-        String monthFix = monthOfYear < 10 ? "0" + monthOfYear : "" + monthOfYear;
-        String dayFix = dayOfMonth < 10 ? "0" + dayOfMonth : "" + dayOfMonth;
-
-        dateFormatted = String.valueOf(year) + "-" + monthFix +"-"+ dayFix + " " + time + ":00";
+        monthFix = monthOfYear < 10 ? "0" + monthOfYear : "" + monthOfYear;
+        dayFix = dayOfMonth < 10 ? "0" + dayOfMonth : "" + dayOfMonth;
+        yearFix = String.valueOf(year);
 
         txt_date_finish.setText(dateExact);
 
@@ -204,7 +205,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         Toast.makeText(this,"Saved!", Toast.LENGTH_LONG).show();
         // get values of form
         HashMap<String,String> form = obtainDataEvent();
-
+        Log.i(TAG, dateFormatted);
         InvitationBody invitation = new InvitationBody(form.get("title"), form.get("finished_by"), dateFormatted);
 
         mSubscriptions.add(NetworkUtil.getRetrofit(mToken).newInvitation(invitation)
