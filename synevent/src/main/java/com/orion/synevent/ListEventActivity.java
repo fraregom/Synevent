@@ -3,18 +3,12 @@ package com.orion.synevent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.nfc.Tag;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -33,30 +27,20 @@ import com.orion.synevent.models.UserInvitation;
 import com.orion.synevent.utils.Constants;
 import com.orion.synevent.utils.DrawerUtil;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
 
-import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import retrofit2.adapter.rxjava.HttpException;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -67,14 +51,17 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
     private Toolbar mToolbar;
     private ListView lv;
     private TabHost tabHost;
-    private ArrayList<HashMap<String, String>> list_events;
+    private static ArrayList<HashMap<String, String>> list_events;
     private String mToken;
     private CompositeSubscription mSubscriptions;
+    private String number_participants;
+    private SimpleAdapter adapter;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        number_participants = "";
         setContentView(R.layout.my_events);
         setTabhost();
         initializeVars();
@@ -94,22 +81,20 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
 
     private void handleList(List<Invitations> invitations) {
         int number_invitations = invitations.size();
-        list_events = new ArrayList<>();
 
         for(int i = 0; i<number_invitations;i++){
             Invitations inv = invitations.get(i);
             UserInvitation user_inv = invitations.get(i).getUserInvitation();
+
+            getInvitationParticipants(user_inv);
+            android.os.SystemClock.sleep(1000);
+
             HashMap<String, String> ayu = new HashMap<>();
 
-            /*mSubscriptions.add(NetworkUtil.getRetrofit(mToken)
-            .getInvitations()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe(this::handleParticipants, this::handleError));
-*/
-
             ayu.put("text1", inv.getName());
-            ayu.put("number_of_users_in_event", "78 participantes");
+            ayu.put("number_of_users_in_event", number_participants+" participantes");
+
+            Log.d(TAG, "onNewIntent: "+inv.getName());
 
             SimpleDateFormat dateFormatParse = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.ssss'Z'");
             if(inv.getFinishAt() != null)
@@ -139,12 +124,9 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
             }
         }
 
-        ListAdapter adapter;
-
         adapter = new SimpleAdapter(this, list_events, R.layout.item_event_frame,
                 new String[]{"text1", "number_of_users_in_event", "end_event"},
                 new int[]{R.id.text1, R.id.number_of_users_in_event, R.id.end_event});
-
 
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -153,12 +135,16 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
                                     long arg3) {
                 ListView lv = (ListView) arg0;
                 LinearLayout tv = (LinearLayout) lv.getChildAt(arg2);
+                if(tv == null){
+                    arg2 = arg2-1;
+                    tv= (LinearLayout) lv.getChildAt(arg2);
+                }
                 //tv.getChildCount();
                 TextView tv_name_event = (TextView)tv.getChildAt(1);
                 String name_eve = tv_name_event.getText().toString();
                 LinearLayout ll_status= (LinearLayout) tv.getChildAt(2);
                 TextView tv_number_participants = (TextView) ll_status.getChildAt(0);
-                String number_participants = tv_number_participants.getText().toString();
+                number_participants = tv_number_participants.getText().toString();
                 TextView tv_finish = (TextView) ll_status.getChildAt(1);
                 String finish = tv_finish.getText().toString();
 
@@ -172,8 +158,18 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
 
     }
 
+    private void getInvitationParticipants(UserInvitation user_inv) {
+        mSubscriptions.add(NetworkUtil.getRetrofit(mToken)
+                .InvitationParticipants(user_inv.getInvitationId().toString())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleParticipants, this::handleError));
+    }
+
     private void handleParticipants(List<Invitations> invitations) {
-        Invitations invi = invitations.get(0);
+        this.number_participants = String.valueOf(invitations.size());
+
+        Log.d(TAG, "onNewIntent: largeeeeeeeeee"+invitations.size());
     }
 
     private void setTabhost() {
@@ -190,6 +186,7 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
         mSubscriptions = new CompositeSubscription();
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mToken = mSharedPreferences.getString(Constants.TOKEN,"");
+        list_events = new ArrayList<>();
 
     }
 
