@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 
 import androidx.appcompat.widget.Toolbar;
@@ -18,7 +19,7 @@ import android.widget.TextView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.PopupMenu;
+import androidx.appcompat.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -30,6 +31,7 @@ import com.rilixtech.agendacalendarview.AgendaCalendarView;
 import com.rilixtech.agendacalendarview.models.BaseCalendarEvent;
 import com.rilixtech.agendacalendarview.models.CalendarEvent;
 import com.rilixtech.agendacalendarview.models.IDayItem;
+
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -57,8 +59,8 @@ public class MenuActivity extends AppCompatActivity implements
 
     public static final String TAG = MenuActivity.class.getSimpleName();
     private Toolbar mToolbar;
-    private AgendaCalendarView mAgendaCalendarView;
     private TextView mTvDate;
+    private AgendaCalendarView mAgendaCalendarView;
     private SharedPreferences mSharedPreferences;
     private String mToken;
     private String mEmail;
@@ -152,14 +154,22 @@ public class MenuActivity extends AppCompatActivity implements
 
     private void showPopUpMenu(View view, final CalendarEvent event) {
         PopupMenu popupMenu = new PopupMenu(this, view);
-        popupMenu.getMenuInflater().inflate(R.menu.menu_calendar, popupMenu.getMenu());
+        popupMenu.inflate(R.menu.menu_calendar);
+        popupMenu.setGravity(Gravity.END);
 
-        popupMenu.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_delete) {
-                int position = mAgendaCalendarView.deleteEvent(event);
-                Toast.makeText(MenuActivity.this, "position = " + position, Toast.LENGTH_SHORT).show();
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.action_delete) {
+                    int position = mAgendaCalendarView.deleteEvent(event);
+                    Toast.makeText(MenuActivity.this, "position = " + position, Toast.LENGTH_SHORT).show();
+                } else if(item.getItemId() == R.id.action_update) {
+                    // change title of event
+                    event.title("New title now");
+                    mAgendaCalendarView.updateEvent(event);
+
+                }
+                return true;
             }
-            return true;
         });
         popupMenu.show();
     }
@@ -169,7 +179,7 @@ public class MenuActivity extends AppCompatActivity implements
         Toast.makeText(this, "dayItem = " + dayItem, Toast.LENGTH_SHORT).show();
     }
 
-    @Override public void onEventClicked(CalendarEvent event) {
+    @Override public void onEventClicked(View view, CalendarEvent event) {
         Log.d(TAG, String.format("Selected event: %s", event));
     }
 
@@ -182,8 +192,8 @@ public class MenuActivity extends AppCompatActivity implements
         //}
     }
 
-    @Override public void onEventLongClicked(CalendarEvent event) {
-        //showPopUpMenu(mAgendaCalendarView, event);
+    @Override public void onEventLongClicked(View view, CalendarEvent event) {
+        showPopUpMenu(view, event);
     }
 
     private void mockList(List<CalendarEvent> eventList) {
@@ -192,11 +202,11 @@ public class MenuActivity extends AppCompatActivity implements
         startTime1.add(Calendar.MONTH, -2);
         endTime1.add(Calendar.MONTH, 2);
         BaseCalendarEvent event = BaseCalendarEvent.prepareWith()
-                .title("Synevent works!")
-                .description("description")
-                .location("USM")
+                .title("")
+                .description("")
+                .location("")
                 .id(0)
-                .color(ContextCompat.getColor(this, R.color.yellow))
+                .color(ContextCompat.getColor(this, R.color.transparent))
                 .startTime(startTime1)
                 .endTime(endTime1)
                 //.drawableId(R.drawable.ic_launcher)
@@ -267,18 +277,19 @@ public class MenuActivity extends AppCompatActivity implements
             final Calendar c = Calendar.getInstance();
             try {
                 c.setTime(format.parse(body.get(i).getBeginsAt()));
-                startTime1.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY));
-                startTime1.set(Calendar.MINUTE, c.get(Calendar.MINUTE));
+                //startTime1.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY));
+                //startTime1.set(Calendar.MINUTE, c.get(Calendar.MINUTE));
                 startTime1.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH));
-                startTime1.set(Calendar.MONTH, c.get(Calendar.MONTH));
-                startTime1.set(Calendar.YEAR, c.get(Calendar.YEAR));
+                startTime1.set(Calendar.MONTH, c.get(Calendar.MONTH) - 1);
+                //startTime1.set(Calendar.YEAR, c.get(Calendar.YEAR));
 
                 c.setTime(format.parse(body.get(i).getEndsAt()));
-                endTime1.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY));
-                endTime1.set(Calendar.MINUTE, c.get(Calendar.MINUTE));
+                //endTime1.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY));
+                //endTime1.set(Calendar.MINUTE, c.get(Calendar.MINUTE));
+                //Log.i(TAG, String.valueOf(c.get(Calendar.MONTH)));
                 endTime1.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH));
-                endTime1.set(Calendar.MONTH, c.get(Calendar.MONTH));
-                endTime1.set(Calendar.YEAR, c.get(Calendar.YEAR));
+                endTime1.set(Calendar.MONTH, c.get(Calendar.MONTH) - 1);
+                //endTime1.set(Calendar.YEAR, c.get(Calendar.YEAR));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -287,7 +298,7 @@ public class MenuActivity extends AppCompatActivity implements
                     .description("")
                     .location(body.get(i).getPlace())
                     .id(body.get(i).getId())
-                    .color(ContextCompat.getColor(this, R.color.theme_event_confirmed))
+                    .color(ContextCompat.getColor(this, R.color.orange))
                     .startTime(startTime1)
                     .endTime(endTime1)
                     .allDay(false);

@@ -81,10 +81,6 @@ public class CalendarView extends LinearLayout implements WeekRecyclerView.Calen
     return mWeekRecyclerView;
   }
 
-  //public WeeksAdapter getWeeksAdapter() {
-  //  return mWeeksAdapter;
-  //}
-
   public void addWeeksDayClickListener(WeeksDayClickListener listener) {
     mWeeksAdapter.addWeeksAdapterListener(listener);
   }
@@ -182,9 +178,9 @@ public class CalendarView extends LinearLayout implements WeekRecyclerView.Calen
       Log.d(LOG_TAG, "Setting adapter with today's calendar: " + today.toString());
       WeeksDayClickListener listener = new WeeksDayClickListener() {
         @Override public void onDayItemClick(IDayItem iDayItem) {
-          Calendar mCalendar = Calendar.getInstance();
-          mCalendar.setTime(iDayItem.getDate());
-          updateSelectedDay(mCalendar, iDayItem);
+          Calendar cal = Calendar.getInstance();
+          cal.setTime(iDayItem.getDate());
+          updateSelectedDay(cal, iDayItem);
         }
       };
       mWeeksAdapter = new WeeksAdapter(today, dayTextColor, currentDayTextColor, pastDayTextColor, listener);

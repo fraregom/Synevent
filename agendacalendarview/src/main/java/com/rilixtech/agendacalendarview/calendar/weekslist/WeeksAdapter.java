@@ -28,8 +28,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHolder> {
 
   private static final String TAG = WeeksAdapter.class.getSimpleName();
@@ -48,15 +46,14 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
   private float densityMetric;
   private List<WeeksDayClickListener> mListeners = new ArrayList<>();
 
-  private WeeksAdapter() {
-  }
+  private WeeksAdapter() {}
 
   public WeeksAdapter(Calendar today, int dayTextColor, int currentDayTextColor,
       int pastDayTextColor, WeeksDayClickListener listener) {
-    this.mCalendarToday = today;
-    this.mDayTextColor = dayTextColor;
-    this.mCurrentDayColor = currentDayTextColor;
-    this.mPastDayTextColor = pastDayTextColor;
+    mCalendarToday = today;
+    mDayTextColor = dayTextColor;
+    mCurrentDayColor = currentDayTextColor;
+    mPastDayTextColor = pastDayTextColor;
     mWeeksList = new ArrayList<>();
     densityMetric = Resources.getSystem().getDisplayMetrics().density;
     configureByCalendarManager();
@@ -75,8 +72,8 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
   }
 
   public void updateWeeksItems(List<IWeekItem> weekItems) {
-    this.mWeeksList.clear();
-    this.mWeeksList.addAll(weekItems);
+    mWeeksList.clear();
+    mWeeksList.addAll(weekItems);
     notifyDataSetChanged();
   }
 
@@ -89,10 +86,11 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
   }
 
   public void setDragging(boolean dragging) {
-    if (dragging != mDragging) {
-      mDragging = dragging;
-      notifyItemRangeChanged(0, mWeeksList.size());
-    }
+    if (dragging == mDragging) return;
+
+    mDragging = dragging;
+    notifyItemRangeChanged(0, mWeeksList.size());
+
   }
 
   public boolean isAlphaSet() {
@@ -122,8 +120,6 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
   class WeekViewHolder extends RecyclerView.ViewHolder {
     private List<RelativeLayout> mCells;
     private TextView mTvMonth;
-    //private FrameLayout mMonthBackground;
-
     private TextView tvWeekMonth;
     private View vWeekCircleView;
     private TextView tvWeekDay;
@@ -132,7 +128,6 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
     WeekViewHolder(View itemView) {
       super(itemView);
       mTvMonth = itemView.findViewById(R.id.month_label);
-      //mMonthBackground = itemView.findViewById(R.id.month_background);
       LinearLayout daysContainer = itemView.findViewById(R.id.week_days_container);
       mCells = new ArrayList<>();
       for (int i = 0; i < daysContainer.getChildCount(); i++) {
@@ -169,7 +164,6 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
       Log.d(TAG, "bindWeek called");
       setUpMonthOverlay(mTvMonth);
       List<IDayItem> dayItems = weekItem.getDayItems();
-      Log.d(TAG, "dayItems = " + dayItems.size());
 
       for (int i = 0; i < dayItems.size(); i++) {
         final IDayItem dayItem = dayItems.get(i);
@@ -304,11 +298,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
         animatorSetFadeOut.start();
       }
 
-      if (isAlphaSet()) {
-        tvMonth.setAlpha(1f);
-      } else {
-        tvMonth.setAlpha(0f);
-      }
+      tvMonth.setAlpha(isAlphaSet() ? 1f : 0f);
     }
   }
 }

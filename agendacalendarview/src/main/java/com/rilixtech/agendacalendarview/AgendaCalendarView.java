@@ -2,7 +2,6 @@ package com.rilixtech.agendacalendarview;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -52,6 +51,7 @@ public class AgendaCalendarView extends FrameLayout
   private int mCalendarCurrentDayColor;
   private int mFabColor;
   private int mWeekendColor;
+  private int mEventEmptyVisibility;
 
   private AgendaCalendarViewListener agendaCalendarViewListener;
   private ListViewScrollTracker mAlvScrollTracker;
@@ -60,13 +60,13 @@ public class AgendaCalendarView extends FrameLayout
 
   public interface AgendaCalendarViewListener {
     void onDaySelected(IDayItem dayItem);
-    void onEventClicked(CalendarEvent event);
+    void onEventClicked(View view, CalendarEvent event);
     void onScrollToDate(Calendar calendar);
-    void onEventLongClicked(CalendarEvent event);
+    void onEventLongClicked(View view, CalendarEvent event);
   }
 
   public void setAgendaCalendarViewFetchListener(AgendaCalendarViewFetchListener listener) {
-    this.mAgendaCalendarViewFetchListener = listener;
+    mAgendaCalendarViewFetchListener = listener;
   }
 
   private AbsListView.OnScrollListener mAgendaScrollListener = new AbsListView.OnScrollListener() {
@@ -111,7 +111,7 @@ public class AgendaCalendarView extends FrameLayout
     //int defBackgroundColor = defAgendaCurrentDayTextColor;
     int defFabColor = getResources().getColor(R.color.theme_accent);
     int defHeaderColor = getResources().getColor(R.color.theme_light_primary);
-    int defDayTextColor = getResources().getColor(R.color.calendar_text_default);
+    int defDayTextColor = getResources().getColor(R.color.theme_text_icons);
     int defCalCurrentDayColor = getResources().getColor(R.color.calendar_text_current_day);
     int defPastDayTextColor = getResources().getColor(R.color.theme_light_primary);
 
@@ -132,6 +132,9 @@ public class AgendaCalendarView extends FrameLayout
         a.getColor(R.styleable.AgendaCalendarView_acv_calendarPastDayTextColor, defPastDayTextColor);
     mFabColor = a.getColor(R.styleable.AgendaCalendarView_acv_fabColor, defFabColor);
     mWeekendColor = a.getColor(R.styleable.AgendaCalendarView_acv_weekendColor, weekendColor);
+
+    // default is visible for empty event.
+     mEventEmptyVisibility = a.getInt(R.styleable.AgendaCalendarView_acv_emptyEventVisibility, View.VISIBLE);
 
     setAlpha(0f);
     a.recycle();
@@ -158,7 +161,7 @@ public class AgendaCalendarView extends FrameLayout
         .setOnItemClickListener(new AdapterView.OnItemClickListener() {
           @Override
           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            agendaCalendarViewListener.onEventClicked(
+            agendaCalendarViewListener.onEventClicked(view,
                 CalendarManager.getInstance().getEvents().get(position));
           }
         });
@@ -167,7 +170,7 @@ public class AgendaCalendarView extends FrameLayout
         new AdapterView.OnItemLongClickListener() {
           @Override
           public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            agendaCalendarViewListener.onEventLongClicked(
+            agendaCalendarViewListener.onEventLongClicked(view,
                 CalendarManager.getInstance().getEvents().get(position));
             return false;
           }
@@ -236,11 +239,12 @@ public class AgendaCalendarView extends FrameLayout
   }
 
   private void initCalendarManager(Calendar minDate, Calendar maxDate, List<CalendarEvent> events,
-      Locale locale, List<Integer> weekends, int weekendColor, int firstDayOfWeek) {
+      Locale locale, List<Integer> weekends, int weekendColor, int firstDayOfWeek, int emptyEventVisibility) {
     CalendarManager calendarManager = CalendarManager.initInstance(getContext());
     calendarManager.setWeekends(weekends);
     calendarManager.setWeekendsColor(weekendColor);
     calendarManager.setFirstDayOfWeek(firstDayOfWeek);
+    calendarManager.setEmptyEventVisibility(emptyEventVisibility);
     if(locale == null) locale = Locale.getDefault();
     calendarManager.buildCalendar(minDate, maxDate, locale);
     calendarManager.loadEvents(events);
@@ -310,15 +314,15 @@ public class AgendaCalendarView extends FrameLayout
 
     init(minimumDate, maximumDate, events, locale, agendaCalendarViewListener,
         mAbstractEventRenderer,
-        weekends, mWeekendColor, firstDayOfWeek);
+        weekends, mWeekendColor, firstDayOfWeek, mEventEmptyVisibility);
   }
 
   private void init(Calendar minDate, Calendar maxDate, List<CalendarEvent> eventList,
       Locale locale, AgendaCalendarViewListener pickerController, AbstractEventRenderer<?> eventRenderer,
-      List<Integer> weekends, int weekendColor, int firstDayOfWeek) {
+      List<Integer> weekends, int weekendColor, int firstDayOfWeek, int emptyEventVisibility) {
     agendaCalendarViewListener = pickerController;
 
-    initCalendarManager(minDate, maxDate, eventList, locale, weekends, weekendColor, firstDayOfWeek);
+    initCalendarManager(minDate, maxDate, eventList, locale, weekends, weekendColor, firstDayOfWeek, emptyEventVisibility);
 
     // Feed our views with weeks list and events
     mCalendarView.init(mCalendarDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor, firstDayOfWeek);
@@ -346,7 +350,6 @@ public class AgendaCalendarView extends FrameLayout
     mAgendaView.findViewById(R.id.view_shadow).setVisibility(enable ? VISIBLE : GONE);
   }
 
-  @SuppressLint("RestrictedApi")
   public void enableFloatingIndicator(boolean enable) {
     mFabDirection.setVisibility(enable ? VISIBLE : GONE);
   }
@@ -369,5 +372,9 @@ public class AgendaCalendarView extends FrameLayout
     ((AgendaAdapter)mAgendaView.getAgendaListView().getAdapter()).notifyDataSetChanged();
     mAgendaCalendarViewFetchListener.onAgendaCalendarViewEventFetched();
     return position;
+  }
+
+  public void updateEvent(CalendarEvent fromEvent) {
+    mAgendaCalendarViewFetchListener.onAgendaCalendarViewEventFetched();
   }
 }

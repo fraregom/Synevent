@@ -1,8 +1,7 @@
 package com.rilixtech.agendacalendarview.models;
 
-import java.util.Calendar;
-
 import androidx.annotation.ColorInt;
+import java.util.Calendar;
 
 /**
  * Event model class containing the information to be displayed on the agenda view.

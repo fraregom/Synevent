@@ -8,6 +8,9 @@ import com.rilixtech.agendacalendarview.render.DefaultEventRenderer;
 import com.rilixtech.agendacalendarview.render.AbstractEventRenderer;
 import com.rilixtech.stickylistheaders.StickyListHeadersAdapter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,9 +29,27 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
   }
 
   public void swapEvents(List<CalendarEvent> events) {
-    this.mEvents.clear();
-    this.mEvents.addAll(events);
+    mEvents.clear();
+    mEvents.addAll(events);
+    sortList(mEvents);
     notifyDataSetChanged();
+  }
+
+  private void sortList(List<CalendarEvent> events) {
+    if(events == null || events.isEmpty()) return;
+
+    Collections.sort(events, new Comparator<CalendarEvent>() {
+      public int compare(CalendarEvent o1, CalendarEvent o2) {
+        Date date1 = o1.getDayReference().getDate();
+        Date date2 = o2.getDayReference().getDate();
+
+        if (date1.equals(date2)) return 0;
+
+        return date1.before(date2) ? -1 : 1;
+        //if(date1.after(date2)) return 1;
+        //return o1.getStartTime().getTimeInMillis() < o2.getStartTime().getTimeInMillis() ? -1 : 1;
+      }
+    });
   }
 
   @Override public View getHeaderView(int position, View convertView, ViewGroup parent) {
@@ -70,7 +91,6 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
 
   @SuppressWarnings("unchecked") @Override
   public View getView(int position, View convertView, ViewGroup parent) {
-    final CalendarEvent event = getItem(position);
-    return mAbstractEventRenderer.render(parent, convertView, event);
+    return mAbstractEventRenderer.render(parent, convertView, getItem(position));
   }
 }

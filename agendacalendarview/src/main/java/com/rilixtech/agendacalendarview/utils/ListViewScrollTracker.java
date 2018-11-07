@@ -49,8 +49,8 @@ public class ListViewScrollTracker {
       for (int i = 0; i < previousPositions.size(); i++) {
         int previousPosition = previousPositions.keyAt(i);
         int previousTop = previousPositions.get(previousPosition);
-        Integer newTop = mPositions.get(previousPosition);
-        if (newTop != null) {
+        int newTop = mPositions.get(previousPosition);
+        if (newTop != 0) {
           return newTop - previousTop;
         }
       }
@@ -71,9 +71,7 @@ public class ListViewScrollTracker {
    */
   public int calculateScrollY(int firstVisiblePosition, int visibleItemCount) {
     mFirstVisiblePosition = firstVisiblePosition;
-    if (mReferencePosition < 0) {
-      mReferencePosition = mFirstVisiblePosition;
-    }
+    if (mReferencePosition < 0) mReferencePosition = mFirstVisiblePosition;
 
     if (visibleItemCount > 0) {
       View c = mListView.getListChildAt(0); // this is the first visible row

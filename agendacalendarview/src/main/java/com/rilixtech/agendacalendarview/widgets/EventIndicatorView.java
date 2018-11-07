@@ -45,23 +45,23 @@ public class EventIndicatorView extends View {
     mPaint.setAntiAlias(true);
     mPaint.setStyle(Paint.Style.FILL);
 
-    TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.EventIndicatorView);
+    TypedArray arr = getContext().obtainStyledAttributes(attrs, R.styleable.EventIndicatorView);
 
     // Default plus color is black
-    mPlusColor = typedArray.getColor(R.styleable.EventIndicatorView_plusColor, Color.BLACK);
+    mPlusColor = arr.getColor(R.styleable.EventIndicatorView_plusColor, Color.BLACK);
     // Default size is 2
-    mCircleRadius = typedArray.getDimensionPixelSize(R.styleable.EventIndicatorView_circleRadius, 2);
+    mCircleRadius = arr.getDimensionPixelSize(R.styleable.EventIndicatorView_circleRadius, 2);
     // Default margin size is 2
-    mIndicatorMargin = typedArray.getDimensionPixelSize(R.styleable.EventIndicatorView_indicatorMargin, 3);
+    mIndicatorMargin = arr.getDimensionPixelSize(R.styleable.EventIndicatorView_indicatorMargin, 3);
     // Default plus size is 2
-    mPlusWidth = typedArray.getDimensionPixelSize(R.styleable.EventIndicatorView_plusWidth, 2);
+    mPlusWidth = arr.getDimensionPixelSize(R.styleable.EventIndicatorView_plusWidth, 2);
     // default indicator amount is 0
-    mIndicatorAmount = typedArray.getInt(R.styleable.EventIndicatorView_indicatorAmount, 0);
+    mIndicatorAmount = arr.getInt(R.styleable.EventIndicatorView_indicatorAmount, 0);
 
     // default first color is Red
-    mFirstCircleColor = typedArray.getColor(R.styleable.EventIndicatorView_firstCircleColor, Color.MAGENTA);
+    mFirstCircleColor = arr.getColor(R.styleable.EventIndicatorView_firstCircleColor, 0x00F3F3F3);
     // Default second circle color is 0xff6600ff
-    mSecondCircleColor = typedArray.getColor(R.styleable.EventIndicatorView_secondCircleColor, 0xff6600ff);
+    mSecondCircleColor = arr.getColor(R.styleable.EventIndicatorView_secondCircleColor, 0xff6600ff);
 
     // Determine the size of minimum width by the circle size
     // This is for 3 view
@@ -74,7 +74,7 @@ public class EventIndicatorView extends View {
     }
 
     desiredHeight = (int) (mCircleRadius * 2);
-    typedArray.recycle();
+    arr.recycle();
   }
 
   @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

@@ -7,8 +7,6 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 public class WeekRecyclerView extends RecyclerView {
   private boolean mUserScrolling = false;
   private boolean mScrolling = false;

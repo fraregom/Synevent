@@ -4,8 +4,6 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import java.util.Calendar;
 
-import androidx.annotation.ColorInt;
-
 public interface CalendarEvent<T> {
 
   T placeholder(boolean placeholder);
@@ -47,8 +45,11 @@ public interface CalendarEvent<T> {
 
   T calendarDayColor(@ColorInt int color);
 
-  @ColorInt
-  int getCalendarDayColor();
+  @ColorInt int getCalendarDayColor();
 
   T copy();
+
+  T visibility(int visibilityType);
+
+  int getVisibility();
 }

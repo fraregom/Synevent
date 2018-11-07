@@ -1,6 +1,8 @@
 package com.rilixtech.agendacalendarview;
 
 import androidx.annotation.NonNull;
+import android.view.View;
+import com.rilixtech.agendacalendarview.agenda.AgendaEventView;
 import com.rilixtech.agendacalendarview.models.BaseCalendarEvent;
 import com.rilixtech.agendacalendarview.models.CalendarEvent;
 import com.rilixtech.agendacalendarview.models.DayItem;
@@ -14,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,6 +39,8 @@ public class CalendarManager {
   private Calendar mTempCalendar;
 
   private int mFirstDayOfWeek;
+
+  private int mEmptyEventVisibility;
 
   /**
    * List of days used by the calendar
@@ -128,6 +133,14 @@ public class CalendarManager {
 
   public void setWeekendsColor(int weekendsColor) {
     this.mWeekendsColor = weekendsColor;
+  }
+
+  public void setEmptyEventVisibility(int visibility) {
+    mEmptyEventVisibility = visibility;
+  }
+
+  public int getEmptyEventVisibility() {
+    return mEmptyEventVisibility;
   }
 
   public void buildCalendar(@NonNull Calendar minDate, @NonNull Calendar maxDate,
@@ -225,6 +238,25 @@ public class CalendarManager {
     }
   }
 
+  private void removeEmptyEventOf(CalendarEvent event) {
+    for(Iterator<CalendarEvent> it = mEvents.iterator(); it.hasNext();) {
+      CalendarEvent ev = it.next();
+      if(event.getInstanceDay().equals(ev.getInstanceDay())) {
+        if(ev.getStartTime() == null) it.remove();
+      }
+    }
+  }
+
+  void updateEvent(CalendarEvent fromEvent, CalendarEvent withEvent) {
+    // to update event we need to remove the previous event first.
+    deleteEvent(fromEvent);
+
+    // then, add the new event
+    // This is because we need to remove the empty event first if it this there,
+    // then we need to move the event to another day or same day.
+    addEvent(withEvent);
+  }
+
   void addEvent(CalendarEvent newEvent) {
     for (int i = 0; i < getWeeks().size(); i++) {
       IWeekItem weekItem = getWeeks().get(i);
@@ -253,6 +285,9 @@ public class CalendarManager {
           if (weekends != null) dayItem.setWeekend(weekends.contains(dayOfWeek));
 
           dayItem.setColor(newEvent.getCalendarDayColor());
+
+
+          removeEmptyEventOf(dayEvent);
         }
       }
     }
@@ -280,7 +315,7 @@ public class CalendarManager {
       // ignore empty event
       if (event.getStartTime() == null) continue;
 
-      // Dont' count itself
+      // Don't count itself
       if (event.equals(eventToRemove)) continue;
 
       if (event.getWeekReference().equals(weekItem) && event.getDayReference().equals(iDayItem)) {
@@ -372,6 +407,7 @@ public class CalendarManager {
     event.location("");
     event.title(mContext.getString(R.string.agenda_event_no_events));
     event.placeholder(true);
+    event.visibility(mEmptyEventVisibility);
     mEvents.add(position, event);
   }
 

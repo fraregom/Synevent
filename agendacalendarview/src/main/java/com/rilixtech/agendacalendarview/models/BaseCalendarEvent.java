@@ -1,8 +1,7 @@
 package com.rilixtech.agendacalendarview.models;
 
-import java.util.Calendar;
-
 import androidx.annotation.ColorInt;
+import java.util.Calendar;
 
 /**
  * Event model class containing the information to be displayed on the agenda view.
@@ -83,6 +82,8 @@ public class BaseCalendarEvent implements CalendarEvent {
    */
   protected int mCalendarDayColor;
 
+  protected int mVisibilityType;
+
   public BaseCalendarEvent() {
   }
 
@@ -113,6 +114,7 @@ public class BaseCalendarEvent implements CalendarEvent {
     this.mWeatherIcon = calendarEvent.mWeatherIcon;
     this.mTemperature = calendarEvent.mTemperature;
     this.mCalendarDayColor = calendarEvent.mCalendarDayColor;
+    this.mVisibilityType = calendarEvent.mVisibilityType;
   }
 
   public int getColor() {
@@ -287,6 +289,15 @@ public class BaseCalendarEvent implements CalendarEvent {
   @Override public BaseCalendarEvent copy() {
     return new BaseCalendarEvent(this);
     //return createObj();
+  }
+
+  @Override public BaseCalendarEvent visibility(int visibilityType) {
+    mVisibilityType = visibilityType;
+    return this;
+  }
+
+  @Override public int getVisibility() {
+    return mVisibilityType;
   }
 
   @Override public String toString() {

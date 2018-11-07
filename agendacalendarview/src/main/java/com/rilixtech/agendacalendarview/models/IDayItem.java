@@ -50,6 +50,5 @@ public interface IDayItem {
 
   void setColor(@ColorInt int color);
 
-  @ColorInt
-  int getColor();
+  @ColorInt int getColor();
 }

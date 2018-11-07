@@ -46,7 +46,7 @@
             agendaCalendar:acv_calendarHeaderColor="@color/colorPrimary"
             agendaCalendar:acv_calendarPastDayTextColor="@android:color/darker_gray"
             agendaCalendar:acv_fabColor="@color/colorAccent"
-            >
+            agendaCalendar:acv_emptyEventVisibility="gone">
 
             <com.getbase.floatingactionbutton.FloatingActionsMenu
                 android:id="@+id/menu_fab"

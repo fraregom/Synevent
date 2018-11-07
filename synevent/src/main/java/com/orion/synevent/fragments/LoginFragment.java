@@ -53,6 +53,9 @@ public class LoginFragment extends Fragment {
     private CompositeSubscription mSubscriptions;
     private SharedPreferences mSharedPreferences;
 
+    private String email;
+    private String password;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,8 +102,8 @@ public class LoginFragment extends Fragment {
 
         setError();
 
-        String email = mEtEmail.getText().toString();
-        String password = mEtPassword.getText().toString();
+        email = mEtEmail.getText().toString();
+        password = mEtPassword.getText().toString();
 
         int err = 0;
 
@@ -134,10 +137,10 @@ public class LoginFragment extends Fragment {
 
     private void loginProcess(String email, String password) {
 
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(Constants.EMAIL,email);
-        editor.putString(Constants.PASSWORD,password);
-        editor.apply();
+        //SharedPreferences.Editor editor = mSharedPreferences.edit();
+        //editor.putString(Constants.EMAIL,email);
+        //editor.putString(Constants.PASSWORD,password);
+        //editor.apply();
 
         User user = new User(email, password);
 
@@ -153,14 +156,16 @@ public class LoginFragment extends Fragment {
 
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(Constants.TOKEN,response.getToken());
-        editor.apply();
+        editor.putString(Constants.EMAIL, email);
+        editor.putString(Constants.PASSWORD,password);
+        editor.commit();
 
         //mEtEmail.setText(null);
         //mEtPassword.setText(null);
 
         Intent intent = new Intent(getActivity(), MenuActivity.class);
         startActivity(intent);
-
+        getActivity().finish();//Sirve de algo?
     }
 
     private void handleError(Throwable error) {

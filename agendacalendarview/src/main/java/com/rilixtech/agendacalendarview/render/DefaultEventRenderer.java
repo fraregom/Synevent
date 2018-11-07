@@ -53,6 +53,7 @@ public class DefaultEventRenderer extends AbstractEventRenderer<BaseCalendarEven
     viewHolder.descriptionContainerLeft.setBackgroundColor(event.getColor());
     viewHolder.tvLocation.setTextColor(resources.getColor(R.color.theme_text_icons));
 
+    convertView.setVisibility(event.getVisibility());
     return convertView;
   }
 

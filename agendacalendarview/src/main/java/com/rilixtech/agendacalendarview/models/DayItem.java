@@ -3,7 +3,6 @@ package com.rilixtech.agendacalendarview.models;
 import androidx.annotation.ColorInt;
 import com.rilixtech.agendacalendarview.CalendarManager;
 import com.rilixtech.agendacalendarview.utils.DateHelper;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -23,9 +22,7 @@ public class DayItem implements IDayItem {
   private int color;
 
   // only for cleanDay
-  public DayItem() {
-
-  }
+  public DayItem() {}
 
   public DayItem(DayItem original) {
     this.mDate = original.getDate();
@@ -75,7 +72,7 @@ public class DayItem implements IDayItem {
   }
 
   public void setFirstDayOfTheMonth(boolean firstDayOfTheMonth) {
-    this.mFirstDayOfTheMonth = firstDayOfTheMonth;
+    mFirstDayOfTheMonth = firstDayOfTheMonth;
   }
 
   public String getMonth() {
@@ -104,13 +101,13 @@ public class DayItem implements IDayItem {
 
   public void buildDayItemFromCal(Calendar calendar) {
     Date date = calendar.getTime();
-    this.mDate = date;
+    mDate = date;
 
-    this.mValue = calendar.get(Calendar.DAY_OF_MONTH);
-    this.mToday = DateHelper.sameDate(calendar, CalendarManager.getInstance().getToday());
-    this.mMonth = CalendarManager.getInstance().getMonthHalfNameFormat().format(date);
-    if (this.mValue == 1) {
-      this.mFirstDayOfTheMonth = true;
+    mValue = calendar.get(Calendar.DAY_OF_MONTH);
+    mToday = DateHelper.sameDate(calendar, CalendarManager.getInstance().getToday());
+    mMonth = CalendarManager.getInstance().getMonthHalfNameFormat().format(date);
+    if (mValue == 1) {
+      mFirstDayOfTheMonth = true;
     }
   }
 

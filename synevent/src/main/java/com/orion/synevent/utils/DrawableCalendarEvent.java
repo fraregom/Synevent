@@ -1,6 +1,12 @@
 package com.orion.synevent.utils;
 
+import com.rilixtech.agendacalendarview.models.AbstractBaseCalendarEvent;
 import com.rilixtech.agendacalendarview.models.BaseCalendarEvent;
+import com.rilixtech.agendacalendarview.models.CalendarEvent;
+
+import com.rilixtech.agendacalendarview.models.IDayItem;
+import com.rilixtech.agendacalendarview.models.IWeekItem;
+import java.util.Calendar;
 
 public class DrawableCalendarEvent extends BaseCalendarEvent {
   protected int mDrawableId;
