@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.orion.synevent.apiservice.NetworkUtil;
 import com.orion.synevent.models.Invitations;
+import com.orion.synevent.models.Participants;
 import com.orion.synevent.models.Response;
 import com.orion.synevent.models.UserInvitation;
 import com.orion.synevent.utils.Constants;
@@ -126,15 +128,18 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
             }
 
             ayu.put("end_event", end_event);
+            ayu.put("short_id", inv.getShortId());
             list_events.add(ayu);
         }else{
             ayu.put("end_event", "Por Autor");
+            ayu.put("short_id", inv.getShortId());
             list_events.add(ayu);
         }
 
+
     }
 
-    private void handleParticipants(List<Invitations> invitations) {
+    private void handleParticipants(List<Participants> invitations) {
         number_participants = invitations.size();
        // this.number_participants = String.valueOf(invitations.size());
 
@@ -143,14 +148,15 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
             for(int i = 0; i < list_events.size(); i++) {
                 if(list_events.get(i).get("id") == invitations.get(j).getUserInvitation().getInvitationId().toString())
                 {
+
+                    list_events.get(i).put("id_event",invitations.get(j).getUserInvitation().getInvitationId().toString());
                     list_events.get(i).put("number_of_users_in_event",number_participants.toString()+" Participantes");
                 }
-                //list_events.get(i).replace("number_of_users_participants",number_participants.toString());
             }
         }
         adapter = new SimpleAdapter(this, list_events, R.layout.item_event_frame,
-                new String[]{"text1", "number_of_users_in_event", "end_event"},
-                new int[]{R.id.text1, R.id.number_of_users_in_event, R.id.end_event});
+                new String[]{"text1", "number_of_users_in_event", "end_event","id_event", "short_id"},
+                new int[]{R.id.text1, R.id.number_of_users_in_event, R.id.end_event, R.id.id_event, R.id.short_id});
 
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -166,15 +172,23 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
                 //tv.getChildCount();
                 TextView tv_name_event = (TextView)tv.getChildAt(1);
                 String name_eve = tv_name_event.getText().toString();
-                LinearLayout ll_status= (LinearLayout) tv.getChildAt(2);
+                TextView tt_id_invitation = (TextView) ((RelativeLayout) tv.getChildAt(2)).getChildAt(0);
+                String id_invitation = tt_id_invitation.getText().toString();
+
+                TextView tt_short_id = (TextView) ((RelativeLayout) tv.getChildAt(2)).getChildAt(1);
+                String id_short = tt_short_id.getText().toString();
+
+                LinearLayout ll_status= (LinearLayout) tv.getChildAt(3);
                 TextView tv_number_participants = (TextView) ll_status.getChildAt(0);
-                //number_participants = tv_number_participants.getText().toString();
+                String number_pa = tv_number_participants.getText().toString();
                 TextView tv_finish = (TextView) ll_status.getChildAt(1);
                 String finish = tv_finish.getText().toString();
 
                 Intent myIntent = new Intent(ListEventActivity.this, StatusEventActivity.class);
                 myIntent.putExtra("name_event",name_eve);
-                myIntent.putExtra("number_participants",number_participants);
+                myIntent.putExtra("number_participants",number_pa);
+                myIntent.putExtra("id_invitation",id_invitation);
+                myIntent.putExtra("id_short",id_short);
                 myIntent.putExtra("finish",finish);
                 startActivity(myIntent);
                 finish();

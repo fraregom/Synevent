@@ -3,6 +3,7 @@ package com.orion.synevent.apiservice;
 import com.orion.synevent.models.Activities;
 import com.orion.synevent.models.InvitationBody;
 import com.orion.synevent.models.Invitations;
+import com.orion.synevent.models.Participants;
 import com.orion.synevent.models.Response;
 import com.orion.synevent.models.Schedule;
 import com.orion.synevent.models.User;
@@ -45,6 +46,6 @@ public interface Client {
 
 
     @GET ("invitation/{id_invitation}")
-    Observable<List<Invitations>> InvitationParticipants(@Path("id_invitation") String id_invitation);
+    Observable<List<Participants>> InvitationParticipants(@Path("id_invitation") String id_invitation);
 
 }
