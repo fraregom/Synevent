@@ -29,7 +29,11 @@
         <activity android:name=".CreateScheduleActivity"/>
         <activity android:name=".CreateAgendaActivity"/>
         <activity android:name=".ListEventActivity"/>
-        <activity android:name=".StatusEventActivity"/>
+        <activity android:name=".StatusEventActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListEventActivity"/>
+        </activity>
     </application>
 
 </manifest>

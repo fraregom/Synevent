@@ -3,12 +3,14 @@ package com.orion.synevent.apiservice;
 import com.orion.synevent.models.Activities;
 import com.orion.synevent.models.InvitationBody;
 import com.orion.synevent.models.Invitations;
+import com.orion.synevent.models.Joined;
 import com.orion.synevent.models.Participants;
 import com.orion.synevent.models.Response;
 import com.orion.synevent.models.Schedule;
 import com.orion.synevent.models.User;
 import com.orion.synevent.models.UserInvitation;
 
+import java.util.Collection;
 import java.util.List;
 
 import retrofit2.http.Body;
@@ -48,4 +50,6 @@ public interface Client {
     @GET ("invitation/{id_invitation}")
     Observable<List<Participants>> InvitationParticipants(@Path("id_invitation") String id_invitation);
 
+    @GET ("invitation/{short_code}/join")
+    Observable<Collection<Joined>> joinToInvitation(@Path("short_code") String short_code);
 }

@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.orion.synevent.apiservice.NetworkUtil;
 import com.orion.synevent.models.Invitations;
+import com.orion.synevent.models.Joined;
 import com.orion.synevent.models.Participants;
 import com.orion.synevent.models.Response;
 import com.orion.synevent.models.UserInvitation;
@@ -34,6 +35,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -164,9 +166,14 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
                 ListView lv = (ListView) arg0;
-                LinearLayout tv = (LinearLayout) lv.getChildAt(arg2);
+                LinearLayout tv;
+                try {
+                    tv = (LinearLayout) lv.getChildAt(arg2);
+                }catch(Exception e) {
+                    tv = (LinearLayout) lv.getChildAt(arg2-3);
+                }
                 if(tv == null){
-                    arg2 = arg2-1;
+                    arg2 = arg2-3;
                     tv= (LinearLayout) lv.getChildAt(arg2);
                 }
                 //tv.getChildCount();
@@ -246,7 +253,6 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
         }else if(tag == "Third Tab"){
             //LinearLayout ll = (LinearLayout)getLayoutInflater().inflate(R.layout.join_event, null, true);
             View aa = LayoutInflater.from(this).inflate(R.layout.join_event,null);
-
             //setContentView(aa);
             //getJoinedEvents();
             return aa;
@@ -268,7 +274,18 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
     public void joinToEvent(View view) {
         // connect to server to suscribe to event
         EditText et_code = findViewById(R.id.code_join_event);
+
+        mSubscriptions.add(NetworkUtil.getRetrofit(mToken)
+                .joinToInvitation(et_code.getText().toString())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleRequest, this::handleError));
+
         Toast.makeText(this,et_code.getText().toString(), Toast.LENGTH_LONG).show();
+    }
+
+    private void handleRequest(Collection<Joined> joineds) {
+        joineds.size();
     }
 
     private void handleError(Throwable error) {
