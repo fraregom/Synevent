@@ -306,7 +306,7 @@ public class CreateScheduleActivity extends AppCompatActivity implements DatePic
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         switch (position) {
             case 0:
-                repeat = "";
+                repeat = null;
                 break;
             case 1:
                 repeat = "DAILY";
