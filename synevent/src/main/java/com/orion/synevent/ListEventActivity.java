@@ -54,14 +54,13 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
     private static ArrayList<HashMap<String, String>> list_events;
     private String mToken;
     private CompositeSubscription mSubscriptions;
-    private String number_participants;
+    private Integer number_participants;
     private SimpleAdapter adapter;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        number_participants = "";
         setContentView(R.layout.my_events);
         setTabhost();
         initializeVars();
@@ -70,13 +69,11 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
     }
 
     private void setListEvents() {
-
         mSubscriptions.add(NetworkUtil.getRetrofit(mToken)
                 .invitations()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::handleList, this::handleError));
-
     }
 
     private void handleList(List<Invitations> invitations) {
@@ -84,46 +81,73 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
 
         for(int i = 0; i<number_invitations;i++){
             Invitations inv = invitations.get(i);
-            UserInvitation user_inv = invitations.get(i).getUserInvitation();
+            UserInvitation user_inv = inv.getUserInvitation();
 
-            getInvitationParticipants(user_inv);
-            android.os.SystemClock.sleep(1000);
+            getInvitationParticipants(inv);
 
-            HashMap<String, String> ayu = new HashMap<>();
-
-            ayu.put("text1", inv.getName());
-            ayu.put("number_of_users_in_event", number_participants+" participantes");
-
-            Log.d(TAG, "onNewIntent: "+inv.getName());
-
-            SimpleDateFormat dateFormatParse = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.ssss'Z'");
-            if(inv.getFinishAt() != null)
-            {
-                String targetDate = inv.getFinishAt().toString();
-                Date dateString;
-                String end_event = "";
-                Calendar calendar;
-                try {
-                    dateString = dateFormatParse.parse(targetDate);
-                    calendar = new GregorianCalendar();
-                    calendar.setTime(dateString);
-
-                    end_event = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)) + "-" + String.valueOf(calendar.get(Calendar.MONTH)+1 )+ "-"+
-                            String.valueOf(calendar.get(Calendar.YEAR))+
-                            " at "+ String.valueOf(calendar.get(Calendar.HOUR_OF_DAY) )+":"+String.valueOf(calendar.get(Calendar.MINUTE));
-                } catch (ParseException e) {
-                    end_event = "Your events not founded";
-                    e.printStackTrace();
-                }
-
-                ayu.put("end_event", end_event);
-                list_events.add(ayu);
-            }else{
-                ayu.put("end_event", "Por Autor");
-                list_events.add(ayu);
-            }
         }
 
+
+    }
+
+    private void getInvitationParticipants(Invitations inv) {
+        mSubscriptions.add(NetworkUtil.getRetrofit(mToken)
+                .InvitationParticipants(inv.getUserInvitation().getInvitationId().toString())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleParticipants, this::handleError));
+
+        HashMap<String, String> ayu = new HashMap<>();
+
+        ayu.put("id",inv.getId().toString());
+        ayu.put("text1", inv.getName());
+        ayu.put("number_of_users_in_event", number_participants+" participantes");
+
+        Log.d(TAG, "onNewIntent: "+inv.getName());
+
+        SimpleDateFormat dateFormatParse = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.ssss'Z'");
+        if(inv.getFinishAt() != null)
+        {
+            String targetDate = inv.getFinishAt().toString();
+            Date dateString;
+            String end_event = "";
+            Calendar calendar;
+            try {
+                dateString = dateFormatParse.parse(targetDate);
+                calendar = new GregorianCalendar();
+                calendar.setTime(dateString);
+
+                end_event = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)) + "-" + String.valueOf(calendar.get(Calendar.MONTH)+1 )+ "-"+
+                        String.valueOf(calendar.get(Calendar.YEAR))+
+                        " at "+ String.valueOf(calendar.get(Calendar.HOUR_OF_DAY) )+":"+String.valueOf(calendar.get(Calendar.MINUTE));
+            } catch (ParseException e) {
+                end_event = "Your events not founded";
+                e.printStackTrace();
+            }
+
+            ayu.put("end_event", end_event);
+            list_events.add(ayu);
+        }else{
+            ayu.put("end_event", "Por Autor");
+            list_events.add(ayu);
+        }
+
+    }
+
+    private void handleParticipants(List<Invitations> invitations) {
+        number_participants = invitations.size();
+       // this.number_participants = String.valueOf(invitations.size());
+
+//        this.lv.getAdapter().
+        for(int j = 0; j < number_participants; j++) {
+            for(int i = 0; i < list_events.size(); i++) {
+                if(list_events.get(i).get("id") == invitations.get(j).getUserInvitation().getInvitationId().toString())
+                {
+                    list_events.get(i).put("number_of_users_in_event",number_participants.toString()+" Participantes");
+                }
+                //list_events.get(i).replace("number_of_users_participants",number_participants.toString());
+            }
+        }
         adapter = new SimpleAdapter(this, list_events, R.layout.item_event_frame,
                 new String[]{"text1", "number_of_users_in_event", "end_event"},
                 new int[]{R.id.text1, R.id.number_of_users_in_event, R.id.end_event});
@@ -144,7 +168,7 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
                 String name_eve = tv_name_event.getText().toString();
                 LinearLayout ll_status= (LinearLayout) tv.getChildAt(2);
                 TextView tv_number_participants = (TextView) ll_status.getChildAt(0);
-                number_participants = tv_number_participants.getText().toString();
+                //number_participants = tv_number_participants.getText().toString();
                 TextView tv_finish = (TextView) ll_status.getChildAt(1);
                 String finish = tv_finish.getText().toString();
 
@@ -156,18 +180,6 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
                 finish();
             } });
 
-    }
-
-    private void getInvitationParticipants(UserInvitation user_inv) {
-        mSubscriptions.add(NetworkUtil.getRetrofit(mToken)
-                .InvitationParticipants(user_inv.getInvitationId().toString())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(this::handleParticipants, this::handleError));
-    }
-
-    private void handleParticipants(List<Invitations> invitations) {
-        this.number_participants = String.valueOf(invitations.size());
 
         Log.d(TAG, "onNewIntent: largeeeeeeeeee"+invitations.size());
     }
