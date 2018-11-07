@@ -46,6 +46,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -86,12 +87,16 @@ public class MenuActivity extends AppCompatActivity implements
         DrawerUtil.getDrawer(this,mToolbar);
         // minimum and maximum date of our calendar
         // 2 month behind, one year ahead, example: March 2015 <-> May 2015 <-> May 2016
+
         Calendar minDate = Calendar.getInstance();
         Calendar maxDate = Calendar.getInstance();
+        Date date = java.util.Calendar.getInstance().getTime();
 
-        minDate.add(Calendar.MONTH, -2);
-        //minDate.set(Calendar.DAY_OF_MONTH, 1);
-        maxDate.add(Calendar.MONTH, 2);
+        //Log.i(TAG, String.valueOf(date.getDate()));
+
+        //minDate.add(Calendar.DAY_OF_MONTH, date.getDate());
+        minDate.set(Calendar.DAY_OF_MONTH, date.getDate());
+        maxDate.add(Calendar.YEAR, 0);
 
         mockList(eventList);
         LoadCalendar();
@@ -280,7 +285,7 @@ public class MenuActivity extends AppCompatActivity implements
                 //startTime1.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY));
                 //startTime1.set(Calendar.MINUTE, c.get(Calendar.MINUTE));
                 startTime1.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH));
-                startTime1.set(Calendar.MONTH, c.get(Calendar.MONTH) - 1);
+                //startTime1.set(Calendar.MONTH, c.get(Calendar.MONTH));
                 //startTime1.set(Calendar.YEAR, c.get(Calendar.YEAR));
 
                 c.setTime(format.parse(body.get(i).getEndsAt()));
@@ -288,7 +293,7 @@ public class MenuActivity extends AppCompatActivity implements
                 //endTime1.set(Calendar.MINUTE, c.get(Calendar.MINUTE));
                 //Log.i(TAG, String.valueOf(c.get(Calendar.MONTH)));
                 endTime1.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH));
-                endTime1.set(Calendar.MONTH, c.get(Calendar.MONTH) - 1);
+                //endTime1.set(Calendar.MONTH, c.get(Calendar.MONTH));
                 //endTime1.set(Calendar.YEAR, c.get(Calendar.YEAR));
             } catch (ParseException e) {
                 e.printStackTrace();
