@@ -14,6 +14,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import rx.Completable;
 import rx.Observable;
 
 public interface Client {
@@ -42,7 +43,8 @@ public interface Client {
     @GET ("invitations")
     Observable<List<Invitations>> invitations();
 
-    /*
-    @GET ("InvitationPartipants")
-    Observable<List<Invitations>> invitation();*/
+
+    @GET ("invitation/{id_invitation}")
+    Observable<List<Invitations>> InvitationParticipants(@Path("id_invitation") String id_invitation);
+
 }

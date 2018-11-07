@@ -13,6 +13,13 @@ public class Invitations {
     private String updatedAt;
     private UserInvitation UserInvitation;
 
+    Invitations(Integer id,String name, Integer author, String shortId){
+        this.id=id;
+        this.name=name;
+        this.author=author;
+        this.shortId=shortId;
+    }
+
     public Integer getId() {
         return id;
     }
