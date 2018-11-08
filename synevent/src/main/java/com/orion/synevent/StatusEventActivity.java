@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mikepenz.materialdrawer.Drawer;
 import com.orion.synevent.apiservice.NetworkUtil;
 import com.orion.synevent.models.Invitations;
 import com.orion.synevent.models.Participants;
@@ -118,9 +119,8 @@ public class StatusEventActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Estado Evento");
         mToolbar.setTitle("Estado Evento");
-        mToolbar.setTitleMargin(180, 2, 15, 2);
         mToolbar.setTitleTextColor(Color.WHITE);
-        DrawerUtil.getDrawer(this, mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setOverflowIcon(ContextCompat.getDrawable(getApplicationContext(),R.drawable.share));
     }
 
