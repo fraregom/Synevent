@@ -34,7 +34,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListEventActivity"/>
         </activity>
-        <activity android:name=".ListAgendaActivity" />
+        <!--<activity android:name=".ListAgendaActivity" />-->
     </application>
 
 </manifest>

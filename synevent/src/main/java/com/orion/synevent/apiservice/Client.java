@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -52,4 +53,10 @@ public interface Client {
 
     @GET ("invitation/{short_code}/join")
     Observable<Collection<Joined>> joinToInvitation(@Path("short_code") String short_code);
+
+    @POST("schedule")
+    Observable<Schedule> setSchedule(@Body Schedule schedule);
+
+    @DELETE("schedule/{id_schedule}")
+    Observable<Response> DeleteSchedule(String id_schedule);
 }

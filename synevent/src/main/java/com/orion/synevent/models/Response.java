@@ -4,6 +4,7 @@ public class Response {
     private String token;
     private String msg;
     private User user;
+    private Boolean deleted;
     private InvitationBody newInvitation;
 
     public String getToken() {
@@ -15,8 +16,9 @@ public class Response {
     public User getUser() {
         return user;
     }
-
-
+    public Boolean isDeleted() {
+        return deleted;
+    }
 
     public InvitationBody getNewInvitation() {
         return newInvitation;

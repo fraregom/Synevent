@@ -19,6 +19,7 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialize.color.Material;
+import com.orion.synevent.CreateAgendaActivity;
 import com.orion.synevent.CreateScheduleActivity;
 import com.orion.synevent.ListAgendaActivity;
 import com.orion.synevent.ListEventActivity;
@@ -102,8 +103,8 @@ public class DrawerUtil {
                                 activity.finish();
                             }
                         }else if ( drawerItem.getIdentifier() == 3 ) {
-                            if (!activity.getLocalClassName().equals("ListAgendaActivity")) {
-                                Intent intent = new Intent(activity, ListAgendaActivity.class);
+                            if (!activity.getLocalClassName().equals("CreateAgendaActivity")) {
+                                Intent intent = new Intent(activity, CreateAgendaActivity.class);
                                 view.getContext().startActivity(intent);
                                 activity.finish();
                             }

@@ -1,39 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/activity_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ToolbarStyle"/>
+
     <ListView
         android:id="@+id/list_view_with_checkbox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="450dp"
+        android:layout_below="@id/activity_toolbar" />
 
 
     <Button
-        android:id="@+id/list_select_all"
-        android:layout_width="match_parent"
+        android:id="@+id/new_schedule"
+        android:layout_width="124dp"
         android:layout_height="wrap_content"
-        android:text="Select All" />
-
-    <Button
-        android:id="@+id/list_select_none"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select None"/>
-
-    <Button
-        android:id="@+id/list_select_reverse"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Reverse Select"/>
-
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="49dp"
+        android:layout_marginBottom="0dp"
+        android:background="@color/colorAccent"
+        android:text="Create Schedule"
+        android:textColor="#fff" />
 
     <Button
         android:id="@+id/list_remove_selected_rows"
-        android:layout_width="match_parent"
+        android:layout_width="124dp"
         android:layout_height="wrap_content"
-        android:text="Remove Selected Rows" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="22dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/new_schedule"
+        android:background="@color/colorAccent"
+        android:text="Remove Schedule"
+        android:textColor="#fff" />
 
-</LinearLayout>
+</RelativeLayout>

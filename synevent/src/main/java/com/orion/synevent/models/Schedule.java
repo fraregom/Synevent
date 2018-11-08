@@ -9,6 +9,11 @@ public class Schedule {
     private String updatedAt;
     private Integer userId;
 
+    public Schedule (String name, Boolean selected){
+        this.name = name;
+        this.selected = selected;
+    }
+
     public Integer getId() {
         return id;
     }

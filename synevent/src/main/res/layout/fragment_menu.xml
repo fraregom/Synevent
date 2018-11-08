@@ -55,7 +55,7 @@
                 android:layout_gravity="end|bottom"
                 android:layout_margin="5dp"
                 app:fab_labelStyle="@style/Etiquetas"
-                fab:fab_addButtonColorNormal="@color/colorPrimary"
+                fab:fab_addButtonColorNormal="@color/colorAccent"
                 fab:fab_addButtonSize="normal"
                 fab:fab_labelsPosition="left">
 
@@ -63,7 +63,7 @@
                     android:id="@+id/new_schedule"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    fab:fab_addButtonColorNormal="@color/colorPrimary"
+                    fab:fab_addButtonColorNormal="@color/colorAccent"
                     fab:fab_colorNormal="@color/colorAccent"
                     fab:fab_icon="@drawable/clock"
                     fab:fab_size="mini"
