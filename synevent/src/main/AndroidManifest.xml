@@ -29,10 +29,11 @@
         <activity android:name=".CreateScheduleActivity"/>
         <activity android:name=".CreateAgendaActivity"/>
         <activity android:name=".ListEventActivity"/>
-        <activity android:name=".StatusEventActivity">
+        <activity android:name=".StatusEventActivity"
+            android:parentActivityName=".MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListEventActivity"/>
+                android:value=".MenuActivity"/>
         </activity>
         <activity android:name=".ListAgendaActivity" />
     </application>

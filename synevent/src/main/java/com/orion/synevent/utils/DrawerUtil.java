@@ -22,6 +22,7 @@ import com.mikepenz.materialize.color.Material;
 import com.orion.synevent.CreateScheduleActivity;
 import com.orion.synevent.ListAgendaActivity;
 import com.orion.synevent.ListEventActivity;
+import com.orion.synevent.MainActivity;
 import com.orion.synevent.MenuActivity;
 import com.orion.synevent.R;
 import com.orion.synevent.fragments.LoginFragment;
@@ -31,7 +32,7 @@ import androidx.appcompat.widget.Toolbar;
 
 public class DrawerUtil {
 
-    public static void getDrawer(final Activity activity, Toolbar toolbar) {
+    public static Drawer getDrawer(final Activity activity, Toolbar toolbar) {
 
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         //if you want to update the items at a later time it is recommended to keep it in a variable
@@ -49,6 +50,8 @@ public class DrawerUtil {
                 .withName("About").withIcon(GoogleMaterial.Icon.gmd_info);
         SecondaryDrawerItem drawerItemSettings = new SecondaryDrawerItem().withIdentifier(5)
                 .withName("Settings").withIcon(GoogleMaterial.Icon.gmd_settings);
+        SecondaryDrawerItem itemLogOut = new SecondaryDrawerItem().withIdentifier(6)
+                                                .withName("Log Out").withIcon(GoogleMaterial.Icon.gmd_exit_to_app);
 
 
 
@@ -89,8 +92,8 @@ public class DrawerUtil {
                         drawerItemManageSchedule,
                         new DividerDrawerItem(),
                         drawerItemSettings,
-                        drawerItemAbout
-
+                        drawerItemAbout,
+                        itemLogOut
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -99,25 +102,30 @@ public class DrawerUtil {
                             if (!activity.getLocalClassName().equals("ListEventActivity")) {
                                 Intent intent = new Intent(activity, ListEventActivity.class);
                                 view.getContext().startActivity(intent);
-                                activity.finish();
                             }
                         }else if ( drawerItem.getIdentifier() == 3 ) {
                             if (!activity.getLocalClassName().equals("ListAgendaActivity")) {
                                 Intent intent = new Intent(activity, ListAgendaActivity.class);
                                 view.getContext().startActivity(intent);
-                                activity.finish();
                             }
                         }else if(drawerItem.getIdentifier() == 1){
                             if (!activity.getLocalClassName().equals("MenuActivity"))
                             {
                                 Intent intent = new Intent(activity, MenuActivity.class);
                                 view.getContext().startActivity(intent);
-                                activity.finish();
                             }
+                        }else if ( drawerItem.getIdentifier() == 6) {
+                            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
+                            editor.clear().commit();
+                            Intent intent = new Intent(activity, MainActivity.class);
+                            view.getContext().startActivity(intent);
+                            activity.finish();
+
                         }
                         return true;
                     }
                 })
                 .build();
+        return result;
     }
 }

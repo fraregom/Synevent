@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
+import com.mikepenz.materialdrawer.Drawer;
 import com.orion.synevent.models.Activities;
 import com.orion.synevent.models.Schedule;
 import com.orion.synevent.utils.DrawerUtil;
@@ -65,6 +66,7 @@ public class MenuActivity extends AppCompatActivity implements
     private SharedPreferences mSharedPreferences;
     private String mToken;
     private String mEmail;
+    private Drawer drawer;
     private CompositeSubscription mSubscriptions;
     List<CalendarEvent> eventList = new ArrayList<>();
 
@@ -84,7 +86,7 @@ public class MenuActivity extends AppCompatActivity implements
         mToolbar.setTitle(mSharedPreferences.getString(Constants.NAME_SCHEDULE,"Synevent"));
         mToolbar.setTitleTextColor(Color.WHITE);
 
-        DrawerUtil.getDrawer(this,mToolbar);
+        drawer = DrawerUtil.getDrawer(this,mToolbar);
         // minimum and maximum date of our calendar
         // 2 month behind, one year ahead, example: March 2015 <-> May 2015 <-> May 2016
 
@@ -137,6 +139,12 @@ public class MenuActivity extends AppCompatActivity implements
         finish();
     }*/
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        drawer.deselect();
+        drawer.closeDrawer();
+    }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

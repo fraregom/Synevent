@@ -198,7 +198,6 @@ public class ListEventActivity extends AppCompatActivity implements TabHost.TabC
                 myIntent.putExtra("id_short",id_short);
                 myIntent.putExtra("finish",finish);
                 startActivity(myIntent);
-                finish();
             } });
 
 
